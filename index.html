@@ -168,13 +168,34 @@ button.neg{color:var(--bad);border-color:rgba(255,122,122,.45)}
 .wst.l1{background:var(--p)}.wst.l3{background:var(--ok)}
 .setr{display:flex;flex-direction:column;gap:6px;margin-top:12px;font-size:13px;color:var(--tx2)}
 .setr .seg{margin-top:0}
+.rs{padding:10px 0;border-top:1px dashed var(--line);display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:start}
+.rs.cur{background:rgba(110,160,255,.08);margin:0 -16px;padding-left:16px;padding-right:16px}
+.ren{font-size:18px;line-height:1.6}
+.rru{display:none;grid-column:1;font-size:14px;color:var(--tx2)}.rs.o .rru{display:block}
+.racts{grid-row:1/3;grid-column:2;display:flex;gap:4px}.racts button{padding:5px 8px;font-size:12px}
+.tw{cursor:pointer;border-bottom:1px dotted var(--line2)}
+.pop{position:fixed;left:10px;right:10px;bottom:calc(var(--nav) + env(safe-area-inset-bottom,0px) + 10px);z-index:25;background:var(--bg3);border:1px solid var(--line2);border-radius:12px;padding:14px;display:none;box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.pop.on{display:block}
+.bars{display:flex;gap:4px;align-items:flex-end;margin-top:14px}
+.bc{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;color:var(--tx2)}
+.bw{height:70px;width:100%;display:flex;align-items:flex-end;background:var(--bg);border-radius:4px}
+.bw i{display:block;width:100%;background:var(--s);border-radius:4px;min-height:2px}.bw i.full{background:var(--ok)}
+.bc.now span{color:var(--tx);font-weight:600}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:14px}
+.sc{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 8px;display:flex;flex-direction:column;gap:2px}
+.sc b{font-size:18px}.sc span{font-size:11px;color:var(--tx2)}
+.onbw{max-width:520px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 30px) 4px 40px}
+.dots{display:flex;gap:6px}.dots i{width:22px;height:4px;border-radius:2px;background:var(--line)}.dots i.on{background:var(--s)}
+.onbw .opts button{line-height:1.4}
+.chip.sel{background:var(--s);border-color:var(--s);color:#0c0d12}
+#gear{padding:8px 12px}
 </style>
 </head>
 <body>
 
 <section id="s-s">
 <header>
-<div class="seg" id="slv" style="margin-top:0"></div>
+<div class="sr" style="align-items:center"><div class="ttl" style="flex:1">Сегодня</div><button id="gear">⚙ Настройки</button></div>
 <div id="sday"></div>
 </header>
 <main id="out-s"></main>
@@ -211,7 +232,7 @@ button.neg{color:var(--bad);border-color:rgba(255,122,122,.45)}
 
 <section id="s-l">
 <header>
-<div class="ttl">Основы A1</div>
+<div class="seg" style="margin-top:0"><button id="lt-b">Основы A1</button><button id="lt-r">Чтение</button></div>
 <div class="cnt" id="cnt-l"></div>
 </header>
 <main id="out-l"></main>
@@ -240,6 +261,13 @@ button.neg{color:var(--bad);border-color:rgba(255,122,122,.45)}
 <div class="hd"><input id="qs" type="search" placeholder="Найти глагол: go, идти" autocomplete="off" autocapitalize="off" spellcheck="false"><button id="xs">✕</button></div>
 <div class="ls" id="ls"></div>
 </div>
+
+<div class="sheet" id="setsheet">
+<div class="hd" style="align-items:center"><div class="ttl" style="flex:1">Настройки</div><button id="xset">✕</button></div>
+<div class="ls" id="setls"></div>
+</div>
+<div class="sheet" id="onb"><div class="ls" id="onbls"></div></div>
+<div class="pop" id="pop"></div>
 
 <nav><button data-t="s"><b>◉</b>Сегодня</button><button data-t="l"><b>▤</b>Уроки</button><button data-t="d"><b>Aa</b>Словарь</button><button data-t="r"><b>≡</b>Справочник</button><button data-t="q"><b>✎</b>Тренажёр</button></nav>
 
@@ -631,6 +659,45 @@ var PH=[
 {id:"health",t:"Здоровье",p:[["I don't feel well.","Мне нехорошо."],["I have a headache.","У меня болит голова."],["I need a doctor.","Мне нужен врач."],["Where is the pharmacy?","Где аптека?"],["Call an ambulance!","Вызовите скорую!"],["I'm allergic to nuts.","У меня аллергия на орехи."]]}
 ];
 
+/* ---------- тексты для чтения (A1) ----------
+   s — предложения [англ, рус]; g — словарик к тексту; q — вопросы */
+var RT=[
+{id:"alex",t:"Hi, I'm Alex",d:"Знакомство: о себе",
+s:[["Hi! My name is Alex.","Привет! Меня зовут Алекс."],["I am twenty-five years old.","Мне двадцать пять лет."],["I live in Almaty with my wife and my son.","Я живу в Алматы с женой и сыном."],["I work in an office. I am an engineer.","Я работаю в офисе. Я инженер."],["I get up at seven o'clock every day.","Я встаю в семь часов каждый день."],["In the evening I learn English.","Вечером я учу английский."],["It is difficult, but I like it!","Это трудно, но мне нравится!"]],
+g:{"alex":"Алекс","twenty-five":"двадцать пять","years":"лет (годы)","old":"старый (… years old — … лет)","get":"получать (get up — вставать)","o'clock":"ровно (о времени)","learn":"учить","difficult":"трудный"},
+q:[{q:"How old is Alex?",o:["20","25","35"],a:"25"},{q:"Where does Alex work?",o:["In a shop","In an office","At school"],a:"In an office"},{q:"When does Alex learn English?",o:["In the morning","In the evening","At night"],a:"In the evening"}]},
+{id:"family",t:"My family",d:"Семья: кто чем занимается",
+s:[["This is my family.","Это моя семья."],["My mother is a teacher. She works at a school.","Моя мама — учитель. Она работает в школе."],["My father is a doctor.","Мой папа — врач."],["I have a sister. Her name is Dana.","У меня есть сестра. Её зовут Дана."],["Dana is a student. She studies English and French.","Дана — студентка. Она изучает английский и французский."],["We have a dog. Its name is Max.","У нас есть собака. Её зовут Макс."],["On Sundays we have dinner together.","По воскресеньям мы ужинаем вместе."]],
+g:{"dana":"Дана","french":"французский","max":"Макс","together":"вместе","sundays":"воскресенья","studies":"изучает (study)"},
+q:[{q:"What does the mother do?",o:["She is a doctor","She is a teacher","She is a student"],a:"She is a teacher"},{q:"What languages does Dana study?",o:["English and French","English and Russian","French and German"],a:"English and French"},{q:"What is the dog's name?",o:["Dana","Alex","Max"],a:"Max"}]},
+{id:"day",t:"Anna's day",d:"Распорядок дня · Present Simple",
+s:[["Anna gets up at six thirty.","Анна встаёт в шесть тридцать."],["She has a shower and drinks a cup of coffee.","Она принимает душ и выпивает чашку кофе."],["She goes to work by bus.","Она ездит на работу на автобусе."],["Anna works in a bank from nine to five.","Анна работает в банке с девяти до пяти."],["At one o'clock she has lunch with her friends.","В час она обедает с друзьями."],["In the evening she cooks dinner and watches TV.","Вечером она готовит ужин и смотрит телевизор."],["She goes to bed at eleven.","Она ложится спать в одиннадцать."]],
+g:{"anna":"Анна","anna's":"Аннин, Анны","gets":"получает (gets up — встаёт)","has":"имеет (has a shower — принимает душ, has lunch — обедает)","cup":"чашка","tv":"телевизор","bed":"кровать (go to bed — ложиться спать)","o'clock":"ровно (о времени)"},
+q:[{q:"How does Anna go to work?",o:["By car","By bus","On foot"],a:"By bus"},{q:"Where does Anna work?",o:["In a bank","In a hospital","In a café"],a:"In a bank"},{q:"What time does she go to bed?",o:["At ten","At eleven","At twelve"],a:"At eleven"}]},
+{id:"cafe",t:"At the café",d:"Диалог: заказ в кафе",
+s:[["— Good morning! What would you like?","— Доброе утро! Что желаете?"],["— A cup of tea and a cheese sandwich, please.","— Чашку чая и бутерброд с сыром, пожалуйста."],["— Black tea or green tea?","— Чёрный чай или зелёный?"],["— Green tea, please. How much is it?","— Зелёный, пожалуйста. Сколько это стоит?"],["— It's six dollars.","— Шесть долларов."],["— Can I pay by card?","— Можно оплатить картой?"],["— Of course. Here you are. Have a nice day!","— Конечно. Вот, пожалуйста. Хорошего дня!"]],
+g:{"would":"бы (would like — хотел бы)","cup":"чашка","sandwich":"бутерброд","dollars":"доллары","pay":"платить","course":"курс (of course — конечно)","nice":"приятный, хороший","here":"здесь (here you are — вот, пожалуйста)"},
+q:[{q:"What does the customer want to drink?",o:["Coffee","Green tea","Black tea"],a:"Green tea"},{q:"How much is it?",o:["Five dollars","Six dollars","Seven dollars"],a:"Six dollars"},{q:"How does the customer pay?",o:["By card","In cash","He doesn't pay"],a:"By card"}]},
+{id:"city",t:"My city",d:"Город · there is / there are",
+s:[["I live in a small city near the mountains.","Я живу в маленьком городе у гор."],["There is a big park in the centre.","В центре есть большой парк."],["There are many cafés and shops on the main street.","На главной улице много кафе и магазинов."],["There isn't a metro, but there are a lot of buses.","Метро нет, но много автобусов."],["In summer it is hot and sunny.","Летом жарко и солнечно."],["In winter there is a lot of snow.","Зимой много снега."],["I love my city because it is quiet and beautiful.","Я люблю свой город, потому что он тихий и красивый."]],
+g:{"mountains":"горы","centre":"центр","main":"главный","quiet":"тихий","cafés":"кафе (мн. ч.)"},
+q:[{q:"Where is the big park?",o:["Near the mountains","In the centre","On the main street"],a:"In the centre"},{q:"Is there a metro in the city?",o:["Yes, there is","No, there isn't"],a:"No, there isn't"},{q:"What is the weather like in winter?",o:["Hot and sunny","There is a lot of snow","It rains every day"],a:"There is a lot of snow"}]},
+{id:"weekend",t:"Last weekend",d:"Выходные · Past Simple",
+s:[["Last weekend I visited my grandmother.","В прошлые выходные я навестил бабушку."],["She lives in a village, two hours from the city.","Она живёт в деревне, в двух часах от города."],["I went there by train.","Я поехал туда на поезде."],["We cooked dinner together and talked a lot.","Мы вместе приготовили ужин и много разговаривали."],["On Sunday we walked in the forest.","В воскресенье мы гуляли в лесу."],["The weather was cold, but sunny.","Погода была холодная, но солнечная."],["I came home late and very happy.","Я вернулся домой поздно и очень счастливый."]],
+g:{"last":"прошлый","visited":"навестил (visit)","village":"деревня","hours":"часы, часа","there":"туда; там","together":"вместе","talked":"разговаривали (talk)","walked":"гуляли (walk)","home":"дом; домой"},
+q:[{q:"Who did the writer visit?",o:["His sister","His grandmother","His friend"],a:"His grandmother"},{q:"How did he get there?",o:["By bus","By car","By train"],a:"By train"},{q:"What did they do on Sunday?",o:["They walked in the forest","They watched TV","They went shopping"],a:"They walked in the forest"}]},
+{id:"summer",t:"Summer plans",d:"Планы · going to и will",
+s:[["This summer I am going to travel to Turkey.","Этим летом я собираюсь поехать в Турцию."],["My friend Tom is going to come with me.","Мой друг Том собирается поехать со мной."],["We are going to stay in a small hotel near the sea.","Мы собираемся остановиться в маленькой гостинице у моря."],["Every day we will swim and eat fish.","Каждый день мы будем плавать и есть рыбу."],["I think the weather will be hot.","Думаю, погода будет жаркой."],["I want to speak only English there!","Я хочу говорить там только по-английски!"]],
+g:{"going":"идущий (be going to — собираться)","travel":"путешествовать","turkey":"Турция","tom":"Том","stay":"остановиться, пожить","will":"будет (будущее время)"},
+q:[{q:"Where is the writer going to travel?",o:["To Turkey","To London","To the mountains"],a:"To Turkey"},{q:"Where are they going to stay?",o:["In a big hotel","In a small hotel near the sea","With friends"],a:"In a small hotel near the sea"},{q:"What language does the writer want to speak?",o:["Russian","Turkish","English"],a:"English"}]},
+{id:"message",t:"A message to Sara",d:"Сообщение другу · can, let's",
+s:[["Hi Sara!","Привет, Сара!"],["How are you? I'm sorry, I can't come to your party on Saturday.","Как дела? Извини, я не смогу прийти на твою вечеринку в субботу."],["My brother is ill and I need to help my mum.","Мой брат болеет, и мне нужно помочь маме."],["Can we meet next week? Maybe on Wednesday?","Можем встретиться на следующей неделе? Может, в среду?"],["Let's go to the cinema!","Давай сходим в кино!"],["Write to me. See you soon!","Напиши мне. До скорого!"]],
+g:{"sara":"Сара","party":"вечеринка","mum":"мама","meet":"встречаться","next":"следующий","write":"писать","see":"видеть (see you — увидимся)"},
+q:[{q:"Why can't the writer come to the party?",o:["He is ill","His brother is ill","He is busy at work"],a:"His brother is ill"},{q:"When does he want to meet?",o:["On Saturday","On Sunday","On Wednesday"],a:"On Wednesday"},{q:"Where does he want to go?",o:["To the cinema","To a café","To the park"],a:"To the cinema"}]}
+];
+/* маленькие служебные слова — для перевода по нажатию */
+var GL0={"a":"артикль: один, какой-то","an":"артикль: один (перед гласным)","the":"артикль: тот самый","i":"я","you":"ты, вы","he":"он","she":"она","it":"оно, это","we":"мы","they":"они","me":"меня, мне","him":"его, ему","her":"её, ей","us":"нас, нам","them":"их, им","my":"мой","your":"твой, ваш","his":"его","its":"его, её (о предмете, животном)","our":"наш","their":"их","is":"есть (форма be)","am":"есть (форма be)","are":"есть (форма be)","was":"был, была (be)","were":"были (be)","be":"быть","and":"и","but":"но","or":"или","in":"в","on":"на","at":"в, у (точка)","to":"к, в (куда); частица перед глаголом","of":"(связь: чашка чая — a cup of tea)","for":"для","with":"с","from":"из, от","by":"на (транспорте); к (сроку)","very":"очень","not":"не","do":"делать; вспомогательный глагол","does":"вспомогательный глагол (he/she/it)","did":"вспомогательный глагол (прошлое)","don't":"не (do not)","doesn't":"не (does not)","can't":"не могу (cannot)","isn't":"не (is not)","it's":"это (it is)","i'm":"я (I am)","let's":"давай(те)","this":"это, этот","that":"то, тот","there":"там; there is — есть","have":"иметь","has":"имеет (he/she/it)","every":"каждый","what":"что","where":"где","when":"когда","how":"как","much":"много (how much — сколько)","many":"много","lot":"много (a lot of)","some":"немного, несколько","can":"мочь, уметь","will":"будет (будущее время)","would":"бы","please":"пожалуйста","yes":"да","no":"нет","here":"здесь","now":"сейчас","all":"все","about":"о, про","only":"только","up":"вверх","hi":"привет","good":"хороший (good morning — доброе утро)","maybe":"может быть","almaty":"Алматы","english":"английский язык; английский","russian":"русский язык; русский"};
+
 
 
 /* ---------- утилиты ---------- */
@@ -692,6 +759,7 @@ if(!st.les||typeof st.les!='object')st.les={};
 if(!st.cfg||typeof st.cfg!='object')st.cfg={};if(!st.cfg.goal)st.cfg.goal=20;if(!st.cfg.nw)st.cfg.nw=10;if(!st.cfg.rate)st.cfg.rate=.85;
 if(['f','t','c','e','w','p','o'].indexOf(st.qm)<0)st.qm='w';
 if(!st.v4){st.v4=1;st.qm='w';st.tab='s'}
+if(st.lt!='r')st.lt='b';
 if(['A1','A2','B1'].indexOf(st.level)<0)st.level='A1';
 if(!st.v3){st.v3=1;st.tab='s';st.lvl=Math.min(st.lvl||1,1)}
 if(!Array.isArray(st.ts))st.ts=[];
@@ -707,10 +775,12 @@ function isLearned(id){return box(id)>=3}
 function learned(v){return isLearned('f:'+v)}
 function nt(d){var o=st.nt[d];if(!o||o.d!=today())o=st.nt[d]={d:today(),n:0,lim:NEWD};return o}
 var ses={rq:{f:[],c:[],w:[],p:[],l:[]},n:{f:0,c:0,w:0,p:0,l:0},free:{f:0,c:0,w:0,p:0},cf:null,wf:null,pf:null,sc:{f:[0,0],t:[0,0],c:[0,0],d:[0,0],say:[0,0],e:[0,0],w:[0,0],p:[0,0],o:[0,0],l:[0,0]},goal:0};
-function tick(){
+function tick(ok){
 var t=today();if(st.day.d!=t)st.day={d:t,n:0};
 st.day.n++;
-if(st.day.n==GOAL){if(st.streak.last==t-1)st.streak.n++;else if(st.streak.last!=t)st.streak.n=1;st.streak.last=t;ses.goal=1}
+if(!st.hist||typeof st.hist!='object')st.hist={};
+var h=st.hist[t]||(st.hist[t]=[0,0]);h[0]++;if(ok)h[1]++;
+if(st.day.n>=GOAL&&st.streak.last!=t){if(st.streak.last==t-1)st.streak.n++;else st.streak.n=1;st.streak.last=t;st.streak.best=Math.max(st.streak.best||0,st.streak.n);ses.goal=1}
 }
 function streakNow(){return st.streak.last>=today()-1?st.streak.n:0}
 function dayN(){return st.day.d==today()?st.day.n:0}
@@ -975,8 +1045,15 @@ if(r)r.classList.toggle('o');
 });
 
 /* =========== СЛОВА, ФРАЗЫ, УРОКИ: данные =========== */
-var WD=[],WBY={};
-WT.forEach(function(tp){tp.items=tp.w.split('\n').map(function(r){var p=r.split('|'),o={id:'w:'+tp.id+':'+p[0],en:p[0],ru:p[1],tp:tp};WD.push(o);WBY[o.id]=o;return o})});
+var WD=[],WBY={},WENB={};
+var MYTP={id:'my',t:'Мои слова',w:''};WT.push(MYTP);
+WT.forEach(function(tp){tp.items=(tp.w?tp.w.split('\n'):[]).map(function(r){var p=r.split('|'),o={id:'w:'+tp.id+':'+p[0],en:p[0],ru:p[1],tp:tp};WD.push(o);WBY[o.id]=o;if(!WENB[p[0].toLowerCase()])WENB[p[0].toLowerCase()]=o;return o})});
+function addMyWord(en,ru){
+var k=en.toLowerCase();if(WENB[k])return WENB[k];
+var o={id:'w:my:'+k,en:k,ru:ru,tp:MYTP};MYTP.items.push(o);WD.push(o);WBY[o.id]=o;WENB[k]=o;return o;
+}
+if(!Array.isArray(st.myw))st.myw=[];
+st.myw.forEach(function(x){addMyWord(x.en,x.ru)});
 var PHI=[],PBY={};
 PH.forEach(function(s){s.items=s.p.map(function(x,k){var o={id:'p:'+s.id+':'+k,en:x[0],ru:x[1],sit:s};PHI.push(o);PBY[o.id]=o;return o})});
 function fillChoice(s,a){
@@ -1024,7 +1101,11 @@ drawQ();say(Q.full);
 /* =========== УРОКИ =========== */
 var LV=null,LQ=null;
 function nextLesson(){for(var i=0;i<LS.length;i++)if(!st.les[LS[i].id])return LS[i];return null}
+$('#lt-b').onclick=function(){st.lt='b';save();renderL()};
+$('#lt-r').onclick=function(){st.lt='r';save();renderL()};
 function renderL(){
+$('#lt-b').className=st.lt=='r'?'':'on';$('#lt-r').className=st.lt=='r'?'on':'';
+if(st.lt=='r'){renderR();return}
 var nd=LS.filter(function(l){return st.les[l.id]}).length;
 $('#cnt-l').textContent='Пройдено '+nd+' из '+LS.length+' · урок — около 5 минут';
 if(LV){
@@ -1061,7 +1142,7 @@ return '<div class="stat"><span>Упражнение '+(LV.i+1)+' из '+LV.list
 '<div class="btns" style="margin-top:16px"><button data-a="lexit">Выйти из урока</button></div>';
 }
 $('#out-l').addEventListener('click',function(e){
-if(e.target.closest('button'))return;
+if(st.lt=='r'||e.target.closest('button'))return;
 var r=e.target.closest('.lrow');if(r)openLesson(r.getAttribute('data-l'));
 });
 
@@ -1118,7 +1199,7 @@ st.cfg[k]=v;
 if(k=='goal')GOAL=v;
 if(k=='nw'){NEWD=v;for(var d in st.nt)if(st.nt[d]&&st.nt[d].d==today())st.nt[d].lim=v}
 if(k=='rate')RATE=v;
-save();SPEND=null;renderS();
+save();SPEND=null;if(st.tab=='s')renderS();
 if(k=='rate')say('This is how fast I speak.');
 }
 function cfgHTML(){
@@ -1147,6 +1228,150 @@ location.reload();
 r.readAsText(file);
 }
 $('#out-s').addEventListener('change',function(e){if(e.target.id=='impf'&&e.target.files[0])importData(e.target.files[0])});
+
+/* =========== ЧТЕНИЕ =========== */
+var RV=null,RBY={};RT.forEach(function(x,n){x.n=n;RBY[x.id]=x});
+if(!st.read||typeof st.read!='object')st.read={};
+function nextText(){for(var i=0;i<RT.length;i++)if(!st.read[RT[i].id])return RT[i];return null}
+function gloss(raw,tx){
+var k=raw.toLowerCase().replace(/[’]/g,"'").replace(/^[^a-zа-яё]+|[^a-zа-яё]+$/gi,'');
+if(!k)return null;
+var g=(tx&&tx.g)||{};
+if(g[k])return {en:k,ru:g[k]};
+if(GL0[k])return {en:k,ru:GL0[k],small:1};
+if(WENB[k])return {en:WENB[k].en,ru:WENB[k].ru,id:WENB[k].id};
+if(BY[k])return {en:k,ru:BY[k].ru};
+for(var i=0;i<IRR.length;i++){var x=IRR[i];
+if(x.p2.split('/').indexOf(k)>-1)return {en:k,ru:x.ru+' — прошедшее время от '+x.v};
+if(x.p3.split('/').indexOf(k)>-1)return {en:k,ru:x.ru+' — 3-я форма от '+x.v}}
+var c=[k.replace(/ies$/,'y'),k.replace(/es$/,''),k.replace(/s$/,''),k.replace(/ied$/,'y'),k.replace(/ed$/,''),k.replace(/d$/,''),k.replace(/ing$/,''),k.replace(/ing$/,'e')];
+for(var j=0;j<c.length;j++){if(c[j]==k)continue;if(WENB[c[j]])return {en:k,ru:WENB[c[j]].ru+' ('+c[j]+')',id:WENB[c[j]].id};if(BY[c[j]])return {en:k,ru:BY[c[j]].ru+' ('+c[j]+')'}}
+return null;
+}
+function tokH(s){return esc(s).split(' ').map(function(w){return /[a-z]/i.test(w)?'<span class="tw">'+w+'</span>':w}).join(' ')}
+function renderR(){
+var nd=RT.filter(function(x){return st.read[x.id]}).length;
+$('#cnt-l').textContent='Прочитано '+nd+' из '+RT.length+' · нажми на слово — увидишь перевод';
+if(!RV){
+var nx=nextText();
+$('#out-l').innerHTML=RT.map(function(x,k){var r=st.read[x.id],isNx=nx&&nx.id==x.id;
+return '<div class="lrow'+(r?' done':isNx?' next':'')+'" data-r="'+x.id+'"><div class="lnum">'+(r?'✓':k+1)+'</div><div class="lt"><div class="cf">'+esc(x.t)+'</div><div class="ru">'+esc(x.d)+'</div></div><div class="lst'+(r?' ok':isNx?' nx':'')+'">'+(r?r.ok+'/'+r.tot:isNx?'Читать →':'')+'</div></div>'}).join('')+
+'<div class="g" style="margin:16px 0">Прочитай текст, слушая озвучку. Незнакомое слово — нажми на него и добавь в карточки. В конце — 3 вопроса на понимание.</div>';
+return;
+}
+var tx=RBY[RV.id],h='<div class="card"><div class="lbl">Текст '+(tx.n+1)+' из '+RT.length+' · '+esc(tx.d)+'</div><div class="ttl" style="margin-top:4px">'+esc(tx.t)+'</div>';
+if(RV.step=='read'){
+h+='<div class="btns" style="margin-top:12px">'+(TTS?'<button data-a="rall">🔊 Слушать текст</button>':'')+'<button data-a="rtr" class="'+(RV.tr?'on':'')+'">Перевод: '+(RV.tr?'вкл':'выкл')+'</button></div>';
+h+=tx.s.map(function(s,i){return '<div class="rs'+(RV.tr||RV.open[i]?' o':'')+(RV.cur==i?' cur':'')+'" data-i="'+i+'"><div class="ren">'+tokH(s[0])+'</div><div class="rru">'+esc(s[1])+'</div><div class="racts">'+(TTS?'<button data-a="rsay" data-i="'+i+'">🔊</button>':'')+'<button data-a="rru" data-i="'+i+'">RU</button></div></div>'}).join('');
+h+='<div class="btns"><button data-a="rback">← К текстам</button><button data-a="rq" class="pri">Вопросы ('+tx.q.length+') →</button></div></div>';
+}else{
+h+='<div class="g" style="margin-top:8px">Ответь на вопросы по тексту. Можно вернуться и перечитать.</div>';
+h+=tx.q.map(function(q,i){var ans=RV.qa[i];return '<div class="rq"><div class="cf" style="margin-top:14px">'+(i+1)+'. '+esc(q.q)+'</div><div class="opts" style="margin-top:8px">'+q.o.map(function(o,k){var cls=ans==null?'':o==q.a?'good':(o==ans?'bad':'');return '<button data-a="rans" data-q="'+i+'" data-k="'+k+'" class="'+cls+'"'+(ans!=null?' disabled':'')+'>'+esc(o)+'</button>'}).join('')+'</div></div>'}).join('');
+var all=Object.keys(RV.qa).length==tx.q.length;
+h+='<div class="btns"><button data-a="rread">← К тексту</button>'+(all?'<button data-a="rdone" class="pri">Готово ✓</button>':'')+'</div></div>';
+}
+$('#out-l').innerHTML=h;
+}
+function openText(id){RV={id:id,step:'read',tr:false,open:{},qa:{},cur:-1};st.lt='r';save();if(st.tab!='l')go('l');else renderL();window.scrollTo(0,0)}
+function sayChain(list,i,onEach){
+if(!TTS||i>=list.length){if(onEach)onEach(-1);return}
+try{if(i==0)speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(list[i]);u.lang='en-US';u.rate=RATE;if(voice)u.voice=voice;
+u.onend=function(){sayChain(list,i+1,onEach)};if(onEach)onEach(i);speechSynthesis.speak(u)}catch(e){}
+}
+function hidePop(){$('#pop').classList.remove('on')}
+function showPop(raw){
+var tx=RV&&RBY[RV.id],g=gloss(raw,tx),k=raw.replace(/^[^A-Za-z']+|[^A-Za-z']+$/g,'');
+var inDeck=g&&g.id&&st.srs[g.id];
+$('#pop').innerHTML='<div class="qh"><div><div class="cf" style="font-size:18px">'+esc(k)+'</div><div class="ru" style="font-size:15px">'+(g?esc(g.ru):'нет в словаре приложения')+'</div></div>'+(TTS?'<button data-a="psay" class="ic">🔊</button>':'')+'</div>'+
+(g&&!g.small?'<div class="btns" style="margin-top:10px">'+(inDeck?'<button disabled>✓ Уже в карточках</button>':'<button data-a="padd" class="pri">+ В карточки</button>')+'<button data-a="pclose">Закрыть</button></div>':'<div class="btns" style="margin-top:10px"><button data-a="pclose">Закрыть</button></div>');
+$('#pop').setAttribute('data-w',k);$('#pop').classList.add('on');
+say(k);
+}
+$('#pop').addEventListener('click',function(e){
+var b=e.target.closest('[data-a]');if(!b)return;var a=b.getAttribute('data-a'),k=$('#pop').getAttribute('data-w');
+if(a=='psay')say(k);
+if(a=='pclose')hidePop();
+if(a=='padd'){var g=gloss(k,RV&&RBY[RV.id]);if(!g)return;var w=g.id?WBY[g.id]:addMyWord(g.en,g.ru);
+if(!g.id&&!st.myw.some(function(x){return x.en==w.en}))st.myw.push({en:w.en,ru:w.ru});
+if(!st.srs[w.id])st.srs[w.id]={b:0,d:today()};save();b.outerHTML='<button disabled>✓ Добавлено — придёт в занятии</button>'}
+});
+document.addEventListener('click',function(e){if($('#pop').classList.contains('on')&&!e.target.closest('#pop')&&!e.target.closest('.tw'))hidePop()});
+$('#out-l').addEventListener('click',function(e){
+if(st.lt!='r')return;
+var w=e.target.closest('.tw');if(w){showPop(w.textContent);return}
+var r=e.target.closest('.lrow');if(r&&!RV){openText(r.getAttribute('data-r'));return}
+var b=e.target.closest('[data-a]');if(!b||!RV)return;var a=b.getAttribute('data-a'),tx=RBY[RV.id];
+if(a=='rback'){RV=null;renderL();window.scrollTo(0,0)}
+else if(a=='rtr'){RV.tr=!RV.tr;renderL()}
+else if(a=='rru'){var i=+b.getAttribute('data-i');RV.open[i]=!RV.open[i];renderL()}
+else if(a=='rsay')say(tx.s[+b.getAttribute('data-i')][0]);
+else if(a=='rall')sayChain(tx.s.map(function(s){return s[0]}),0,function(i){RV.cur=i;[].forEach.call(document.querySelectorAll('#out-l .rs'),function(el){el.classList.toggle('cur',+el.getAttribute('data-i')==i)})});
+else if(a=='rq'){RV.step='q';renderL();window.scrollTo(0,0)}
+else if(a=='rread'){RV.step='read';renderL()}
+else if(a=='rans'){var qi=+b.getAttribute('data-q'),q=tx.q[qi],o=q.o[+b.getAttribute('data-k')];if(RV.qa[qi]!=null)return;RV.qa[qi]=o;var ok=o==q.a;tick(ok);if(!ok)buzz();save();renderL()}
+else if(a=='rdone'){var okn=tx.q.filter(function(q,i){return RV.qa[i]==q.a}).length,prev=st.read[tx.id];st.read[tx.id]={ok:Math.max(okn,prev?prev.ok:0),tot:tx.q.length,d:today()};save();RV=null;renderL();window.scrollTo(0,0)}
+});
+function buzz(){try{if(navigator.vibrate)navigator.vibrate(60)}catch(e){}}
+
+/* =========== СТАТИСТИКА =========== */
+if(!st.hist||typeof st.hist!='object')st.hist={};
+var WDN=['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+function statsHTML(){
+var t=today(),days=[],mx=GOAL,tot=0,okt=0;
+for(var d in st.hist){tot+=st.hist[d][0];okt+=st.hist[d][1]}
+for(var i=13;i>=0;i--){var h=st.hist[t-i]||[0,0];days.push([t-i,h]);mx=Math.max(mx,h[0])}
+var words=WD.filter(function(w){return wState(w.id)>=2}).length,phr=PHI.filter(function(x){return box(x.id)>=3}).length;
+var verbs=IRR.filter(function(x){return learned(x.v)}).length,cons=CN.filter(function(c){return c.ex.every(function(e){return isLearned(e.id)})}).length;
+var les=LS.filter(function(l){return st.les[l.id]}).length,rd=RT.filter(function(x){return st.read[x.id]}).length;
+var cell=function(n,l){return '<div class="sc"><b>'+n+'</b><span>'+l+'</span></div>'};
+return '<div class="card"><div class="lbl">Прогресс за 2 недели</div><div class="bars">'+days.map(function(x){var n=x[1][0];return '<div class="bc'+(x[0]==t?' now':'')+'"><div class="bw"><i style="height:'+Math.round(n/mx*100)+'%" class="'+(n>=GOAL?'full':'')+'"></i></div><span>'+WDN[new Date(x[0]*864e5).getUTCDay()]+'</span></div>'}).join('')+'</div>'+
+'<div class="g">Столбик — ответов за день, зелёный — цель выполнена.</div>'+
+'<div class="sgrid">'+cell(words,'слов знаю')+cell(phr,'фраз выучено')+cell(les+'/'+LS.length,'уроков')+cell(rd+'/'+RT.length,'текстов')+cell(verbs,'форм глаголов')+cell(cons,'конструкций')+cell(tot,'ответов всего')+cell(tot?Math.round(okt/tot*100)+'%':'—','верных')+cell(st.streak.best||streakNow(),'лучшая серия')+'</div></div>';
+}
+
+/* =========== НАСТРОЙКИ (окно) =========== */
+function renderSet(){
+$('#setls').innerHTML='<div class="card"><div class="lbl">Мой уровень</div><div class="seg">'+['A1','A2','B1'].map(function(l){return '<button data-lv="'+l+'" class="'+(st.level==l?'on':'')+'">'+(l=='B1'?'B1+':l)+'</button>'}).join('')+'</div><div class="g" style="margin-top:8px">'+LC().d+'</div></div>'+
+cfgHTML()+
+'<div class="card"><div class="lbl">Ещё</div><div class="btns" style="flex-direction:column"><button data-a="onb">Пройти знакомство заново</button><button data-a="reset" class="neg">Сбросить весь прогресс</button></div></div>'+
+'<div class="g" style="text-align:center;margin:18px 0 30px">EN Path · версия 5<br>Работает без интернета. Озвучка — голосом браузера.</div>';
+}
+function openSet(){renderSet();$('#setsheet').classList.add('on')}
+function closeSet(){$('#setsheet').classList.remove('on');if(st.tab=='s')renderS()}
+$('#gear').onclick=openSet;$('#xset').onclick=closeSet;
+$('#setls').addEventListener('click',function(e){
+var b=e.target.closest('button');if(!b)return;var a=b.getAttribute('data-a');
+if(b.hasAttribute('data-lv')){st.level=b.getAttribute('data-lv');st.lvl=LEVELS[st.level].f;SPEND=null;TQ=null;if(SS&&SS.over)SS=null;save();renderSet();return}
+if(b.hasAttribute('data-cfg')){setCfg(b.getAttribute('data-cfg'),+b.getAttribute('data-v'));renderSet();return}
+if(a=='exp')exportData();
+if(a=='imp'){var f=$('#setls #impf');f.value='';f.click()}
+if(a=='onb'){closeSet();showOnb(0)}
+if(a=='reset'&&confirm('Удалить весь прогресс: карточки, уроки, статистику? Это нельзя отменить. Сначала можно сохранить копию.')){try{localStorage.removeItem(KEY)}catch(err){}location.reload()}
+});
+$('#setls').addEventListener('change',function(e){if(e.target.id=='impf'&&e.target.files[0])importData(e.target.files[0])});
+
+/* =========== ЗНАКОМСТВО (первый запуск) =========== */
+var ONB={step:0,tp:{}};
+function showOnb(step){ONB.step=step||0;$('#onb').classList.add('on');drawOnb()}
+function drawOnb(){
+var s=ONB.step,h='<div class="onbw">';
+var dots='<div class="dots">'+[0,1,2,3,4].map(function(i){return '<i class="'+(i==s?'on':'')+'"></i>'}).join('')+'</div>';
+if(s==0)h+=dots+'<div class="big" style="margin-top:24px">Привет! 👋</div><div class="theory">Это <b>EN Path</b> — английский по 10 минут в день.<br><br>• <b>Сегодня</b> — готовое занятие на каждый день<br>• <b>Уроки</b> — основы грамматики и тексты для чтения<br>• <b>Словарь</b> — слова и фразы для жизни<br>• <b>Справочник</b> — глаголы, времена, конструкции<br>• <b>Тренажёр</b> — отработка того, что хочется<br><br>Приложение само напомнит, что пора повторить, и запомнит твои ошибки.</div><div class="btns"><button data-o="skip">Пропустить</button><button data-o="next" class="pri">Начать →</button></div>';
+else if(s==1)h+=dots+'<div class="big" style="margin-top:24px">С чего начнём?</div><div class="opts">'+[['zero','A1','С нуля','почти не знаю английский'],['basic','A1','Знаю основы','много слов, но путаюсь в грамматике'],['a2','A2','Уверенный A2','читаю простые тексты, говорю простыми фразами'],['b1','B1','B1 и выше','хочу повторить времена и конструкции']].map(function(o){return '<button data-start="'+o[0]+'" data-lvl="'+o[1]+'" class="'+(st.start==o[0]?'good':'')+'"><b>'+o[2]+'</b><br><span class="tg">'+o[3]+'</span></button>'}).join('')+'</div>';
+else if(s==2)h+=dots+'<div class="big" style="margin-top:24px">Сколько времени в день?</div><div class="opts">'+[[10,'5 минут','лёгкий режим'],[20,'10 минут','рекомендуем'],[30,'15 минут','быстрее прогресс'],[50,'20+ минут','интенсив']].map(function(o){return '<button data-goal="'+o[0]+'" class="'+(st.cfg.goal==o[0]?'good':'')+'"><b>'+o[1]+'</b> <span class="tg">· '+o[2]+' · '+o[0]+' ответов</span></button>'}).join('')+'</div>';
+else if(s==3)h+=dots+'<div class="big" style="margin-top:24px">Какие темы ты уже знаешь?</div><div class="g">Слова из отмеченных тем не будут приходить как новые — только на проверку через неделю. Можно пропустить.</div><div class="chips" style="margin-top:14px">'+WT.filter(function(x){return x.id!='my'}).map(function(tp){return '<button class="chip'+(ONB.tp[tp.id]?' sel':'')+'" data-tp="'+tp.id+'">'+esc(tp.t)+'</button>'}).join('')+'</div><div class="btns"><button data-o="next" class="pri">Дальше →</button></div>';
+else h+=dots+'<div class="big" style="margin-top:24px">Всё готово! 🚀</div><div class="theory">Твой план:<br><br>1. Каждый день открывай <b>Сегодня</b> и проходи занятие — около '+Math.round(st.cfg.goal/2)+' минут.<br>2. '+(st.level=='A1'?'Проходи по одному <b>уроку</b> в день-два — начни с урока 1.':'Загляни в <b>Справочник</b> и <b>Тренажёр</b>, чтобы освежить времена.')+'<br>3. Читай <b>тексты</b> и добавляй незнакомые слова в карточки.<br>4. Произноси ответы <b>вслух</b>.<br><br>Раз в неделю сохраняй резервную копию: <b>⚙ Настройки</b> → «Сохранить в файл».</div><div class="btns"><button data-o="done" class="pri">Поехали →</button></div>';
+$('#onbls').innerHTML=h+'</div>';
+}
+$('#onbls').addEventListener('click',function(e){
+var b=e.target.closest('button');if(!b)return;
+if(b.hasAttribute('data-start')){st.start=b.getAttribute('data-start');st.level=b.getAttribute('data-lvl');st.lvl=LEVELS[st.level].f;SPEND=null;TQ=null;save();ONB.step=2;drawOnb();return}
+if(b.hasAttribute('data-goal')){setCfg('goal',+b.getAttribute('data-goal'));ONB.step=3;drawOnb();return}
+if(b.hasAttribute('data-tp')){var id=b.getAttribute('data-tp');ONB.tp[id]=!ONB.tp[id];drawOnb();return}
+var o=b.getAttribute('data-o');
+if(o=='next'){if(ONB.step==3){WT.forEach(function(tp){if(ONB.tp[tp.id])tp.items.forEach(function(w){if(!st.srs[w.id])st.srs[w.id]={b:3,d:today()+7,k:1}})});save()}ONB.step++;drawOnb();return}
+if(o=='skip'||o=='done'){st.onb=1;save();$('#onb').classList.remove('on');SPEND=null;go('s')}
+});
 
 /* =========== УРОВЕНЬ =========== */
 var LEVELS={
@@ -1464,7 +1689,7 @@ if(k&&ses.sc[k]){ses.sc[k][1]++;if(ok)ses.sc[k][0]++}
 if(Q.ses){SS.all++;if(ok)SS.ok++;
 if(!ok&&!Q.retry&&!Q.err&&Q.id&&'fcwpl'.indexOf(Q.m)>-1)SS.plan.splice(Math.min(SS.i+4,SS.plan.length),0,retrySpec());}
 if(Q.les){if(!Q.retry){LV.all++;if(ok)LV.ok++}if(!ok&&!Q.retry)LV.list.push({m:'l',id:Q.id,retry:1})}
-Q.done=1;tick();result(ok,you);save();drawDay();
+Q.done=1;tick(ok);if(!ok)buzz();result(ok,you);save();drawDay();
 if(st.tab=='q'){var eb=$('#qm [data-m=e]');if(eb)eb.innerHTML='Ошибки'+(st.err.length?' <span class="tg">'+st.err.length+'</span>':'')}
 }
 function retrySpec(){var m=Q.m,sub=m=='f'?'type':m=='c'?'fill':m=='w'?'choose':m=='p'?(SRC?'say':'card'):'';return {m:m,sub:sub,id:Q.id,retry:1}}
@@ -1569,7 +1794,8 @@ if(a=='toerr'){st.qm='e';TQ=null;go('q');return}
 if(a=='lback'||a=='lexit'){LV=null;Q=null;LQ=null;renderL();window.scrollTo(0,0);return}
 if(a=='lstart'){lesStart();return}
 if(a=='lagain'){LV={id:LV.id,step:'th'};lesStart();return}
-if(a=='lopen'){openLesson(b.getAttribute('data-l'));return}
+if(a=='lopen'){st.lt='b';openLesson(b.getAttribute('data-l'));return}
+if(a=='ropen'){openText(b.getAttribute('data-r'));return}
 if(b.hasAttribute('data-cfg')){setCfg(b.getAttribute('data-cfg'),+b.getAttribute('data-v'));return}
 if(a=='exp'){exportData();return}
 if(a=='imp'){var f=E('impf');if(f){f.value='';f.click()}return}
@@ -1667,10 +1893,10 @@ function drawSummary(){
 var n=dayN(),s=streakNow();
 $('#out-s').innerHTML='<div class="card"><div class="big">Занятие закончено 🎉</div><div class="g" style="margin-top:10px">Верно: <b style="color:var(--tx)">'+SS.ok+' из '+SS.all+'</b>.<br>'+
 (SS.added?'Новых ошибок в журнале: '+SS.added+'. Они вернутся в следующих занятиях, пока не закрепятся.':'Новых ошибок нет — отлично!')+'<br>Сегодня: '+n+' из '+GOAL+(n>=GOAL?' ✓':'')+' · 🔥 '+s+' '+plural(s,DW)+' подряд.</div>'+
-'<div class="btns">'+(st.err.length?'<button data-a="toerr">Разобрать ошибки</button>':'')+'<button data-a="again" class="pri">Ещё занятие</button></div></div>';
+'<div class="btns">'+(st.err.length?'<button data-a="toerr">Разобрать ошибки</button>':'')+'<button data-a="again" class="pri">Ещё занятие</button></div></div>'+(function(){var nl=nextLesson(),nx=nextText(),h='';if(nl)h+='<div class="card"><div class="qh"><div><div class="lbl">Дальше можно: урок</div><div class="cf" style="margin-top:4px">'+esc(nl.title)+'</div></div><button data-a="lopen" data-l="'+nl.id+'">Открыть →</button></div></div>';if(nx)h+='<div class="card"><div class="qh"><div><div class="lbl">или почитать</div><div class="cf" style="margin-top:4px">'+esc(nx.t)+'</div></div><button data-a="ropen" data-r="'+nx.id+'">Читать →</button></div></div>';return h})();
 }
 function renderS(){
-$('#slv').innerHTML='<span class="lab">Мой уровень</span>'+['A1','A2','B1'].map(function(l){return '<button data-lv="'+l+'" class="'+(st.level==l?'on':'')+'">'+(l=='B1'?'B1+':l)+'</button>'}).join('');
+$('#gear').textContent=(st.level=='B1'?'B1+':st.level)+' · ⚙ Настройки';
 drawDay();
 if(SS&&!SS.over&&Q&&Q.ses){drawQ();return}
 if(SS&&SS.over){drawSummary();return}
@@ -1682,13 +1908,14 @@ var h='<div class="card"><div class="lbl">'+(dayN()>=GOAL?'Цель на сег�
 '<div class="btns"><button data-a="start" class="pri">▶ Начать</button></div></div>';
 var nl=nextLesson();if(nl)h+='<div class="card"><div class="qh"><div><div class="lbl">Следующий урок · '+(nl.n+1)+' из '+LS.length+'</div><div class="sent" style="margin-top:4px;font-size:18px">'+esc(nl.title)+'</div><div class="ru">'+esc(nl.d)+'</div></div><button data-a="lopen" data-l="'+nl.id+'">Открыть →</button></div></div>';
 if(st.err.length)h+='<div class="card"><div class="qh"><div><div class="lbl">Журнал ошибок</div><div class="sent" style="margin-top:4px">'+st.err.length+' '+plural(st.err.length,['задание','задания','заданий'])+'</div></div><button data-a="toerr">Разобрать →</button></div></div>';
-h+='<div class="card"><div class="lbl">Уровень '+(st.level=='B1'?'B1+':st.level)+'</div><div class="g" style="margin-top:6px">'+LC().d+'</div></div>';
-h+='<div class="card"><div class="lbl">Как заниматься</div><ul class="tips"><li>Произноси каждый ответ вслух — даже когда печатаешь.</li><li>Лучше 10 минут каждый день, чем час раз в неделю.</li><li>Ошибки — это нормально: они попадают в журнал и возвращаются, пока не закрепятся.</li><li>Слушай английский каждый день: 10–15 минут простых видео или подкастов для начинающих.</li></ul></div>'+cfgHTML();
+var nt2=nextText();if(nt2)h+='<div class="card"><div class="qh"><div><div class="lbl">Почитай · текст '+(nt2.n+1)+' из '+RT.length+'</div><div class="sent" style="margin-top:4px;font-size:18px">'+esc(nt2.t)+'</div><div class="ru">'+esc(nt2.d)+'</div></div><button data-a="ropen" data-r="'+nt2.id+'">Читать →</button></div></div>';
+h+=statsHTML();
+h+='<div class="card"><div class="lbl">Как заниматься</div><ul class="tips"><li>Произноси каждый ответ вслух — даже когда печатаешь.</li><li>Лучше 10 минут каждый день, чем час раз в неделю.</li><li>Ошибки — это нормально: они попадают в журнал и возвращаются, пока не закрепятся.</li><li>Слушай английский каждый день: 10–15 минут простых видео или подкастов для начинающих.</li><li>Раз в неделю сохраняй резервную копию в ⚙ Настройках.</li></ul></div>';
 $('#out-s').innerHTML=h;
 }
-$('#slv').addEventListener('click',function(e){var b=e.target.closest('[data-lv]');if(!b)return;st.level=b.getAttribute('data-lv');st.lvl=LEVELS[st.level].f;SPEND=null;TQ=null;if(SS&&SS.over)SS=null;save();renderS()});
 
 go(st.tab);
+if(!st.onb)showOnb(0);
 
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
 </script>
