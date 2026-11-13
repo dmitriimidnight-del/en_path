@@ -128,9 +128,28 @@ button.neg{color:var(--bad);border-color:rgba(255,122,122,.45)}
 .tsg .h{color:var(--tx2);padding:2px 4px}
 .tsg .c{background:var(--bg2);border:1px solid var(--line);font-family:ui-monospace,Menlo,Consolas,monospace}
 .tsg .lo{color:var(--bad)}.tsg .hi{color:var(--ok)}
+.tsg .off{opacity:.35}
+.erow{padding:10px 0;border-bottom:1px solid var(--line)}
+.erow .mono{font-size:14px;margin-top:3px}
+.badx{color:var(--bad)}.okx{color:var(--ok)}
+.wbad{color:var(--bad);text-decoration:underline;text-decoration-thickness:2px}
+.plan{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.plan span{font-size:13px;color:var(--tx2);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:5px 9px}
+.plan b{color:var(--tx);font-weight:600}
+.tips{margin:8px 0 0;padding-left:18px;font-size:13px;color:var(--tx2);line-height:1.5}
+.seg .lab{align-self:center;font-size:12px;color:var(--tx2);flex:none;margin-right:2px}
+#micb:disabled{opacity:.8}
 </style>
 </head>
 <body>
+
+<section id="s-s">
+<header>
+<div class="seg" id="slv" style="margin-top:0"></div>
+<div id="sday"></div>
+</header>
+<main id="out-s"></main>
+</section>
 
 <section id="s-v">
 <header>
@@ -173,7 +192,7 @@ button.neg{color:var(--bad);border-color:rgba(255,122,122,.45)}
 <div class="ls" id="ls"></div>
 </div>
 
-<nav><button data-t="v"><b>≡</b>Глаголы</button><button data-t="t"><b>◷</b>Времена</button><button data-t="c"><b>❏</b>Конструкции</button><button data-t="q"><b>✎</b>Тренажёр</button></nav>
+<nav><button data-t="s"><b>◉</b>Сегодня</button><button data-t="v"><b>≡</b>Глаголы</button><button data-t="t"><b>◷</b>Времена</button><button data-t="c"><b>❏</b>Конструкции</button><button data-t="q"><b>✎</b>Тренажёр</button></nav>
 
 <script>
 "use strict";
@@ -200,6 +219,14 @@ var MS=[
 {t:0,s:"She ___ to the gym every Monday.",h:"go",a:["goes"],m:["every Monday"],ru:"Она ходит в спортзал каждый понедельник."},
 {t:0,s:"We usually ___ dinner at seven.",h:"have",a:["have"],m:["usually"],ru:"Обычно мы ужинаем в семь."},
 {t:0,s:"My brother never ___ coffee.",h:"drink",a:["drinks"],m:["never"],ru:"Мой брат никогда не пьёт кофе."},
+{t:0,s:"He ___ TV in the evenings.",h:"watch",a:["watches"],m:["in the evenings"],ru:"Он смотрит телевизор по вечерам."},
+{t:0,s:"I often ___ my mum.",h:"call",a:["call"],m:["often"],ru:"Я часто звоню маме."},
+{t:1,s:"Listen! Someone ___.",h:"sing",a:["is singing"],m:["Listen!"],ru:"Послушай! Кто-то поёт."},
+{t:1,s:"We ___ dinner now.",h:"cook",a:["are cooking"],m:["now"],ru:"Мы сейчас готовим ужин."},
+{t:4,s:"I ___ a new phone last week.",h:"buy",a:["bought"],m:["last week"],ru:"На прошлой неделе я купил новый телефон."},
+{t:4,s:"When I was a child, I ___ in a village.",h:"live",a:["lived"],m:["When I was a child"],ru:"В детстве я жил в деревне."},
+{t:8,s:"I ___ you tomorrow.",h:"call",a:["will call"],m:["tomorrow"],ru:"Я позвоню тебе завтра."},
+{t:8,s:"Maybe she ___ later.",h:"come",a:["will come"],m:["Maybe","later"],ru:"Может быть, она придёт позже."},
 {t:1,s:"Be quiet! The baby ___ right now.",h:"sleep",a:["is sleeping"],m:["right now"],ru:"Тише! Малыш сейчас спит."},
 {t:1,s:"Look! It ___.",h:"snow",a:["is snowing"],m:["Look!"],ru:"Смотри! Идёт снег."},
 {t:1,s:"I can't talk at the moment — I ___.",h:"drive",a:["am driving"],m:["at the moment"],ru:"Не могу сейчас говорить — я за рулём."},
@@ -328,6 +355,35 @@ var CN=[
  {s:"We ___ a coffee on the way.",h:"have, прош.: остановились, чтобы",a:["stopped to have"],ru:"По дороге мы остановились выпить кофе."}]}
 ];
 
+/* базовые конструкции для A1 */
+CN=[
+{id:"there_is",f:"There is / There are + …",ru:"есть, находится (о наличии)",n:"is — для одного предмета, are — для нескольких. Вопрос: Is there…? Are there…?",ex:[
+ {s:"___ a park near my house.",h:"один",a:["There is"],ru:"Рядом с моим домом есть парк."},
+ {s:"___ two cats in the garden.",h:"много",a:["There are"],ru:"В саду две кошки."},
+ {s:"___ any milk in the fridge?",h:"вопрос",a:["Is there"],ru:"В холодильнике есть молоко?"}]},
+{id:"can",f:"can + V1",ru:"могу, умею",n:"После can — V1 без to. Отрицание: can't. Вопрос: Can you…?",ex:[
+ {s:"I ___ English a little.",h:"speak",a:["can speak"],ru:"Я немного говорю по-английски."},
+ {s:"She ___ a car.",h:"not / drive",a:["can't drive"],ru:"Она не умеет водить машину."},
+ {s:"___ me, please?",h:"you / help",a:["Can you help"],ru:"Можете мне помочь, пожалуйста?"}]},
+{id:"want_to",f:"want + to V1",ru:"хочу (что-то сделать)",n:"После want нужен to: I want to go, а не I want go.",ex:[
+ {s:"I ___ a new phone.",h:"buy",a:["want to buy"],ru:"Я хочу купить новый телефон."},
+ {s:"He ___ home.",h:"not / go",a:["doesn't want to go"],ru:"Он не хочет идти домой."},
+ {s:"What do you ___?",h:"eat",a:["want to eat"],ru:"Что ты хочешь съесть?"}]},
+{id:"like_ing",f:"like / love / hate + V-ing",ru:"люблю / ненавижу что-то делать",n:"После like, love, hate чаще всего V-ing: I like reading.",ex:[
+ {s:"I ___ books.",h:"like / read",a:["like reading"],ru:"Я люблю читать книги."},
+ {s:"She ___ early.",h:"hate / get up",a:["hates getting up"],ru:"Она ненавидит рано вставать."},
+ {s:"Do you ___?",h:"like / cook",a:["like cooking"],ru:"Ты любишь готовить?"}]},
+{id:"lets",f:"Let's + V1",ru:"давай(те) …",n:"Предложение сделать что-то вместе. Отрицание: Let's not…",ex:[
+ {s:"___ a taxi.",h:"take",a:["Let's take"],ru:"Давай возьмём такси."},
+ {s:"___ about it later.",h:"talk",a:["Let's talk"],ru:"Давай поговорим об этом позже."},
+ {s:"___ late.",h:"not / be",a:["Let's not be"],ru:"Давай не будем опаздывать."}]}
+].concat(CN);
+var CLV={there_is:1,can:1,want_to:1,like_ing:1,lets:1,would_like:1,going_to:1,have_to:1,
+used_to:2,too_to:2,enough:2,so_that:2,first_cond:2,would_you_mind:2,it_takes:2,stop_doing:2,had_better:2,would_rather:2,be_about_to:2,look_forward:2,
+be_used_to:3,get_used_to:3,its_time:3,have_done:3,second_cond:3,third_cond:3,i_wish:3};
+CN.forEach(function(c){c.lv=CLV[c.id]||2});
+CN=CN.map(function(c,i){c.o=i;return c}).sort(function(a,b){return a.lv-b.lv||a.o-b.o});
+
 
 /* ---------- утилиты ---------- */
 var DBL=['run','sit','put','get','cut','hit','let','set','shut','swim','win','begin','forget','quit','stop','plan','drop','skip','clap','shop','bet','split','upset','spit','shed','bid','dig','forbid','chat','wrap','spin','rid','fit','knit','wet','slit','outrun','reset'];
@@ -347,7 +403,7 @@ var VW=['глагол','глагола','глаголов'],DW=['день','дн
 /* проверка ответа: регистр, пунктуация, сокращения (don't = do not и т. п.) */
 function norm(s){return String(s).toLowerCase().replace(/[’‘`´]/g,"'").replace(/[.!?,;:"«»—–-]/g,' ').replace(/\s+/g,' ').trim()}
 function expand(s){
-s=norm(s).replace(/\b(do|does|did|is|are|was|were|has|have|had|would|should|could|must)nt\b/g,"$1n't").replace(/\bwont\b/g,"won't").replace(/\bcant\b/g,"can't").replace(/\bim\b/g,"i'm").replace(/\bive\b/g,"i've").replace(/\b(you|they)re\b/g,"$1're");
+s=norm(s).replace(/\b(do|does|did|is|are|was|were|has|have|had|would|should|could|must)nt\b/g,"$1n't").replace(/\bwont\b/g,"won't").replace(/\bcant\b/g,"can't").replace(/\bim\b/g,"i'm").replace(/\bive\b/g,"i've").replace(/\b(you|they)re\b/g,"$1're").replace(/\b(there|that|what|it|let)s\b/g,"$1's");
 s=s.replace(/\bwon't\b/g,'will not').replace(/\bshan't\b/g,'shall not').replace(/\bcan't\b/g,'can not').replace(/\bcannot\b/g,'can not').replace(/n't\b/g,' not').replace(/'m\b/g,' am').replace(/'re\b/g,' are').replace(/'ve\b/g,' have').replace(/'ll\b/g,' will');
 var out=[s];
 if(/'s\b/.test(s))out=[s.replace(/'s\b/g,' is'),s.replace(/'s\b/g,' has')];
@@ -377,13 +433,16 @@ MS.forEach(function(x,k){x.k=k;x.full=x.s.replace('___',x.a[0])});
 
 /* ---------- состояние ---------- */
 var KEY='enpath.v1';
-var st={tab:'v',vt:'i',learn:0,p:'I',f:'a',v:'do',qm:'f',qsub:{f:'type',t:'choose',c:'card'},lvl:1,srs:{},nt:{},ts:[],day:{d:0,n:0},streak:{last:-9,n:0}};
+var st={level:'A1',err:[],allT:0,tab:'s',vt:'i',learn:0,p:'I',f:'a',v:'do',qm:'f',qsub:{f:'type',t:'choose',c:'card'},lvl:1,srs:{},nt:{},ts:[],day:{d:0,n:0},streak:{last:-9,n:0}};
 try{var sv=JSON.parse(localStorage.getItem(KEY));if(sv&&typeof sv=='object')for(var k in sv)st[k]=sv[k]}catch(e){}
 function today(){var d=new Date();return Math.floor((d.getTime()-d.getTimezoneOffset()*6e4)/864e5)}
 if(!BY[st.v])st.v='do';
 ['srs','nt','qsub','day','streak'].forEach(function(k){if(!st[k]||typeof st[k]!='object')st[k]={}});
 if(!st.qsub.f)st.qsub.f='type';if(!st.qsub.t)st.qsub.t='choose';if(!st.qsub.c)st.qsub.c='card';
-if(st.qm!='f'&&st.qm!='t'&&st.qm!='c')st.qm='f';
+if(['f','t','c','e'].indexOf(st.qm)<0)st.qm='f';
+if(!Array.isArray(st.err))st.err=[];
+if(['A1','A2','B1'].indexOf(st.level)<0)st.level='A1';
+if(!st.v3){st.v3=1;st.tab='s';st.lvl=Math.min(st.lvl||1,1)}
 if(!Array.isArray(st.ts))st.ts=[];
 if(typeof st.streak.n!='number')st.streak={last:-9,n:0};
 if(typeof st.day.n!='number')st.day={d:0,n:0};
@@ -396,7 +455,7 @@ function box(id){var r=st.srs[id];return r?r.b:0}
 function isLearned(id){return box(id)>=3}
 function learned(v){return isLearned('f:'+v)}
 function nt(d){var o=st.nt[d];if(!o||o.d!=today())o=st.nt[d]={d:today(),n:0,lim:NEWD};return o}
-var ses={rq:{f:[],c:[]},n:{f:0,c:0},free:{f:0,c:0},cf:null,sc:{f:[0,0],t:[0,0],c:[0,0]},goal:0};
+var ses={rq:{f:[],c:[]},n:{f:0,c:0},free:{f:0,c:0},cf:null,sc:{f:[0,0],t:[0,0],c:[0,0],d:[0,0],say:[0,0],e:[0,0]},goal:0};
 function tick(){
 var t=today();if(st.day.d!=t)st.day={d:t,n:0};
 st.day.n++;
@@ -410,11 +469,11 @@ var t=today(),r=st.srs[id];
 if(!r){r=st.srs[id]={b:0,d:t};nt(deck).n++}
 if(ok){if(r.d<=t){r.b=Math.min(r.b+1,IV.length-1);r.d=t+IV[r.b]}}
 else{r.b=0;r.d=t;ses.rq[deck]=ses.rq[deck].filter(function(q){return q.id!=id});ses.rq[deck].push({id:id,at:ses.n[deck]+3})}
-ses.n[deck]++;tick();save();
+ses.n[deck]++;save();
 }
 function deckIds(d){
 if(d=='f')return IRR_N.filter(function(x){return x.lv<=st.lvl}).map(function(x){return 'f:'+x.v});
-return CN.filter(function(c){return !ses.cf||c.id==ses.cf}).reduce(function(a,c){return a.concat(c.ex.map(function(e){return e.id}))},[]);
+return CN.filter(function(c){return ses.cf?c.id==ses.cf:c.lv<=LC().c}).reduce(function(a,c){return a.concat(c.ex.map(function(e){return e.id}))},[]);
 }
 function nextId(d,ids,last){
 var t=today(),rq=ses.rq[d],i,set={};ids.forEach(function(id){set[id]=1});
@@ -448,10 +507,13 @@ function sayForms(x){say([x.v,x.p2,x.p3].join(', '))}
 
 /* ---------- навигация ---------- */
 function go(t){
+if(st.tab=='q')TQ=Q;else if(st.tab=='s')SQ=Q;
 st.tab=t;save();
+if(t=='q')Q=TQ;else if(t=='s'){Q=SQ;if(SS&&SS.over)SS=null}
+$('#out-q').innerHTML='';$('#out-s').innerHTML='';
 [].forEach.call(document.querySelectorAll('section'),function(s){s.classList.toggle('on',s.id=='s-'+t)});
 [].forEach.call(document.querySelectorAll('nav button'),function(b){b.classList.toggle('on',b.getAttribute('data-t')==t)});
-if(t=='v')renderV();else if(t=='t')renderT();else if(t=='c')renderC();else renderQ();
+if(t=='s')renderS();else if(t=='v')renderV();else if(t=='t')renderT();else if(t=='c')renderC();else renderQ();
 window.scrollTo(0,0);
 }
 [].forEach.call(document.querySelectorAll('nav button'),function(b){b.onclick=function(){go(b.getAttribute('data-t'))}});
@@ -577,11 +639,15 @@ FM.forEach(function(f){var b=document.createElement('button');b.textContent=f[1]
 function renderT(){
 var vn=st.v,x=BY[vn],h='';
 $('#vchip').innerHTML='<span class="mono"><span class="k1">'+x.v+'</span> – <span class="k2">'+x.p2+'</span> – <span class="k3">'+x.p3+'</span></span><span class="cr">'+x.ru+'</span><span class="dn">▾</span>';
+var showAll=st.level=='B1'||st.allT;
+if(st.level!='B1')h+='<div class="hint"><button data-a="allt">'+(st.allT?'Показать только времена уровня '+st.level:'Показать все 12 времён (сейчас — уровня '+st.level+')')+'</button></div>';
 if(TTS)h+='<div class="hint">Нажми на строку — услышишь, как это звучит.</div>';
 for(var g=0;g<3;g++){
+if(!showAll&&![0,1,2,3].some(function(k){return tAllowed(g*4+k)}))continue;
 h+='<div class="grp mono">'+TN[g]+'</div>';
 for(var k=0;k<4;k++){
 if(vn=='be'&&(k==1||k==3))continue;
+if(!showAll&&!tAllowed(g*4+k))continue;
 var i=g*4+k,col=KD[k][1];
 if(st.f=='all'){
 h+='<div class="tr"><div class="top"><span class="l mono" style="color:'+col+'">'+KD[k][0]+'</span></div>';
@@ -601,7 +667,7 @@ $('#out-t').innerHTML=h;
 [].forEach.call(prEl.children,function(b){b.className=b.textContent==st.p?'on':''});
 [].forEach.call(fmEl.children,function(b){b.className=b.getAttribute('data-f')==st.f?'on':''});
 }
-$('#out-t').addEventListener('click',function(e){var r=e.target.closest('[data-say]');if(r)say(r.getAttribute('data-say'))});
+$('#out-t').addEventListener('click',function(e){if(e.target.closest('[data-a=allt]')){st.allT=st.allT?0:1;save();renderT();return}var r=e.target.closest('[data-say]');if(r)say(r.getAttribute('data-say'))});
 $('#vrnd').onclick=function(){st.v=POOL_T[rnd(POOL_T.length)].v;save();renderT()};
 
 /* выбор глагола */
@@ -636,7 +702,7 @@ var nl=CN.filter(function(c){return c.ex.every(function(e){return isLearned(e.id
 $('#cnt-c').textContent=R.length+' '+plural(R.length,['конструкция','конструкции','конструкций'])+(nl?' · выучено '+nl+' из '+CN.length:'')+' · нажми, чтобы раскрыть';
 if(!R.length){outC.innerHTML='<div class="empty">Ничего не найдено.</div>';return}
 outC.innerHTML=R.map(function(c){
-return '<div class="row" data-c="'+c.id+'"><div class="cf mono">'+fml(c.f)+cProg(c)+'</div><div class="ru">'+esc(c.ru)+'</div>'+
+return '<div class="row" data-c="'+c.id+'"><div class="cf mono">'+fml(c.f)+' <span class="tg">'+lvName(c.lv)+'</span>'+cProg(c)+'</div><div class="ru">'+esc(c.ru)+'</div>'+
 '<div class="ex"><div class="g">'+esc(c.n)+'</div>'+
 c.ex.map(function(e){return '<div class="exl" data-say="'+esc(e.full)+'"><div class="en">'+sentH(e.s,{fill:e.a[0]})+(TTS?' <span class="tg">🔊</span>':'')+'</div><div class="ru">'+esc(e.ru)+'</div></div>'}).join('')+
 '<div class="acts"><button data-a="trc">Карточки →</button><button data-a="trf">Заполнить пропуски →</button></div></div></div>';
@@ -645,69 +711,166 @@ c.ex.map(function(e){return '<div class="exl" data-say="'+esc(e.full)+'"><div cl
 qc.addEventListener('input',renderC);
 outC.addEventListener('click',function(e){
 var a=e.target.closest('[data-a]'),sy=e.target.closest('[data-say]'),r=e.target.closest('.row');
-if(a){var c=r.getAttribute('data-c');ses.cf=c;ses.free.c=1;st.qm='c';st.qsub.c=a.getAttribute('data-a')=='trc'?'card':'fill';Q=null;save();go('q');return}
+if(a){var c=r.getAttribute('data-c');ses.cf=c;ses.free.c=1;st.qm='c';st.qsub.c=a.getAttribute('data-a')=='trc'?'card':'fill';Q=null;TQ=null;save();go('q');return}
 if(sy){say(sy.getAttribute('data-say'));return}
 if(r)r.classList.toggle('o');
 });
 
-/* =========== ТРЕНАЖЁР =========== */
-var Q=null;
-var MODES=[['f','Формы'],['t','Времена'],['c','Конструкции']];
-var SUBS={f:[['type','Ввод'],['card','Карточки']],t:[['choose','Выбор'],['type','Ввод'],['mark','Маркеры']],c:[['card','Карточки'],['fill','Заполни']]};
+/* =========== УРОВЕНЬ =========== */
+var LEVELS={
+A1:{t:[0,1,4,8],c:1,f:1,d:'Present Simple, Present Continuous, Past Simple и Future Simple · 8 базовых конструкций · 86 частых неправильных глаголов. Остальное откроется на следующих уровнях.'},
+A2:{t:[0,1,2,4,5,8],c:2,f:2,d:'+ Present Perfect и Past Continuous · ещё 12 конструкций · 122 неправильных глагола.'},
+B1:{t:[0,1,2,3,4,5,6,7,8,9,10,11],c:3,f:3,d:'Все 12 времён, все конструкции и все неправильные глаголы.'}};
+function LC(){return LEVELS[st.level]||LEVELS.A1}
+function tAllowed(i){return LC().t.indexOf(i)>-1}
+function lvName(n){return ['','A1','A2','B1'][n]}
+
+/* предложения для диктанта и говорения */
+var SENT=[];
+CN.forEach(function(c){c.ex.forEach(function(e){SENT.push({key:e.id,en:e.full,ru:e.ru,hint:c.f,clv:c.lv})})});
+MS.forEach(function(x){SENT.push({key:'ms:'+x.k,en:x.full,ru:x.ru,hint:tname(x.t),t:x.t})});
+var SBY={};SENT.forEach(function(s){SBY[s.key]=s});
+function sentPool(){
+var L=LC();
+return SENT.filter(function(s){return (s.t!=null?tAllowed(s.t):s.clv<=L.c)&&(st.level!='A1'||s.en.split(' ').length<=9)});
+}
+
+/* сравнение по словам (для речи и диктанта) */
+function words(s){return expand(s)[0].split(' ').filter(Boolean)}
+function lcsT(a,b){var d=[],i,j;for(i=0;i<=a.length;i++){d[i]=[];for(j=0;j<=b.length;j++)d[i][j]=i&&j?(a[i-1]==b[j-1]?d[i-1][j-1]+1:Math.max(d[i-1][j],d[i][j-1])):0}return d}
+function sim(x,y){var a=words(x),b=words(y);if(!a.length||!b.length)return 0;return 2*lcsT(a,b)[a.length][b.length]/(a.length+b.length)}
+function diffH(correct,inp){
+var raw=correct.split(' '),a=raw.map(function(w){return norm(w)}),b=norm(inp).split(' ').filter(Boolean),d=lcsT(a,b),hit={},i=a.length,j=b.length;
+while(i&&j){if(a[i-1]==b[j-1]){hit[i-1]=1;i--;j--}else if(d[i-1][j]>=d[i][j-1])i--;else j--}
+return raw.map(function(w,k){return hit[k]||!a[k]?esc(w):'<span class="wbad">'+esc(w)+'</span>'}).join(' ');
+}
+
+/* распознавание речи */
+var SRC=window.SpeechRecognition||window.webkitSpeechRecognition||null,rec=null;
+function listen(cb){
+try{if(rec)rec.abort()}catch(e){}
+var fired=false,done=function(a,e){if(fired)return;fired=true;cb(a,e)};
+try{
+rec=new SRC();rec.lang='en-US';rec.interimResults=false;rec.maxAlternatives=4;
+rec.onresult=function(e){var al=[];for(var i=0;i<e.results[0].length;i++)al.push(e.results[0][i].transcript);done(al,null)};
+rec.onerror=function(e){done(null,e.error||'error')};
+rec.onend=function(){done(null,'no-speech')};
+rec.start();
+}catch(e){done(null,'start')}
+}
+function micErr(e){return e=='not-allowed'||e=='service-not-allowed'?'Нет доступа к микрофону. Разреши его для этого сайта в настройках браузера.':e=='no-speech'?'Ничего не услышал. Нажми и скажи ещё раз.':e=='network'?'Для распознавания речи нужен интернет.':e=='aborted'?'':'Не получилось распознать. Попробуй ещё раз.'}
+
+/* =========== ЖУРНАЛ ОШИБОК =========== */
+function jkey(jr){return jr.kind+':'+JSON.stringify(jr.ref)}
+function errByKey(k){for(var i=0;i<st.err.length;i++)if(st.err[i].key==k)return st.err[i];return null}
+function result(ok,you){
+if(!Q||!Q.jr)return;
+var k=jkey(Q.jr),i=st.err.findIndex(function(e){return e.key==k});
+if(i>-1){var e=st.err[i];if(ok){e.ok++;if(e.ok>=2){st.err.splice(i,1);Q.fixed=1}}else{e.ok=0;e.n++;e.you=you||'';e.d=today()}}
+else if(!ok){st.err.push({key:k,kind:Q.jr.kind,ref:Q.jr.ref,q:Q.jr.q,a:Q.jr.a,you:you||'',n:1,ok:0,d:today()});if(st.err.length>200)st.err.shift();if(Q.ses)SS.added++}
+save();
+}
+function errSpec(e){
+var r=e.ref;
+if(e.kind=='f')return BY[r.v]?{m:'f',sub:'type',id:'f:'+r.v}:null;
+if(e.kind=='c')return EX[r.id]?{m:'c',sub:'fill',id:r.id}:null;
+if(e.kind=='tt')return BY[r.v]?{m:'t',sub:'type',x:BY[r.v],p:r.p,f:r.f,i:r.i}:null;
+if(e.kind=='m')return MS[r.k]?{m:'t',sub:'mark',it:MS[r.k]}:null;
+if(e.kind=='d')return SBY[r.s]?{m:'d',s:r.s}:null;
+return null;
+}
+function pickErr(last){
+var c=st.err.filter(function(e){return e.key!=last&&errSpec(e)}).sort(function(a,b){return a.d-b.d});
+if(!c.length)c=st.err.filter(function(e){return errSpec(e)});
+return c.length?c[rnd(Math.min(3,c.length))]:null;
+}
+function errList(){
+if(!st.err.length)return '';
+return '<div class="lbl" style="margin-top:20px">Журнал ошибок · '+st.err.length+'</div>'+
+st.err.slice().reverse().slice(0,40).map(function(e){return '<div class="erow"><div class="ru">'+esc(e.q)+'</div><div class="mono"><span class="badx">'+esc(e.you||'—')+'</span> → <span class="okx">'+esc(e.a)+'</span></div><div class="tg">ошибок: '+e.n+(e.ok?' · верно '+e.ok+' из 2':'')+'</div></div>'}).join('')+
+'<div class="g" style="margin-top:10px">Задание уходит из журнала, когда ответишь на него верно 2 раза подряд.</div>';
+}
+
+/* =========== ЗАДАНИЯ =========== */
+var Q=null,TQ=null,SQ=null,SS=null,SPEND=null;
+var MODES=[['f','Формы'],['t','Времена'],['c','Конструкции'],['e','Ошибки']];
+var SUBS={f:[['type','Ввод'],['card','Карточки']],t:[['choose','Выбор'],['type','Ввод'],['mark','Маркеры']],c:[['card','Карточки'],['fill','Заполни'],['say','Скажи'],['dict','Диктант']],e:[]};
+if(!TTS)SUBS.c=SUBS.c.filter(function(x){return x[0]!='dict'});
 var LV=[[1,'Базовые'],[2,'+ Средние'],[3,'Все']];
 var INP='autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"';
+function OUT(){return st.tab=='s'?$('#out-s'):$('#out-q')}
+function E(id){return OUT().querySelector('#'+id)}
 
+function genT(sub,o){
+o=o||{};var A=LC().t;
+if(sub=='mark'){
+var it=o.it;if(!it){var c=MS.filter(function(x){return tAllowed(x.t)&&x!==o.lastIt});it=c[rnd(c.length)]}
+return {m:'t',sub:'mark',it:it,ti:it.t,answers:it.a,full:it.full,jr:{kind:'m',ref:{k:it.k},q:it.s.replace('___','___ ('+it.h+')'),a:it.full}};
+}
+var x=o.x||POOL_T[rnd(POOL_T.length)],p=o.p||PR[rnd(7)],f=o.f||['a','q','n'][rnd(3)],i=o.i!=null?o.i:A[rnd(A.length)];
+var full=plain(build(f,i,p,x.v)),jr={kind:'tt',ref:{v:x.v,p:p,f:f,i:i},q:tname(i)+' · '+FMN[f]+' · '+p+' · '+x.v,a:full};
+if(sub=='type')return {m:'t',sub:'type',x:x,p:p,f:f,i:i,ti:i,answers:ansT(f,i,p,x.v),full:full,jr:jr};
+var type=Math.random()<.5?'A':'B',sent=function(j){return plain(build(f,j,p,x.v))};
+var same=A.filter(function(j){return sent(j)==full});
+var near=function(j){return (j>>2)==(i>>2)||(j&3)==(i&3)?1:0};
+var others=shuffle(A.filter(function(j){return same.indexOf(j)<0})).sort(function(a,b){return near(b)-near(a)});
+var cand=shuffle(others.slice(0,6)).concat(others.slice(6)),opts=[i],used={};used[full]=1;
+for(var n=0;n<cand.length&&opts.length<4;n++){var sn=sent(cand[n]);if(used[sn])continue;used[sn]=1;opts.push(cand[n])}
+return {m:'t',sub:'choose',x:x,p:p,f:f,i:i,ti:i,type:type,opts:shuffle(opts),same:same,full:full,jr:jr};
+}
+function makeQ(sp){
+if(!sp)return null;
+var q=null;
+if(sp.m=='f'){q={m:'f',sub:sp.sub||'type',id:sp.id};if(sp.id){q.x=BY[sp.id.slice(2)];q.jr={kind:'f',ref:{v:q.x.v},q:q.x.v+' — '+q.x.ru,a:q.x.v+' – '+q.x.p2+' – '+q.x.p3}}}
+else if(sp.m=='c'){q={m:'c',sub:sp.sub||'card',id:sp.id};if(sp.id){q.e=EX[sp.id];q.answers=q.e.a;q.full=q.e.full;q.jr={kind:'c',ref:{id:sp.id},q:q.e.ru,a:q.e.full}}}
+else if(sp.m=='t')q=genT(sp.sub,sp);
+else if(sp.m=='d'||sp.m=='say'){var s=SBY[sp.s];if(!s)return null;q={m:sp.m,sub:sp.m,s:s,full:s.en,answers:[s.en]};if(sp.m=='d')q.jr={kind:'d',ref:{s:s.key},q:'Диктант · '+s.ru,a:s.en}}
+else if(sp.m=='e'){var e=errByKey(sp.key);if(!e)return null;q=makeQ(errSpec(e));if(!q)return null;q.err=e.key;return q}
+if(!q)return null;
+q.done=0;q.shown=0;
+if(sp.intro){q.intro=1;q.shown=1}
+if(sp.retry)q.retry=1;
+return q;
+}
+
+/* =========== ТРЕНАЖЁР =========== */
+function newQ(){
+var m=st.qm,s=st.qsub[m]||'',q=null;
+if(m=='e'){var e=pickErr(Q&&Q.mode=='e'?Q.err:null);q=e?makeQ({m:'e',key:e.key}):null;if(!q)q={m:'e',none:1}}
+else if(m=='f'||(m=='c'&&(s=='card'||s=='fill'))){var last=Q&&Q.mode==m?Q.id:null,ids=deckIds(m),id=ses.free[m]?pickFree(ids,last):nextId(m,ids,last);q=makeQ({m:m,sub:s,id:id})}
+else if(m=='c'){var ids=deckIds('c').filter(function(id){return !Q||EX[id].full!=Q.full});if(!ids.length)ids=deckIds('c');q=makeQ({m:s=='say'?'say':'d',s:ids[rnd(ids.length)]})}
+else q=genT(s,{lastIt:Q&&Q.it});
+q.mode=m;q.msub=s;Q=q;
+}
 function renderQ(){
 var m=st.qm;
-$('#qm').innerHTML=MODES.map(function(x){return '<button data-m="'+x[0]+'" class="'+(m==x[0]?'on':'')+'">'+x[1]+'</button>'}).join('');
+$('#qm').innerHTML=MODES.map(function(x){return '<button data-m="'+x[0]+'" class="'+(m==x[0]?'on':'')+'">'+x[1]+(x[0]=='e'&&st.err.length?' <span class="tg">'+st.err.length+'</span>':'')+'</button>'}).join('');
+$('#qsub').style.display=SUBS[m].length?'flex':'none';
 $('#qsub').innerHTML=SUBS[m].map(function(x){return '<button data-s="'+x[0]+'" class="'+(st.qsub[m]==x[0]?'on':'')+'">'+x[1]+'</button>'}).join('')+
 (m=='f'?'<select id="lvsel" aria-label="Набор глаголов">'+LV.map(function(l){return '<option value="'+l[0]+'"'+(st.lvl==l[0]?' selected':'')+'>'+l[1]+' · '+IRR.filter(function(x){return x.lv<=l[0]}).length+'</option>'}).join('')+'</select>':'');
 $('#qf').innerHTML=m=='c'&&ses.cf?'<div class="chipf"><span>Только: <span class="mono">'+fml(CBY[ses.cf].f)+'</span></span><button data-a="clrf">Все ✕</button></div>':'';
 drawDay();
-if(!Q||Q.m!=m||Q.sub!=st.qsub[m])newQ();
+if(!Q||Q.mode!=m||Q.msub!=(st.qsub[m]||''))newQ();
 drawQ();
 }
 function drawDay(){
-var n=dayN(),s=streakNow();
-$('#qday').innerHTML='<div class="day"><span>Сегодня: <b>'+n+'</b> из '+GOAL+(n>=GOAL?' ✓':'')+'</span><span>🔥 '+s+' '+plural(s,DW)+' подряд</span></div><div class="bar thin"><i style="width:'+Math.min(100,n/GOAL*100)+'%"></i></div>';
+var n=dayN(),s=streakNow(),h='<div class="day"><span>Сегодня: <b>'+n+'</b> из '+GOAL+(n>=GOAL?' ✓':'')+'</span><span>🔥 '+s+' '+plural(s,DW)+' подряд</span></div><div class="bar thin"><i style="width:'+Math.min(100,n/GOAL*100)+'%"></i></div>';
+$('#qday').innerHTML=h;$('#sday').innerHTML=h;
 }
 $('#qm').addEventListener('click',function(e){var b=e.target.closest('[data-m]');if(!b)return;st.qm=b.getAttribute('data-m');save();renderQ()});
 $('#qsub').addEventListener('click',function(e){var b=e.target.closest('[data-s]');if(!b)return;st.qsub[st.qm]=b.getAttribute('data-s');save();renderQ()});
 $('#qsub').addEventListener('change',function(e){if(e.target.id=='lvsel'){st.lvl=+e.target.value;save();Q=null;renderQ()}});
 $('#qf').addEventListener('click',function(e){if(e.target.closest('[data-a=clrf]')){ses.cf=null;ses.free.c=0;Q=null;renderQ()}});
 
-function newQ(){
-var m=st.qm,s=st.qsub[m],last=Q&&Q.m==m?Q.id:null;
-if(m=='f'||m=='c'){
-var ids=deckIds(m),id=ses.free[m]?pickFree(ids,last):nextId(m,ids,last);
-Q={m:m,sub:s,id:id,done:0,shown:0};
-if(id&&m=='f')Q.x=BY[id.slice(2)];
-if(id&&m=='c'){Q.e=EX[id];Q.answers=Q.e.a;Q.full=Q.e.full}
-return;
-}
-if(s=='mark'){
-var c=MS.filter(function(x){return !Q||Q.m!='t'||Q.it!==x}),it=c[rnd(c.length)];
-Q={m:m,sub:s,it:it,ti:it.t,answers:it.a,full:it.full,done:0};return;
-}
-var x=POOL_T[rnd(POOL_T.length)],p=PR[rnd(7)],f=['a','q','n'][rnd(3)],i=rnd(12);
-if(s=='type'){Q={m:m,sub:s,x:x,p:p,f:f,i:i,ti:i,answers:ansT(f,i,p,x.v),full:plain(build(f,i,p,x.v)),done:0};return}
-var type=Math.random()<.5?'A':'B',sent=function(j){return plain(build(f,j,p,x.v))},s0=sent(i),all=[0,1,2,3,4,5,6,7,8,9,10,11];
-var same=all.filter(function(j){return sent(j)==s0});
-var near=function(j){return (j>>2)==(i>>2)||(j&3)==(i&3)?1:0};
-var others=shuffle(all.filter(function(j){return same.indexOf(j)<0})).sort(function(a,b){return near(b)-near(a)});
-var cand=shuffle(others.slice(0,6)).concat(others.slice(6));
-var opts=[i],used={};used[s0]=1;
-for(var n=0;n<cand.length&&opts.length<4;n++){var sn=sent(cand[n]);if(used[sn])continue;used[sn]=1;opts.push(cand[n])}
-Q={m:m,sub:s,x:x,p:p,f:f,i:i,ti:i,type:type,opts:shuffle(opts),same:same,full:s0,done:0};
-}
-
-function btnsTyped(){return '<div id="res"></div><div class="btns"><button id="skip">Не знаю</button><button id="chk" class="pri">Проверить</button></div>'}
+/* ---------- отрисовка задания ---------- */
+function btnsTyped(extra){return '<div id="res"></div><div class="btns"><button id="skip">Не знаю</button>'+(extra||'')+'<button id="chk" class="pri">Проверить</button></div>'}
 function btnsCard(hint){
 if(!Q.shown)return '<div class="btns">'+(hint&&!Q.hint?'<button data-a="hint">Подсказка</button>':'')+'<button data-a="show" class="pri">Показать ответ</button></div>';
 if(!Q.done)return '<div class="btns"><button data-g="0" class="neg">Не вспомнил</button><button data-g="1" class="pri">Вспомнил</button></div>';
 return '<div class="btns"><button id="next" class="pri">Дальше →</button></div>';
 }
 function goalLine(){if(!ses.goal)return '';ses.goal=0;return '<div class="goal">🎯 Цель на сегодня выполнена! Серия: '+streakNow()+' '+plural(streakNow(),DW)+'.</div>'}
+function fixedLine(){return Q.fixed?'<div class="g" style="color:var(--ok)">Ошибка исправлена — убрал из журнала ✓</div>':''}
 function statSRS(d){
 var s=deckStat(d),o=nt(d),sc=ses.sc[d];
 return '<div class="stat"><span>Повторить: '+s.due+' · новых сегодня: '+Math.min(o.n,o.lim)+'/'+o.lim+'</span><span>Выучено: '+s.lr+' из '+s.tot+'</span></div><div class="bar"><i style="width:'+(s.tot?s.lr/s.tot*100:0)+'%"></i></div>'+
@@ -720,18 +883,41 @@ var h='<div class="tsg"><div class="h"></div>';
 KD.forEach(function(k){h+='<div class="h mono" style="color:'+k[1]+'">'+k[0]+'</div>'});
 for(var g=0;g<3;g++){
 h+='<div class="h mono">'+['pres','past','fut'][g]+'</div>';
-for(var k=0;k<4;k++){var s=st.ts[g*4+k]||[0,0],pc=s[1]?Math.round(s[0]/s[1]*100):null;
-h+='<div class="c'+(pc==null?'':pc<50?' lo':pc>=80?' hi':'')+'">'+(pc==null?'—':pc+'%')+'</div>'}
+for(var k=0;k<4;k++){var i=g*4+k,s=st.ts[i]||[0,0],pc=s[1]?Math.round(s[0]/s[1]*100):null;
+h+='<div class="c'+(pc==null?'':pc<50?' lo':pc>=80?' hi':'')+(tAllowed(i)?'':' off')+'">'+(pc==null?'—':pc+'%')+'</div>'}
 }
-return h+'</div><div class="g" style="margin-top:6px">Точность по каждому времени за всё время. Красным — то, что стоит повторить.</div>';
+return h+'</div><div class="g" style="margin-top:6px">Точность по каждому времени за всё время. Красным — то, что стоит повторить. Бледные клетки — времена не твоего уровня.</div>';
 }
 function statT(){var sc=ses.sc.t;return '<div class="stat"><span>Сессия: '+sc[0]+' верно из '+sc[1]+'</span></div>'+tsGrid()}
-function statQ(){return Q.m=='t'?statT():statSRS(Q.m)}
-
+function sesFoot(){
+return '<div class="stat"><span>Задание '+(SS.i+1)+' из '+SS.plan.length+'</span><span>Верно: '+SS.ok+' из '+SS.all+'</span></div><div class="bar"><i style="width:'+(SS.i/SS.plan.length*100)+'%"></i></div>'+
+'<div class="btns" style="margin-top:16px"><button data-a="endses">Завершить занятие</button></div>';
+}
+function footHTML(){
+if(Q&&Q.ses)return sesFoot();
+var m=st.qm;
+if(m=='e')return '<div class="stat"><span>Сессия: '+ses.sc.e[0]+' верно из '+ses.sc.e[1]+'</span></div>'+errList();
+if(m=='t')return statT();
+if(Q&&(Q.m=='d'||Q.m=='say'))return '<div class="stat"><span>Сессия: '+ses.sc[Q.m][0]+' верно из '+ses.sc[Q.m][1]+'</span></div>';
+return statSRS(m);
+}
 function drawQ(){
 var m=Q.m,s=Q.sub,h='<div class="card">';
+if(Q.none){OUT().innerHTML='<div class="card"><div class="big">Ошибок нет 🎉</div><div class="g" style="margin-top:10px">Сюда попадают задания, в которых ты ошибся. Они возвращаются, пока не ответишь на них верно 2 раза.</div></div>';return}
 if((m=='f'||m=='c')&&!Q.id){drawDone(m);return}
-if(m=='f'&&s=='type'){
+if(Q.err)h+='<div class="tg" style="color:var(--bad);margin-bottom:6px">⚠️ Из журнала ошибок</div>';
+if(Q.intro&&m=='f'){
+var x=Q.x;
+h+='<div class="qh"><div><div class="lbl">✨ Новый глагол — запомни</div><div class="big mono k1">'+x.v+'</div><div class="ru">'+x.ru+'</div></div>'+(TTS?'<button data-a="sayv" class="ic">🔊</button>':'')+'</div>'+
+'<div class="exp"><div class="f mono"><span class="k1">'+x.v+'</span> – <span class="k2">'+x.p2+'</span> – <span class="k3">'+x.p3+'</span></div><div class="g">V2 — для прошлого (вчера я…), V3 — для perfect и пассива. Скажи формы вслух 2–3 раза.</div></div>'+
+'<div class="btns"><button data-a="intro" class="pri">Запомнил →</button></div>';
+}else if(Q.intro){
+var e=Q.e;
+h+='<div class="qh"><div class="lbl">✨ Новая конструкция — запомни</div>'+(TTS?'<button data-a="sayc" class="ic">🔊</button>':'')+'</div>'+
+'<div class="formula mono" style="font-size:16px">'+fml(e.c.f)+'</div><div class="g" style="margin-top:6px">'+esc(e.c.ru)+'. '+esc(e.c.n)+'</div>'+
+'<div class="exp"><div class="f">'+sentH(e.s,{fill:e.a[0]})+'</div><div class="ru">'+esc(e.ru)+'</div></div>'+
+'<div class="btns"><button data-a="intro" class="pri">Понятно →</button></div>';
+}else if(m=='f'&&s=='type'){
 var x=Q.x;
 h+='<div class="qh"><div><div class="lbl">Напиши V2 и V3</div><div class="big mono k1">'+x.v+'</div><div class="ru">'+x.ru+'</div></div>'+(TTS?'<button data-a="sayv" class="ic">🔊</button>':'')+'</div>'+
 '<label class="fld"><span class="lbl">V2 · Past Simple</span><input id="a2" enterkeyhint="next" '+INP+'></label><div class="fix" id="f2"></div>'+
@@ -749,11 +935,26 @@ h+='<div class="qh"><div class="lbl">Скажи по-английски</div>'+(
 var e=Q.e;
 h+='<div class="lbl">Заполни пропуск</div><div class="sent">'+sentH(e.s,{h:e.h})+'</div><div class="ru">'+esc(e.ru)+'</div>'+
 '<div id="hint">'+(Q.hint?'<div class="formula mono">'+fml(e.c.f)+'</div>':'')+'</div>'+
-'<div class="fld"><input id="ans" enterkeyhint="done" placeholder="Что вставить?" '+INP+'></div>'+btnsTyped().replace('<button id="skip">Не знаю</button>','<button id="skip">Не знаю</button>'+(Q.hint?'':'<button data-a="hint">Подсказка</button>'));
+'<div class="fld"><input id="ans" enterkeyhint="done" placeholder="Что вставить?" '+INP+'></div>'+btnsTyped(Q.hint?'':'<button data-a="hint">Подсказка</button>');
+}else if(m=='d'){
+h+='<div class="lbl">🎧 Диктант: послушай и напиши</div><div class="btns" style="margin-top:12px"><button data-a="play">🔊 Послушать</button><button data-a="slow">🐢 Медленно</button></div>'+
+'<div class="fld"><input id="ans" enterkeyhint="done" placeholder="Напиши, что услышал" '+INP+'></div>'+btnsTyped();
+}else if(m=='say'){
+var sv=Q.s;
+h+='<div class="lbl">🎤 Скажи по-английски</div><div class="sent ruq">'+esc(sv.ru)+'</div>'+
+(Q.hint?'<div class="formula mono">'+fml(sv.hint)+'</div>':'')+
+'<div id="heard" class="g" style="margin-top:12px">'+(Q.heard?'Распознано: <span class="mono" style="color:var(--tx)">'+esc(Q.heard)+'</span>':'')+(Q.merr?'<span style="color:var(--bad)">'+esc(Q.merr)+'</span>':'')+'</div>'+(Q.res||'');
+if(SRC){
+if(!Q.done)h+='<div class="btns">'+(Q.hint?'':'<button data-a="hint">Подсказка</button>')+'<button data-a="skipsay">Не знаю</button></div><div class="btns" style="margin-top:8px"><button data-a="mic" id="micb" class="pri">🎤 Нажми и скажи</button></div>';
+else h+='<div class="btns">'+(TTS?'<button data-a="sayc">🔊</button>':'')+'<button data-a="mic" id="micb">🎤 Ещё раз</button><button id="next" class="pri">Дальше →</button></div>';
+}else{
+if(!Q.shown)h+='<div class="g" style="margin-top:10px">Скажи фразу вслух, потом проверь себя.</div><div class="btns">'+(Q.hint?'':'<button data-a="hint">Подсказка</button>')+'<button data-a="show" class="pri">Показать ответ</button></div>';
+else{if(!Q.res)h+='<div class="exp"><div class="f">'+esc(sv.en)+'</div></div>';h+=!Q.done?'<div class="btns"><button data-g="0" class="neg">Не получилось</button><button data-g="1" class="pri">Сказал верно</button></div>':'<div class="btns"><button id="next" class="pri">Дальше →</button></div>'}
+}
 }else if(s=='mark'){
 var it=Q.it;
 h+='<div class="lbl">Поставь глагол в нужное время</div><div class="sent">'+sentH(it.s,{h:it.h})+'</div><div class="ru">'+esc(it.ru)+'</div>'+
-'<div id="hint"></div><div class="fld"><input id="ans" enterkeyhint="done" placeholder="Форма глагола" '+INP+'></div>'+btnsTyped().replace('<button id="skip">Не знаю</button>','<button id="skip">Не знаю</button><button data-a="hint">Подсказка</button>');
+'<div id="hint"></div><div class="fld"><input id="ans" enterkeyhint="done" placeholder="Форма глагола" '+INP+'></div>'+btnsTyped('<button data-a="hint">Подсказка</button>');
 }else if(s=='type'){
 var x=Q.x,i=Q.i;
 h+='<div class="lbl">Напиши фразу по-английски</div><div class="sent" style="color:'+KD[i&3][1]+'">'+tname(i)+'</div><div class="ru">'+FMN[Q.f]+' · <b>'+Q.p+'</b> · '+x.v+' — '+x.ru+'</div><div class="g">Смысл: '+gl(Q.f,i,x.v)+'</div>'+
@@ -769,108 +970,213 @@ h+='<div class="opts">'+Q.opts.map(function(j){return '<button data-j="'+j+'" cl
 }
 h+='<div id="res"></div>';
 }
-h+='</div><div id="qst">'+statQ()+'</div>';
-$('#out-q').innerHTML=h;
+h+='</div><div id="qst">'+footHTML()+'</div>';
+OUT().innerHTML=h;
 }
 function drawDone(d){
-var s=deckStat(d),free=ses.free[d];
-$('#out-q').innerHTML='<div class="card"><div class="big">На сегодня всё 🎉</div><div class="g" style="margin-top:10px">'+
+var s=deckStat(d);
+OUT().innerHTML='<div class="card"><div class="big">На сегодня всё 🎉</div><div class="g" style="margin-top:10px">'+
 (s.nw?'Повторения сделаны, лимит новых карточек на сегодня исчерпан.':'Повторения сделаны, новых карточек в этом наборе не осталось.')+' Завтра к повторению: '+s.tm+'.</div>'+
 '<div class="btns">'+(s.nw?'<button data-a="more">+10 новых</button>':'')+'<button data-a="free" class="pri">Свободная тренировка</button></div></div><div id="qst">'+statSRS(d)+'</div>';
 }
 
-function after(ok){ses.sc[Q.m][1]++;if(ok)ses.sc[Q.m][0]++;Q.done=1;drawDay()}
+/* ---------- ответы ---------- */
+function after(ok,you){
+var k=Q.ses?null:(st.qm=='e'?'e':Q.m);
+if(k&&ses.sc[k]){ses.sc[k][1]++;if(ok)ses.sc[k][0]++}
+if(Q.ses){SS.all++;if(ok)SS.ok++;
+if(!ok&&!Q.retry&&!Q.err&&(Q.m=='f'||Q.m=='c'))SS.plan.splice(Math.min(SS.i+4,SS.plan.length),0,{m:Q.m,sub:Q.m=='f'?'type':'fill',id:Q.id,retry:1});}
+Q.done=1;tick();result(ok,you);save();drawDay();
+if(st.tab=='q'){var eb=$('#qm [data-m=e]');if(eb)eb.innerHTML='Ошибки'+(st.err.length?' <span class="tg">'+st.err.length+'</span>':'')}
+}
 function tsAdd(i,ok){var s=st.ts[i]||[0,0];s[1]++;if(ok)s[0]++;st.ts[i]=s;for(var n=0;n<12;n++)if(!st.ts[n])st.ts[n]=[0,0];save()}
-function markDone(){$('#chk').textContent='Дальше →';var sk=$('#skip');if(sk)sk.style.visibility='hidden';var hb=$('#out-q [data-a=hint]');if(hb)hb.style.display='none';$('#qst').innerHTML=statQ()}
+function markDone(){var c=E('chk');if(c)c.textContent='Дальше →';var sk=E('skip');if(sk)sk.style.visibility='hidden';var hb=OUT().querySelector('.btns [data-a=hint]');if(hb)hb.style.display='none';E('qst').innerHTML=footHTML()}
 
 function checkF(give){
-var x=Q.x,a2=$('#a2'),a3=$('#a3');
+var x=Q.x,a2=E('a2'),a3=E('a3');
 if(!give&&!a2.value.trim()&&!a3.value.trim()){a2.focus();return}
-var spl=function(s){return s.toLowerCase().split('/')};
-var okA=function(inp,ans){var al=spl(ans),ps=norm(inp).split(/[\s\/]+/).filter(Boolean);return ps.length>0&&ps.every(function(p){return al.indexOf(p)>-1})};
-var o2=!give&&okA(a2.value.replace(/,/g,' '),x.p2),o3=!give&&okA(a3.value.replace(/,/g,' '),x.p3),ok=o2&&o3,was=learned(x.v);
-[[a2,o2,'#f2',x.p2],[a3,o3,'#f3',x.p3]].forEach(function(z){z[0].classList.add(z[1]?'good':'bad');z[0].readOnly=true;z[0].blur();$(z[2]).textContent=z[1]?'':'→ '+z[3]});
-grade('f',Q.id,ok);after(ok);
-$('#res').innerHTML='<div class="exp"><span class="'+(ok?'okt':'badt')+'">'+(ok?(!was&&learned(x.v)?'Верно! Глагол выучен ✓':'Верно!'):'Запомни:')+'</span><div class="f mono"><span class="k1">'+x.v+'</span> – <span class="k2">'+x.p2+'</span> – <span class="k3">'+x.p3+'</span></div>'+goalLine()+'</div>';
+var okA=function(inp,ans){var al=ans.toLowerCase().split('/'),ps=norm(inp.replace(/,/g,' ')).split(/[\s\/]+/).filter(Boolean);return ps.length>0&&ps.every(function(p){return al.indexOf(p)>-1})};
+var o2=!give&&okA(a2.value,x.p2),o3=!give&&okA(a3.value,x.p3),ok=o2&&o3,was=learned(x.v);
+[[a2,o2,'f2',x.p2],[a3,o3,'f3',x.p3]].forEach(function(z){z[0].classList.add(z[1]?'good':'bad');z[0].readOnly=true;z[0].blur();E(z[2]).textContent=z[1]?'':'→ '+z[3]});
+grade('f',Q.id,ok);after(ok,give?'не знаю':(a2.value.trim()||'—')+' / '+(a3.value.trim()||'—'));
+E('res').innerHTML='<div class="exp"><span class="'+(ok?'okt':'badt')+'">'+(ok?(!was&&learned(x.v)?'Верно! Глагол выучен ✓':'Верно!'):'Запомни:')+'</span><div class="f mono"><span class="k1">'+x.v+'</span> – <span class="k2">'+x.p2+'</span> – <span class="k3">'+x.p3+'</span></div>'+fixedLine()+goalLine()+'</div>';
 markDone();sayForms(x);
 }
 function checkQ(give){
 if(Q.done)return;
 if(Q.m=='f'){checkF(give);return}
-var inp=$('#ans'),v=inp.value;
+var inp=E('ans'),v=inp.value;
 if(!give&&!v.trim()){inp.focus();return}
 var ok=!give&&sameAns(v,Q.answers);
 inp.classList.add(ok?'good':'bad');inp.readOnly=true;inp.blur();
-if(Q.m=='c')grade('c',Q.id,ok);else{tsAdd(Q.ti,ok);tick();save()}
-after(ok);
+if(Q.m=='c')grade('c',Q.id,ok);else if(Q.m=='t')tsAdd(Q.ti,ok);
+after(ok,give?'не знаю':v.trim());
 var head='<span class="'+(ok?'okt':'badt')+'">'+(ok?'Верно!':(give?'Ответ:':'Правильно:'))+'</span>',body='';
 if(Q.m=='c'){var e=Q.e;body='<div class="f">'+sentH(e.s,{fill:e.a[0]})+'</div><div class="formula mono">'+fml(e.c.f)+'</div><div class="g">'+esc(e.c.ru)+'. '+esc(e.c.n)+'</div>'}
+else if(Q.m=='d'){body='<div class="f">'+(ok||give?esc(Q.full):diffH(Q.full,v))+'</div><div class="g">'+esc(Q.s.ru)+'</div>'+(ok||give?'':'<div class="g">Красным — слова, которые ты пропустил или написал иначе.</div>')}
 else if(Q.sub=='mark'){var it=Q.it,mk=it.m.length?it.m:[it.mh];body='<div class="f">'+sentH(it.s,{fill:it.a[0],mk:it.m})+'</div><div class="g">Маркер «'+esc(mk.join(' … '))+'» → <b style="color:'+KD[it.t&3][1]+'">'+tname(it.t)+'</b>: '+G.a[it.t]+'.</div>'}
 else{var b=build(Q.f,Q.i,Q.p,Q.x.v);body='<div class="f mono">'+fh(b,KD[Q.i&3][1],tag(Q.f,Q.i,Q.p,Q.x.v))+'</div><div class="g">'+tname(Q.i)+' — '+gl(Q.f,Q.i,Q.x.v)+'</div>'}
 if(!ok&&!give)body+='<div class="g">Твой ответ: <span class="mono" style="color:var(--bad)">'+esc(v)+'</span></div>';
-$('#res').innerHTML='<div class="exp">'+head+body+goalLine()+'</div>';
+E('res').innerHTML='<div class="exp">'+head+body+fixedLine()+goalLine()+'</div>';
 markDone();say(Q.full);
 }
 function gradeCard(ok){
 if(Q.done||!Q.shown)return;
-var was=isLearned(Q.id);grade(Q.m,Q.id,ok);after(ok);
-Q.res='<div class="exp" style="border:0;padding-top:0;margin-top:10px"><span class="'+(ok?'okt':'badt')+'">'+(ok?(!was&&isLearned(Q.id)?'Отлично! Карточка выучена ✓':'Отлично!'):'Вернётся через пару карточек.')+'</span>'+goalLine()+'</div>';
+if(Q.m=='say'){after(ok,ok?'':'не получилось');Q.res='<div class="exp"><span class="'+(ok?'okt':'badt')+'">'+(ok?'Отлично!':'Повтори вслух ещё пару раз:')+'</span><div class="f">'+esc(Q.full)+'</div>'+goalLine()+'</div>';drawQ();return}
+var was=isLearned(Q.id);grade(Q.m,Q.id,ok);after(ok,ok?'':'не вспомнил');
+Q.res='<div class="exp" style="border:0;padding-top:0;margin-top:10px"><span class="'+(ok?'okt':'badt')+'">'+(ok?(!was&&isLearned(Q.id)?'Отлично! Карточка выучена ✓':'Отлично!'):'Вернётся через пару заданий.')+'</span>'+fixedLine()+goalLine()+'</div>';
 drawQ();
 }
 function showCard(){if(Q.shown)return;Q.shown=1;drawQ();if(Q.m=='f')sayForms(Q.x);else say(Q.full)}
 function answerT(j){
 if(Q.done)return;
 var ok=j==Q.i,x=Q.x,b=build(Q.f,Q.i,Q.p,x.v);
-[].forEach.call(document.querySelectorAll('#out-q [data-j]'),function(el){var k=+el.getAttribute('data-j');if(k==Q.i)el.classList.add('good');else if(k==j)el.classList.add('bad');el.disabled=true});
-tsAdd(Q.i,ok);tick();save();after(ok);
+[].forEach.call(OUT().querySelectorAll('[data-j]'),function(el){var k=+el.getAttribute('data-j');if(k==Q.i)el.classList.add('good');else if(k==j)el.classList.add('bad');el.disabled=true});
+tsAdd(Q.i,ok);after(ok,Q.type=='A'?tname(j):plain(build(Q.f,j,Q.p,x.v)));
 var alsoSame=Q.same.filter(function(k){return k!=Q.i});
-$('#res').innerHTML='<div class="exp"><span class="'+(ok?'okt':'badt')+'">'+(ok?'Верно!':'Не совсем.')+'</span>'+
+E('res').innerHTML='<div class="exp"><span class="'+(ok?'okt':'badt')+'">'+(ok?'Верно!':'Не совсем.')+'</span>'+
 '<div class="f mono">'+fh(b,KD[Q.i&3][1],tag(Q.f,Q.i,Q.p,x.v))+'</div>'+
 '<div class="g">'+tname(Q.i)+' — '+gl(Q.f,Q.i,x.v)+'</div>'+
 (alsoSame.length?'<div class="g">С этим глаголом точно так же выглядит '+alsoSame.map(tname).join(', ')+' — различай по контексту.</div>':'')+
-goalLine()+'</div><div class="btns"><button id="next" class="pri">Дальше →</button></div>';
-$('#qst').innerHTML=statT();
+fixedLine()+goalLine()+'</div><div class="btns"><button id="next" class="pri">Дальше →</button></div>';
+E('qst').innerHTML=footHTML();
 say(plain(b));
 }
-function nextQ(){newQ();drawQ();window.scrollTo(0,0);var a=$('#a2')||$('#ans');if(a)a.focus()}
+function doMic(){
+var b=E('micb');if(b){b.textContent='🎙 Слушаю… говори';b.disabled=true}
+Q.merr='';
+listen(function(alts,err){
+if(err){Q.merr=micErr(err);drawQ();return}
+var best=alts[0],ok=false;
+for(var i=0;i<alts.length;i++)if(sameAns(alts[i],Q.answers)||sim(alts[i],Q.full)>=.85){ok=true;best=alts[i];break}
+Q.heard=best;
+var first=!Q.done;
+if(first)after(ok,best);
+Q.res='<div class="exp"><span class="'+(ok?'okt':'badt')+'">'+(ok?'Отлично, тебя понятно!':'Не совсем. Послушай и повтори:')+'</span><div class="f">'+(ok?esc(Q.full):diffH(Q.full,best))+'</div>'+(first?goalLine():'')+'</div>';
+drawQ();
+if(!ok)say(Q.full);
+});
+}
+function doIntro(){
+var t=today();
+if(!st.srs[Q.id]){st.srs[Q.id]={b:0,d:t};nt(Q.m).n++}
+if(Q.ses)SS.plan.splice(Math.min(SS.i+4,SS.plan.length),0,{m:Q.m,sub:Q.m=='f'?'type':'fill',id:Q.id,retry:1});
+save();Q.done=1;nextQ();
+}
+function focusIn(){var a=E('a2')||E('ans');if(a)a.focus()}
+function nextQ(){
+if(Q&&Q.ses){advance();window.scrollTo(0,0);return}
+newQ();drawQ();window.scrollTo(0,0);focusIn();
+}
 
-$('#out-q').addEventListener('click',function(e){
+function qClick(e){
 var b=e.target.closest('button');if(!b)return;
 var a=b.getAttribute('data-a');
+if(a=='start'||a=='again'){startSession();return}
+if(a=='endses'){SS.over=1;Q=null;drawSummary();return}
+if(a=='toerr'){st.qm='e';TQ=null;go('q');return}
+if(!Q)return;
 if(b.id=='chk'){if(Q.done)nextQ();else checkQ(false)}
 else if(b.id=='skip')checkQ(true);
 else if(b.id=='next')nextQ();
 else if(b.hasAttribute('data-j'))answerT(+b.getAttribute('data-j'));
 else if(b.hasAttribute('data-g'))gradeCard(b.getAttribute('data-g')=='1');
 else if(a=='show')showCard();
+else if(a=='intro')doIntro();
+else if(a=='mic')doMic();
+else if(a=='skipsay'){after(false,'не знаю');Q.res='<div class="exp"><span class="badt">Ответ:</span><div class="f">'+esc(Q.full)+'</div><div class="g">Послушай и повтори вслух, потом нажми «Ещё раз».</div></div>';drawQ();say(Q.full)}
+else if(a=='play')say(Q.full);
+else if(a=='slow'){if(TTS){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(Q.full);u.lang='en-US';u.rate=.55;if(voice)u.voice=voice;speechSynthesis.speak(u)}catch(err){}}}
 else if(a=='sayv'){if(Q.done||Q.shown)sayForms(Q.x);else say(Q.x.v)}
 else if(a=='sayc')say(Q.full);
 else if(a=='hint'){
 Q.hint=1;
-if(Q.m=='c'&&Q.sub=='card'){drawQ();return}
-var hEl=$('#hint');if(hEl)hEl.innerHTML=Q.m=='c'?'<div class="formula mono">'+fml(Q.e.c.f)+'</div>':'<div class="formula" style="color:'+KD[Q.ti&3][1]+'">'+tname(Q.ti)+'</div>';
-b.style.display='none';var inp=$('#ans');if(inp)inp.focus();
+if((Q.m=='c'&&Q.sub=='card')||Q.m=='say'){drawQ();return}
+var hEl=E('hint');if(hEl)hEl.innerHTML=Q.m=='c'?'<div class="formula mono">'+fml(Q.e.c.f)+'</div>':'<div class="formula" style="color:'+KD[Q.ti&3][1]+'">'+tname(Q.ti)+'</div>';
+b.style.display='none';focusIn();
 }
 else if(a=='more'){nt(Q.m).lim+=10;save();Q=null;renderQ()}
 else if(a=='free'){ses.free[Q.m]=1;Q=null;renderQ()}
 else if(a=='unfree'){ses.free[Q.m]=0;Q=null;renderQ()}
-});
-$('#out-q').addEventListener('keydown',function(e){
+}
+function qKey(e){
 if(e.key!='Enter'||!Q||Q.done)return;
 var id=e.target.id;
-if(id=='a2'){e.preventDefault();e.stopPropagation();$('#a3').focus()}
+if(id=='a2'){e.preventDefault();e.stopPropagation();E('a3').focus()}
 else if(id=='a3'||id=='ans'){e.preventDefault();e.stopPropagation();checkQ(false)}
-});
+}
+['#out-q','#out-s'].forEach(function(s){$(s).addEventListener('click',qClick);$(s).addEventListener('keydown',qKey)});
 document.addEventListener('keydown',function(e){
-if(st.tab!='q'||!Q||sheet.classList.contains('on'))return;
+if((st.tab!='q'&&st.tab!='s')||!Q||sheet.classList.contains('on'))return;
 if(e.target.tagName=='INPUT'&&!e.target.readOnly)return;
-if(e.target.tagName=='SELECT')return;
-var card=(Q.m=='f'||Q.m=='c')&&Q.sub=='card'&&Q.id;
-if(Q.done&&e.key=='Enter'){e.preventDefault();nextQ()}
-else if(card&&!Q.shown&&(e.key=='Enter'||e.key==' ')){e.preventDefault();showCard()}
+if(e.target.tagName=='SELECT'||e.target.tagName=='BUTTON'&&e.key==' ')return;
+var card=(Q.m=='f'||Q.m=='c')&&Q.sub=='card'&&Q.id&&!Q.intro;
+if(Q.intro&&e.key=='Enter'){e.preventDefault();doIntro()}
+else if(Q.done&&e.key=='Enter'){e.preventDefault();nextQ()}
+else if(card&&!Q.shown&&e.key=='Enter'){e.preventDefault();showCard()}
 else if(card&&Q.shown&&!Q.done&&(e.key=='1'||e.key=='2'))gradeCard(e.key=='2');
 else if(!Q.done&&Q.m=='t'&&Q.sub=='choose'&&/^[1-4]$/.test(e.key))answerT(Q.opts[+e.key-1]);
 });
+
+/* =========== СЕГОДНЯ: занятие =========== */
+function kindOf(x){return x.m}
+function interleave(a){
+shuffle(a);
+for(var r=0;r<3;r++)for(var i=1;i<a.length;i++)if(kindOf(a[i])==kindOf(a[i-1]))for(var j=i+1;j<a.length;j++)if(kindOf(a[j])!=kindOf(a[i-1])){var t=a[i];a[i]=a[j];a[j]=t;break}
+return a;
+}
+function buildPlan(){
+var t=today(),plan=[],cf=ses.cf;ses.cf=null;
+var due=function(d,n){return shuffle(deckIds(d).filter(function(id){var r=st.srs[id];return r&&r.d<=t})).slice(0,n)};
+var fresh=function(d,n){var o=nt(d);return deckIds(d).filter(function(id){return !st.srs[id]}).slice(0,Math.max(0,Math.min(n,o.lim-o.n)))};
+due('f',3).forEach(function(id){plan.push({m:'f',sub:'type',id:id})});
+due('c',3).forEach(function(id){plan.push({m:'c',sub:'fill',id:id})});
+fresh('f',2).forEach(function(id){plan.push({m:'f',id:id,intro:1})});
+fresh('c',2).forEach(function(id){plan.push({m:'c',id:id,intro:1})});
+ses.cf=cf;
+var dueKeys={};plan.forEach(function(p){if(p.id)dueKeys[p.id]=1});
+st.err.filter(function(e){return errSpec(e)&&!(e.kind=='f'&&dueKeys['f:'+e.ref.v])&&!(e.kind=='c'&&dueKeys[e.ref.id])}).sort(function(a,b){return a.d-b.d}).slice(0,3).forEach(function(e){plan.push({m:'e',key:e.key})});
+var sp=sentPool();
+if(TTS)shuffle(sp.slice()).slice(0,2).forEach(function(s){plan.push({m:'d',s:s.key})});
+var seenS=sp.filter(function(s){return st.srs[s.key]}),src=seenS.length>=2?seenS:sp;
+shuffle(src.slice()).slice(0,2).forEach(function(s){plan.push({m:'say',s:s.key})});
+['mark','type','choose'].forEach(function(s){plan.push({m:'t',sub:s})});
+while(plan.length<12)plan.push({m:'t',sub:['mark','type','choose'][rnd(3)]});
+plan=interleave(plan);
+/* знакомство с новым — ближе к началу */
+plan.sort(function(a,b){return (b.intro?1:0)-(a.intro?1:0)});
+var intros=plan.filter(function(p){return p.intro}),rest=plan.filter(function(p){return !p.intro}),out=[];
+while(intros.length||rest.length){if(intros.length)out.push(intros.shift());if(rest.length)out.push(rest.shift());if(rest.length&&!intros.length)out=out.concat(rest.splice(0))}
+return out;
+}
+function startSession(){SS={plan:SPEND||buildPlan(),i:-1,ok:0,all:0,added:0};SPEND=null;advance()}
+function advance(){
+while(++SS.i<SS.plan.length){var q=makeQ(SS.plan[SS.i]);if(q&&!((q.m=='f'||q.m=='c')&&!q.id)){q.ses=1;Q=q;drawQ();if(Q.m=='d')say(Q.full);focusIn();return}}
+SS.over=1;Q=null;drawSummary();
+}
+function drawSummary(){
+var n=dayN(),s=streakNow();
+$('#out-s').innerHTML='<div class="card"><div class="big">Занятие закончено 🎉</div><div class="g" style="margin-top:10px">Верно: <b style="color:var(--tx)">'+SS.ok+' из '+SS.all+'</b>.<br>'+
+(SS.added?'Новых ошибок в журнале: '+SS.added+'. Они вернутся в следующих занятиях, пока не закрепятся.':'Новых ошибок нет — отлично!')+'<br>Сегодня: '+n+' из '+GOAL+(n>=GOAL?' ✓':'')+' · 🔥 '+s+' '+plural(s,DW)+' подряд.</div>'+
+'<div class="btns">'+(st.err.length?'<button data-a="toerr">Разобрать ошибки</button>':'')+'<button data-a="again" class="pri">Ещё занятие</button></div></div>';
+}
+function renderS(){
+$('#slv').innerHTML='<span class="lab">Мой уровень</span>'+['A1','A2','B1'].map(function(l){return '<button data-lv="'+l+'" class="'+(st.level==l?'on':'')+'">'+(l=='B1'?'B1+':l)+'</button>'}).join('');
+drawDay();
+if(SS&&!SS.over&&Q&&Q.ses){drawQ();return}
+if(SS&&SS.over){drawSummary();return}
+var p=SPEND=buildPlan(),c={rv:0,nw:0,e:0,t:0,d:0,say:0};
+p.forEach(function(x){if(x.m=='f'||x.m=='c')c[x.intro?'nw':'rv']++;else c[x.m]++});
+var items=[['🔁','повторить',c.rv],['✨','новое',c.nw],['⚠️','ошибки',c.e],['◷','времена',c.t],['🎧','диктант',c.d],['🎤','говорение',c.say]].filter(function(x){return x[2]});
+var h='<div class="card"><div class="lbl">'+(dayN()>=GOAL?'Цель на сегодня выполнена ✓ — можно ещё':'Занятие на сегодня · примерно 10 минут')+'</div><div class="big" style="margin-top:6px">'+p.length+' '+plural(p.length,['задание','задания','заданий'])+'</div>'+
+'<div class="plan">'+items.map(function(x){return '<span>'+x[0]+' '+x[1]+': <b>'+x[2]+'</b></span>'}).join('')+'</div>'+
+'<div class="btns"><button data-a="start" class="pri">▶ Начать</button></div></div>';
+if(st.err.length)h+='<div class="card"><div class="qh"><div><div class="lbl">Журнал ошибок</div><div class="sent" style="margin-top:4px">'+st.err.length+' '+plural(st.err.length,['задание','задания','заданий'])+'</div></div><button data-a="toerr">Разобрать →</button></div></div>';
+h+='<div class="card"><div class="lbl">Уровень '+(st.level=='B1'?'B1+':st.level)+'</div><div class="g" style="margin-top:6px">'+LC().d+'</div></div>';
+h+='<div class="card"><div class="lbl">Как заниматься</div><ul class="tips"><li>Произноси каждый ответ вслух — даже когда печатаешь.</li><li>Лучше 10 минут каждый день, чем час раз в неделю.</li><li>Ошибки — это нормально: они попадают в журнал и возвращаются, пока не закрепятся.</li><li>Слушай английский каждый день: 10–15 минут простых видео или подкастов для начинающих.</li></ul></div>';
+$('#out-s').innerHTML=h;
+}
+$('#slv').addEventListener('click',function(e){var b=e.target.closest('[data-lv]');if(!b)return;st.level=b.getAttribute('data-lv');st.lvl=LEVELS[st.level].f;SPEND=null;TQ=null;if(SS&&SS.over)SS=null;save();renderS()});
 
 go(st.tab);
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
