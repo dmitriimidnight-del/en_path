@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" href="icons/favicon.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<title>EN Path — глаголы и времена</title>
+<title>EN Path — глаголы, времена, конструкции</title>
 <style>
 :root{--bg:#0c0d12;--bg2:#161821;--bg3:#222536;--line:#262938;--line2:#6f7390;--tx:#e8e8ee;--tx2:#8a8da0;--s:#6ea0ff;--c:#5fd39a;--p:#f0b45a;--pc:#b693f5;--ok:#5fd39a;--bad:#ff7a7a;--nav:58px}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -25,27 +25,26 @@ button{font:inherit;font-size:13px;color:var(--tx2);background:var(--bg2);border
 button.on{color:var(--tx);border-color:var(--line2);background:var(--bg3)}
 input{font:inherit;font-size:16px;color:var(--tx);background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:11px 12px;min-width:0;width:100%}
 input:focus{outline:none;border-color:var(--line2)}
+select{font:inherit;font-size:13px;color:var(--tx);background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:0 8px;min-width:0}
 .sr{display:flex;gap:8px}.sr input{flex:1}
-.seg{display:flex;gap:6px;margin-top:8px}.seg button{flex:1;padding:9px 0}
+.seg{display:flex;gap:6px;margin-top:8px}.seg button{flex:1;padding:9px 0;min-width:0}
 .cnt{font-size:12px;color:var(--tx2);margin-top:8px}
 .tg{font-size:11px;font-weight:400;color:var(--tx2)}
-.k1{color:var(--s)}.k2{color:var(--c)}.k3{color:var(--p)}
+.k1{color:var(--s)}.k2{color:var(--c)}.k3{color:var(--p)}.k4{color:var(--pc)}
 .g{font-size:13px;color:var(--tx2);margin-top:3px;line-height:1.4}
 .empty{padding:32px 0;color:var(--tx2);font-size:14px}
 .empty button{margin-top:12px;color:var(--tx)}
 
-/* nav */
 nav{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;background:rgba(12,13,18,.96);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-nav button{flex:1;height:var(--nav);border:0;border-radius:0;background:none;font-size:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+nav button{flex:1;height:var(--nav);border:0;border-radius:0;background:none;font-size:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0}
 nav button b{font-size:19px;font-weight:400;line-height:1}
 nav button.on{color:var(--tx);background:none}
 nav button.on b{color:var(--s)}
 
-/* verbs */
 .row{padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer}
 .row .f{font-size:16px;font-weight:600}
 .row .f i{font-style:normal;color:var(--tx2);font-weight:400}
-.ru{font-size:13px;color:var(--tx2);margin-top:2px}
+.ru{font-size:13px;color:var(--tx2);margin-top:2px;line-height:1.35}
 .okm{color:var(--ok);font-size:12px;margin-left:8px;font-weight:400}
 .ex{display:none;margin-top:8px;font-size:14px}
 .ex .m span{color:var(--tx2);font-size:11px}
@@ -54,7 +53,6 @@ nav button.on b{color:var(--s)}
 .row.o .ex{display:block}
 .learn .row:not(.o) .k2,.learn .row:not(.o) .k3{filter:blur(7px)}
 
-/* tenses */
 .pr{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
 .pr button,.fm button{padding:10px 0;font-size:14px}
 .pr button{font-family:ui-monospace,Menlo,Consolas,monospace}
@@ -72,20 +70,28 @@ nav button.on b{color:var(--s)}
 .ln{display:flex;gap:10px;align-items:baseline;margin:3px 0}
 .ln .t{width:34px;flex:none;font-size:11px;color:var(--tx2)}
 .ln .f{font-size:16px}
+.mk{font-size:12px;color:var(--tx2);margin-top:4px}
+.mk b{color:var(--p);font-weight:400}
 .hint{font-size:12px;color:var(--tx2);margin-top:12px}
 
-/* picker */
 .sheet{position:fixed;inset:0;z-index:30;background:var(--bg);display:none;flex-direction:column}
 .sheet.on{display:flex}
 .sheet .hd{padding:calc(env(safe-area-inset-top,0px) + 12px) 14px 10px;border-bottom:1px solid var(--line);display:flex;gap:8px}
 .sheet .ls{flex:1;overflow:auto;padding:0 14px calc(env(safe-area-inset-bottom,0px) + 20px)}
 .sheet .row.cur{background:var(--bg2);margin:0 -14px;padding-left:14px;padding-right:14px}
 
-/* trainer */
+.cf{font-size:16px;font-weight:600}
+.prog{font-size:11px;color:var(--tx2);margin-left:8px;font-weight:400;font-family:system-ui,sans-serif}
+.prog.done{color:var(--ok)}
+.exl{padding:9px 0 2px;border-top:1px dashed var(--line);margin-top:8px;cursor:pointer}
+.exl .en{font-size:15px}
+.cx{color:var(--pc)}
+
 .card{margin-top:16px;padding:18px 16px;background:var(--bg2);border:1px solid var(--line);border-radius:12px}
 .qh{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .big{font-size:30px;font-weight:600;line-height:1.1}
-.sent{font-size:20px;font-weight:600;margin-top:8px;line-height:1.35}
+.sent{font-size:20px;font-weight:600;margin-top:8px;line-height:1.4}
+.sent.ruq{font-weight:500}
 .lbl{font-size:12px;color:var(--tx2)}
 .ic{font-size:18px;padding:6px 10px}
 .fld{display:flex;flex-direction:column;gap:5px;margin-top:14px}
@@ -95,16 +101,28 @@ nav button.on b{color:var(--s)}
 .fix{font-size:14px;color:var(--ok);min-height:18px;margin-top:4px;font-family:ui-monospace,Menlo,Consolas,monospace}
 .btns{display:flex;gap:8px;margin-top:16px}.btns button{flex:1;padding:13px 0;font-size:15px}
 button.pri{color:#0c0d12;background:var(--s);border-color:var(--s);font-weight:600}
+button.neg{color:var(--bad);border-color:rgba(255,122,122,.45)}
 .opts{display:grid;gap:8px;margin-top:16px}
 .opts button{text-align:left;padding:13px 12px;font-size:15px;color:var(--tx)}
 .opts button.good{border-color:var(--ok);background:rgba(95,211,154,.12)}
 .opts button.bad{border-color:var(--bad);background:rgba(255,122,122,.12)}
 .opts button:disabled{cursor:default}
 .exp{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
-.exp .f{font-size:17px;font-weight:600;margin-top:6px}
+.exp .f{font-size:17px;font-weight:600;margin-top:6px;line-height:1.4}
 .okt{color:var(--ok);font-weight:600}.badt{color:var(--bad);font-weight:600}
-.stat{display:flex;justify-content:space-between;font-size:12px;color:var(--tx2);margin-top:12px}
+.blank{display:inline-block;min-width:4.5em;border-bottom:2px solid var(--line2);color:var(--tx)}
+.fill{color:var(--pc)}
+.hn{color:var(--tx2);font-weight:400;font-size:.8em}
+.mkh{color:var(--p);background:rgba(240,180,90,.14);border-radius:4px;padding:0 3px}
+.formula{display:inline-block;margin-top:10px;padding:4px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px}
+.stat{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:var(--tx2);margin-top:12px}
 .bar{height:4px;background:var(--line);border-radius:2px;margin-top:8px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ok);transition:width .3s}
+.bar.thin{height:3px;margin-top:6px}
+.day{display:flex;justify-content:space-between;font-size:12px;color:var(--tx2);margin-top:9px}
+.day b{color:var(--tx);font-weight:600}
+.chipf{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;font-size:12px;color:var(--tx2)}
+.chipf button{padding:5px 10px;font-size:12px}
+.goal{margin-top:10px;color:var(--p);font-weight:600}
 .tsg{display:grid;grid-template-columns:44px repeat(4,1fr);gap:4px;margin-top:18px;font-size:12px}
 .tsg div{padding:7px 4px;text-align:center;border-radius:6px}
 .tsg .h{color:var(--tx2);padding:2px 4px}
@@ -132,10 +150,20 @@ button.pri{color:#0c0d12;background:var(--s);border-color:var(--s);font-weight:6
 <main id="out-t"></main>
 </section>
 
+<section id="s-c">
+<header>
+<div class="sr"><input id="qc" type="search" placeholder="Поиск: used to, привык, если бы" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+<div class="cnt" id="cnt-c"></div>
+</header>
+<main id="out-c"></main>
+</section>
+
 <section id="s-q">
 <header>
-<div class="seg" style="margin-top:0"><button id="qm-f">Формы глаголов</button><button id="qm-t">Времена</button></div>
-<div class="seg" id="lvl"></div>
+<div class="seg" id="qm" style="margin-top:0"></div>
+<div class="seg" id="qsub"></div>
+<div id="qf"></div>
+<div id="qday"></div>
 </header>
 <main id="out-q"></main>
 </section>
@@ -145,14 +173,163 @@ button.pri{color:#0c0d12;background:var(--s);border-color:var(--s);font-weight:6
 <div class="ls" id="ls"></div>
 </div>
 
-<nav><button data-t="v"><b>≡</b>Глаголы</button><button data-t="t"><b>◷</b>Времена</button><button data-t="q"><b>✎</b>Тренажёр</button></nav>
+<nav><button data-t="v"><b>≡</b>Глаголы</button><button data-t="t"><b>◷</b>Времена</button><button data-t="c"><b>❏</b>Конструкции</button><button data-t="q"><b>✎</b>Тренажёр</button></nav>
 
 <script>
 "use strict";
-var D="be|was/were|been|быть\nbecome|became|become|становиться\nbegin|began|begun|начинать\nbite|bit|bitten|кусать\nblow|blew|blown|дуть\nbreak|broke|broken|ломать\nbring|brought|brought|приносить\nbuild|built|built|строить\nbuy|bought|bought|покупать\ncatch|caught|caught|ловить\nchoose|chose|chosen|выбирать\ncome|came|come|приходить\ncost|cost|cost|стоить\ncut|cut|cut|резать\ndo|did|done|делать\ndraw|drew|drawn|рисовать\ndrink|drank|drunk|пить\ndrive|drove|driven|водить машину\neat|ate|eaten|есть, кушать\nfall|fell|fallen|падать\nfeel|felt|felt|чувствовать\nfight|fought|fought|драться, бороться\nfind|found|found|находить\nfly|flew|flown|летать\nforget|forgot|forgotten|забывать\nforgive|forgave|forgiven|прощать\nget|got|got|получать, становиться\ngive|gave|given|давать\ngo|went|gone|идти, ехать\ngrow|grew|grown|расти, выращивать\nhang|hung|hung|вешать\nhave|had|had|иметь\nhear|heard|heard|слышать\nhide|hid|hidden|прятать\nhit|hit|hit|ударять\nhold|held|held|держать\nhurt|hurt|hurt|причинять боль\nkeep|kept|kept|хранить, держать\nknow|knew|known|знать\nlay|laid|laid|класть\nlead|led|led|вести\nleave|left|left|покидать, оставлять\nlend|lent|lent|одалживать\nlet|let|let|позволять\nlie|lay|lain|лежать\nlose|lost|lost|терять, проигрывать\nmake|made|made|делать, создавать\nmean|meant|meant|значить\nmeet|met|met|встречать\npay|paid|paid|платить\nput|put|put|класть, ставить\nquit|quit|quit|бросать\nread|read|read|читать\nride|rode|ridden|ездить верхом\nring|rang|rung|звонить\nrise|rose|risen|подниматься\nrun|ran|run|бегать\nsay|said|said|говорить, сказать\nsee|saw|seen|видеть\nsell|sold|sold|продавать\nsend|sent|sent|отправлять\nset|set|set|ставить, устанавливать\nshine|shone|shone|светить\nshoot|shot|shot|стрелять\nshow|showed|shown|показывать\nshut|shut|shut|закрывать\nsing|sang|sung|петь\nsit|sat|sat|сидеть\nsleep|slept|slept|спать\nspeak|spoke|spoken|говорить, разговаривать\nspend|spent|spent|тратить\nspread|spread|spread|распространять\nstand|stood|stood|стоять\nsteal|stole|stolen|красть\nswim|swam|swum|плавать\ntake|took|taken|брать\nteach|taught|taught|преподавать\ntear|tore|torn|рвать\ntell|told|told|рассказывать\nthink|thought|thought|думать\nthrow|threw|thrown|бросать\nunderstand|understood|understood|понимать\nwake|woke|woken|просыпаться\nwear|wore|worn|носить (одежду)\nwin|won|won|выигрывать\nwrite|wrote|written|писать\narise|arose|arisen|возникать\nawake|awoke|awoken|просыпаться, будить\nbear|bore|borne|нести, терпеть\nbeat|beat|beaten|бить, побеждать\nbend|bent|bent|гнуть, сгибать\nbet|bet|bet|держать пари\nbid|bid|bid|предлагать цену\nbind|bound|bound|связывать\nbleed|bled|bled|кровоточить\nburst|burst|burst|лопаться\ncast|cast|cast|бросать, отливать\ndeal|dealt|dealt|иметь дело\ndig|dug|dug|копать\nfeed|fed|fed|кормить\nflee|fled|fled|убегать\nforbid|forbade|forbidden|запрещать\nfreeze|froze|frozen|замерзать\nlight|lit|lit|зажигать\nmistake|mistook|mistaken|ошибаться\nseek|sought|sought|искать\nshake|shook|shaken|трясти\nshed|shed|shed|проливать, сбрасывать\nshrink|shrank|shrunk|сжиматься\nsink|sank|sunk|тонуть\nslide|slid|slid|скользить\nspit|spat|spat|плевать\nsplit|split|split|раскалывать\nstick|stuck|stuck|приклеивать, застревать\nstrike|struck|struck|ударять\nswear|swore|sworn|клясться, ругаться\nsweep|swept|swept|подметать\nswing|swung|swung|качаться\nundo|undid|undone|отменять, расстёгивать\nupset|upset|upset|расстраивать\nweep|wept|wept|плакать\nwithdraw|withdrew|withdrawn|снимать (деньги), отзывать\nbroadcast|broadcast|broadcast|транслировать\nburn|burned/burnt|burned/burnt|гореть, жечь\ncling|clung|clung|цепляться\ncreep|crept|crept|ползти, красться\ndream|dreamed/dreamt|dreamed/dreamt|мечтать, видеть сны\nfit|fit|fit|подходить по размеру\nforecast|forecast|forecast|прогнозировать\nforesee|foresaw|foreseen|предвидеть\ngrind|ground|ground|молоть\nkneel|knelt|knelt|стоять на коленях\nlean|leaned/leant|leaned/leant|наклоняться, опираться\novercome|overcame|overcome|преодолевать\novertake|overtook|overtaken|обгонять\noversleep|overslept|overslept|проспать\nrebuild|rebuilt|rebuilt|перестраивать\nredo|redid|redone|переделывать\nrewrite|rewrote|rewritten|переписывать\nrid|rid|rid|избавлять\nsew|sewed|sewn|шить\nsow|sowed|sown|сеять\nspeed|sped|sped|мчаться\nspell|spelled/spelt|spelled/spelt|писать по буквам\nspill|spilled/spilt|spilled/spilt|проливать\nspin|spun|spun|вертеть, прясть\nspoil|spoiled/spoilt|spoiled/spoilt|портить\nspring|sprang|sprung|прыгать, возникать\nstink|stank|stunk|вонять\nthrust|thrust|thrust|толкать, вонзать\ntread|trod|trodden|ступать\nundergo|underwent|undergone|переживать, проходить\nundertake|undertook|undertaken|предпринимать\nwind|wound|wound|заводить, извиваться\nwring|wrung|wrung|выжимать\nwithstand|withstood|withstood|выдерживать\nbreed|bred|bred|разводить\ndwell|dwelt|dwelt|обитать\nfling|flung|flung|швырять\nforsake|forsook|forsaken|покидать, бросать\nknit|knit|knit|вязать\nmislead|misled|misled|вводить в заблуждение\nmow|mowed|mown|косить\noutdo|outdid|outdone|превосходить\noutgrow|outgrew|outgrown|вырастать из\noutrun|outran|outrun|обгонять в беге\noverdo|overdid|overdone|переусердствовать\novereat|overate|overeaten|переедать\noverhear|overheard|overheard|подслушивать\nprove|proved|proven|доказывать\nrepay|repaid|repaid|возвращать долг\nreset|reset|reset|сбрасывать\nretell|retold|retold|пересказывать\nrewind|rewound|rewound|перематывать\nsling|slung|slung|швырять\nslit|slit|slit|разрезать\nsting|stung|stung|жалить\nstride|strode|stridden|шагать\nstring|strung|strung|нанизывать\nstrive|strove|striven|стремиться\nswell|swelled|swollen|опухать\nunwind|unwound|unwound|раскручивать, расслабляться\nuphold|upheld|upheld|поддерживать\nwet|wet|wet|мочить";
+var D="be|was/were|been|быть\nbecome|became|become|становиться\nbegin|began|begun|начинать\nbite|bit|bitten|кусать\nblow|blew|blown|дуть\nbreak|broke|broken|ломать\nbring|brought|brought|приносить\nbuild|built|built|строить\nbuy|bought|bought|покупать\ncatch|caught|caught|ловить\nchoose|chose|chosen|выбирать\ncome|came|come|приходить\ncost|cost|cost|стоить\ncut|cut|cut|резать\ndo|did|done|делать\ndraw|drew|drawn|рисовать\ndrink|drank|drunk|пить\ndrive|drove|driven|водить машину\neat|ate|eaten|есть, кушать\nfall|fell|fallen|падать\nfeel|felt|felt|чувствовать\nfight|fought|fought|драться, бороться\nfind|found|found|находить\nfly|flew|flown|летать\nforget|forgot|forgotten|забывать\nforgive|forgave|forgiven|прощать\nget|got|got/gotten|получать, становиться\ngive|gave|given|давать\ngo|went|gone|идти, ехать\ngrow|grew|grown|расти, выращивать\nhang|hung|hung|вешать\nhave|had|had|иметь\nhear|heard|heard|слышать\nhide|hid|hidden|прятать\nhit|hit|hit|ударять\nhold|held|held|держать\nhurt|hurt|hurt|причинять боль\nkeep|kept|kept|хранить, держать\nknow|knew|known|знать\nlay|laid|laid|класть\nlead|led|led|вести\nleave|left|left|покидать, оставлять\nlend|lent|lent|одалживать\nlet|let|let|позволять\nlie|lay|lain|лежать\nlose|lost|lost|терять, проигрывать\nmake|made|made|делать, создавать\nmean|meant|meant|значить\nmeet|met|met|встречать\npay|paid|paid|платить\nput|put|put|класть, ставить\nquit|quit|quit|бросать\nread|read|read|читать\nride|rode|ridden|ездить верхом\nring|rang|rung|звонить\nrise|rose|risen|подниматься\nrun|ran|run|бегать\nsay|said|said|говорить, сказать\nsee|saw|seen|видеть\nsell|sold|sold|продавать\nsend|sent|sent|отправлять\nset|set|set|ставить, устанавливать\nshine|shone|shone|светить\nshoot|shot|shot|стрелять\nshow|showed|shown|показывать\nshut|shut|shut|закрывать\nsing|sang|sung|петь\nsit|sat|sat|сидеть\nsleep|slept|slept|спать\nspeak|spoke|spoken|говорить, разговаривать\nspend|spent|spent|тратить\nspread|spread|spread|распространять\nstand|stood|stood|стоять\nsteal|stole|stolen|красть\nswim|swam|swum|плавать\ntake|took|taken|брать\nteach|taught|taught|преподавать\ntear|tore|torn|рвать\ntell|told|told|рассказывать\nthink|thought|thought|думать\nthrow|threw|thrown|бросать\nunderstand|understood|understood|понимать\nwake|woke|woken|просыпаться\nwear|wore|worn|носить (одежду)\nwin|won|won|выигрывать\nwrite|wrote|written|писать\narise|arose|arisen|возникать\nawake|awoke|awoken|просыпаться, будить\nbear|bore|borne|нести, терпеть\nbeat|beat|beaten|бить, побеждать\nbend|bent|bent|гнуть, сгибать\nbet|bet|bet|держать пари\nbid|bid|bid|предлагать цену\nbind|bound|bound|связывать\nbleed|bled|bled|кровоточить\nburst|burst|burst|лопаться\ncast|cast|cast|бросать, отливать\ndeal|dealt|dealt|иметь дело\ndig|dug|dug|копать\nfeed|fed|fed|кормить\nflee|fled|fled|убегать\nforbid|forbade|forbidden|запрещать\nfreeze|froze|frozen|замерзать\nlight|lit|lit|зажигать\nmistake|mistook|mistaken|ошибаться\nseek|sought|sought|искать\nshake|shook|shaken|трясти\nshed|shed|shed|проливать, сбрасывать\nshrink|shrank|shrunk|сжиматься\nsink|sank|sunk|тонуть\nslide|slid|slid|скользить\nspit|spat|spat|плевать\nsplit|split|split|раскалывать\nstick|stuck|stuck|приклеивать, застревать\nstrike|struck|struck|ударять\nswear|swore|sworn|клясться, ругаться\nsweep|swept|swept|подметать\nswing|swung|swung|качаться\nundo|undid|undone|отменять, расстёгивать\nupset|upset|upset|расстраивать\nweep|wept|wept|плакать\nwithdraw|withdrew|withdrawn|снимать (деньги), отзывать\nbroadcast|broadcast|broadcast|транслировать\nburn|burned/burnt|burned/burnt|гореть, жечь\ncling|clung|clung|цепляться\ncreep|crept|crept|ползти, красться\ndream|dreamed/dreamt|dreamed/dreamt|мечтать, видеть сны\nfit|fit|fit|подходить по размеру\nforecast|forecast|forecast|прогнозировать\nforesee|foresaw|foreseen|предвидеть\ngrind|ground|ground|молоть\nkneel|knelt|knelt|стоять на коленях\nlean|leaned/leant|leaned/leant|наклоняться, опираться\novercome|overcame|overcome|преодолевать\novertake|overtook|overtaken|обгонять\noversleep|overslept|overslept|проспать\nrebuild|rebuilt|rebuilt|перестраивать\nredo|redid|redone|переделывать\nrewrite|rewrote|rewritten|переписывать\nrid|rid|rid|избавлять\nsew|sewed|sewn|шить\nsow|sowed|sown|сеять\nspeed|sped|sped|мчаться\nspell|spelled/spelt|spelled/spelt|писать по буквам\nspill|spilled/spilt|spilled/spilt|проливать\nspin|spun|spun|вертеть, прясть\nspoil|spoiled/spoilt|spoiled/spoilt|портить\nspring|sprang|sprung|прыгать, возникать\nstink|stank|stunk|вонять\nthrust|thrust|thrust|толкать, вонзать\ntread|trod|trodden|ступать\nundergo|underwent|undergone|переживать, проходить\nundertake|undertook|undertaken|предпринимать\nwind|wound|wound|заводить, извиваться\nwring|wrung|wrung|выжимать\nwithstand|withstood|withstood|выдерживать\nbreed|bred|bred|разводить\ndwell|dwelt|dwelt|обитать\nfling|flung|flung|швырять\nforsake|forsook|forsaken|покидать, бросать\nknit|knit|knit|вязать\nmislead|misled|misled|вводить в заблуждение\nmow|mowed|mown|косить\noutdo|outdid|outdone|превосходить\noutgrow|outgrew|outgrown|вырастать из\noutrun|outran|outrun|обгонять в беге\noverdo|overdid|overdone|переусердствовать\novereat|overate|overeaten|переедать\noverhear|overheard|overheard|подслушивать\nprove|proved|proven|доказывать\nrepay|repaid|repaid|возвращать долг\nreset|reset|reset|сбрасывать\nretell|retold|retold|пересказывать\nrewind|rewound|rewound|перематывать\nsling|slung|slung|швырять\nslit|slit|slit|разрезать\nsting|stung|stung|жалить\nstride|strode|stridden|шагать\nstring|strung|strung|нанизывать\nstrive|strove|striven|стремиться\nswell|swelled|swollen|опухать\nunwind|unwound|unwound|раскручивать, расслабляться\nuphold|upheld|upheld|поддерживать\nwet|wet|wet|мочить";
 var RG="work|работать\nplay|играть\nwant|хотеть\nneed|нуждаться\nlike|нравиться\nlove|любить\nlive|жить\nlook|смотреть\nwatch|смотреть, наблюдать\nlisten|слушать\ntalk|разговаривать\nwalk|ходить пешком\nhelp|помогать\nask|спрашивать\nanswer|отвечать\ncall|звонить\nopen|открывать\nclose|закрывать\nstart|начинать\nfinish|заканчивать\nstop|останавливать\nlearn|учить, узнавать\nstudy|изучать, учиться\nuse|использовать\ntry|пробовать\ncook|готовить\nclean|убирать, чистить\nwash|мыть\nwait|ждать\nvisit|посещать\ntravel|путешествовать\nmove|двигаться, переезжать\nchange|менять\ndecide|решать\nremember|помнить\nbelieve|верить\nhappen|случаться\nenjoy|наслаждаться\nhate|ненавидеть\nplan|планировать\ndance|танцевать\nsmile|улыбаться\nlaugh|смеяться\ncry|плакать\npush|толкать\npull|тянуть\ncarry|нести\nturn|поворачивать\narrive|прибывать\nstay|оставаться\nfollow|следовать\ncreate|создавать\ncheck|проверять\nfix|чинить\nshare|делиться\norder|заказывать\nmiss|скучать, пропускать\nrain|идти (о дожде)\nadd|добавлять\nagree|соглашаться\nallow|разрешать\nappear|появляться\nbake|печь\nborrow|занимать, брать взаймы\nbrush|чистить щёткой\ncause|вызывать, быть причиной\nclap|хлопать\ncollect|собирать\ncompare|сравнивать\ncomplete|завершать\nconnect|соединять\ncontinue|продолжать\ncopy|копировать\ncount|считать\ncover|покрывать\ndeliver|доставлять\ndescribe|описывать\ndevelop|развивать\ndie|умирать\ndiscover|открывать, обнаруживать\ndiscuss|обсуждать\ndress|одевать\ndrop|ронять\nearn|зарабатывать\nend|заканчивать\nenter|входить\nexpect|ожидать\nexplain|объяснять\nfail|терпеть неудачу\nfill|наполнять\nfish|ловить рыбу\nguess|догадываться\nhope|надеяться\nhunt|охотиться\nimagine|воображать\nimprove|улучшать\ninclude|включать\ninvite|приглашать\njoin|присоединяться\njump|прыгать\nkick|пинать\nkill|убивать\nkiss|целовать\nknock|стучать\nlift|поднимать\nlock|запирать\nmanage|справляться, управлять\nmarry|жениться, выходить замуж\nmention|упоминать\nmix|смешивать\nnotice|замечать\noffer|предлагать\npack|упаковывать\npaint|красить, рисовать красками\npass|передавать, проходить\npick|выбирать, подбирать\npray|молиться\nprepare|готовить(ся)\nprint|печатать\npromise|обещать\nprotect|защищать\nraise|поднимать, растить\nreach|достигать\nrealize|осознавать\nreceive|получать\nrecord|записывать\nrefuse|отказываться\nrelax|расслабляться\nrepeat|повторять\nreply|отвечать\nrest|отдыхать\nreturn|возвращаться\nrush|спешить\nsave|сохранять, спасать\nsearch|искать\nserve|служить, подавать\nshop|делать покупки\nshout|кричать\nsign|подписывать\nskip|пропускать, прыгать\nsmell|пахнуть, нюхать\nsuggest|предлагать, советовать\nsurprise|удивлять\nswitch|переключать\ntaste|пробовать на вкус\nthank|благодарить\ntouch|трогать\ntrust|доверять\ntype|печатать на клавиатуре\nwish|желать\nwonder|интересоваться, удивляться\nworry|беспокоиться\naccept|принимать\nachieve|достигать\nact|действовать\nadvise|советовать\nafford|позволять себе\nannounce|объявлять\napply|применять, обращаться\napprove|одобрять\nargue|спорить\narrange|организовывать\nattach|прикреплять\nattend|посещать\navoid|избегать\nbook|бронировать\nboil|кипятить\nbreathe|дышать\ncalculate|вычислять\ncancel|отменять\ncare|заботиться\ncelebrate|праздновать\nchat|болтать\nclimb|взбираться\ncomment|комментировать\ncomplain|жаловаться\nconfirm|подтверждать\ncough|кашлять\ncross|пересекать\ndeny|отрицать\ndepend|зависеть\ndivide|делить\ndoubt|сомневаться\ndownload|скачивать\ndry|сушить\nempty|опустошать\nencourage|поощрять\nescape|убегать, спасаться\nexamine|исследовать\nexercise|тренироваться\nexist|существовать\nfold|складывать\nforce|принуждать\ngain|получать, прибавлять\ngather|собирать\ngreet|приветствовать\nhandle|справляться\nheat|нагревать\nhurry|спешить\nignore|игнорировать\nincrease|увеличивать\ninform|информировать\ninsist|настаивать\ninterest|интересовать\nintroduce|представлять\ninvolve|вовлекать\njoke|шутить\njudge|судить\nland|приземляться\nlast|длиться\nlimit|ограничивать\nlink|связывать\nload|загружать\nmeasure|измерять\nmelt|таять\nobserve|наблюдать\nown|владеть\npark|парковать\nperform|исполнять\nplant|сажать\npoint|указывать\npour|лить\npractice|практиковаться\npress|нажимать\npretend|притворяться\nproduce|производить\nprovide|обеспечивать\nrace|гоняться\nrely|полагаться\nremain|оставаться\nremove|удалять\nrent|арендовать\nrepair|ремонтировать\nreport|сообщать\nrespect|уважать\nroll|катить\nscream|кричать\nseem|казаться\nsettle|устраиваться\nshave|брить\nsolve|решать (задачу)\nsort|сортировать\nstretch|растягивать\nsucceed|добиваться успеха\nsuffer|страдать\nsupport|поддерживать\nsuppose|предполагать\ntie|завязывать\ntrain|тренировать\ntranslate|переводить\ntreat|обращаться, угощать\nupdate|обновлять\nvote|голосовать\nwave|махать\nweigh|взвешивать\nwhisper|шептать\nwipe|вытирать\nwrap|заворачивать\nadvertise|рекламировать\nannoy|раздражать\napologize|извиняться\nappreciate|ценить\nattract|привлекать\nblame|винить\nbury|хоронить\ncheat|обманывать\ncheer|подбадривать\nclaim|утверждать\ncombine|объединять\ncompete|соревноваться\nconcentrate|сосредотачиваться\ncontact|связываться\ncontain|содержать\nconvince|убеждать\ncorrect|исправлять\ncrawl|ползать\ndamage|повреждать\ndare|осмеливаться\ndecorate|украшать\ndefeat|побеждать\ndelay|задерживать\ndelete|удалять (данные)\ndeserve|заслуживать\ndesign|проектировать\ndestroy|разрушать\ndisappear|исчезать\ndisturb|беспокоить\ndrown|тонуть\nedit|редактировать\nemploy|нанимать\nenable|позволять, давать возможность\nensure|обеспечивать, гарантировать\nentertain|развлекать\nevaluate|оценивать\nexchange|обменивать\nexcite|волновать\nexcuse|извинять\nexpand|расширять\nexperience|испытывать\nexplode|взрываться\nexpress|выражать\nextend|продлевать\nfear|бояться\nfilm|снимать фильм\nflow|течь\nfocus|фокусироваться\nfrighten|пугать\nglue|клеить\nguard|охранять\nguide|направлять\nhire|нанимать\nimpress|впечатлять\ninspire|вдохновлять\ninstall|устанавливать\nintend|намереваться\ninterview|брать интервью\ninvent|изобретать\ninvestigate|расследовать\niron|гладить\nlaunch|запускать\nlower|снижать\nmail|отправлять почтой\nmarch|маршировать\nmatch|сочетаться, подходить\nmatter|иметь значение\nmemorize|запоминать\nabandon|покидать, бросать\nabsorb|поглощать\naccompany|сопровождать\naccuse|обвинять\nadapt|адаптироваться\nadjust|настраивать\nadmire|восхищаться\nadopt|усыновлять, принимать\nadvance|продвигаться\namuse|забавлять\nanalyze|анализировать\narrest|арестовывать\nassist|помогать\nassume|предполагать\nattack|нападать\nbark|лаять\nbathe|купать\nbounce|подпрыгивать\nbow|кланяться\nbuzz|жужжать\ncapture|захватывать\nchase|гнаться\ncharge|заряжать\nchew|жевать\ncircle|кружить\ncoach|тренировать\ncommand|приказывать\ncomfort|утешать\nconcern|касаться, беспокоить\nconduct|проводить\nconsume|потреблять\ncontribute|вносить вклад\nconvert|преобразовывать\ncooperate|сотрудничать\ncope|справляться\ncrush|давить\ncure|излечивать\ncycle|ездить на велосипеде\ndebate|обсуждать, спорить\ndeclare|объявлять\ndecrease|уменьшать\ndefend|защищать\ndefine|определять\ndemand|требовать\ndemonstrate|демонстрировать\ndeposit|вносить на счёт\ndetermine|определять, решать\ndisplay|показывать\ndislike|не любить\ndivorce|разводиться\ndonate|жертвовать\ndust|вытирать пыль\neliminate|устранять\nembrace|обнимать\nemerge|появляться\nemphasize|подчёркивать\nencounter|сталкиваться\nendure|выдерживать\nengage|вовлекать\nenhance|улучшать\nerase|стирать\nestablish|устанавливать, основывать\nestimate|оценивать\nevolve|развиваться\nexhibit|выставлять\nfade|угасать\nfetch|сходить за, принести\nflash|вспыхивать\nfloat|плавать на поверхности\nfry|жарить\ngenerate|создавать, порождать\ngrant|предоставлять\nharm|вредить\nheal|исцелять\nhint|намекать\nhost|принимать гостей\nillustrate|иллюстрировать\nimitate|подражать\nimply|подразумевать\nimpose|навязывать\nindicate|указывать\ninspect|осматривать\ninstruct|инструктировать\ninsult|оскорблять\ninsure|страховать\ninterrupt|прерывать\ninvest|вкладывать";
+/* ---------- маркеры времён (справочник) ---------- */
+var MK=[
+"always, usually, often, sometimes, never, every day, on Mondays",
+"now, right now, at the moment, currently, Look!, Listen!",
+"already, just, yet, ever, never, so far, recently",
+"for two hours, since 2020, all day, how long, lately",
+"yesterday, last week, two days ago, in 2015, when I was a child",
+"at 8 pm yesterday, at that moment, while…, when… (фоном)",
+"by the time + Past, before, already… when…",
+"for an hour when…, all night (до момента в прошлом)",
+"tomorrow, next week, soon, I think…, probably",
+"this time tomorrow, at 9 pm tomorrow, at noon on Saturday",
+"by Friday, by 2030, by the time + Present",
+"by June… for ten years (к моменту в будущем — уже столько-то)"
+];
 
-/* ---------- морфология ---------- */
+/* ---------- предложения с маркерами ---------- */
+var MS=[
+{t:0,s:"She ___ to the gym every Monday.",h:"go",a:["goes"],m:["every Monday"],ru:"Она ходит в спортзал каждый понедельник."},
+{t:0,s:"We usually ___ dinner at seven.",h:"have",a:["have"],m:["usually"],ru:"Обычно мы ужинаем в семь."},
+{t:0,s:"My brother never ___ coffee.",h:"drink",a:["drinks"],m:["never"],ru:"Мой брат никогда не пьёт кофе."},
+{t:1,s:"Be quiet! The baby ___ right now.",h:"sleep",a:["is sleeping"],m:["right now"],ru:"Тише! Малыш сейчас спит."},
+{t:1,s:"Look! It ___.",h:"snow",a:["is snowing"],m:["Look!"],ru:"Смотри! Идёт снег."},
+{t:1,s:"I can't talk at the moment — I ___.",h:"drive",a:["am driving"],m:["at the moment"],ru:"Не могу сейчас говорить — я за рулём."},
+{t:2,s:"I ___ this film already.",h:"see",a:["have seen"],m:["already"],ru:"Я уже видел этот фильм."},
+{t:2,s:"She ___ her homework.",h:"just / finish",a:["has just finished"],m:[],mh:"just",ru:"Она только что закончила домашнее задание."},
+{t:2,s:"He ___ me yet.",h:"not / call",a:["hasn't called"],m:["yet"],ru:"Он ещё не позвонил мне."},
+{t:2,s:"We ___ three books so far this year.",h:"read",a:["have read"],m:["so far"],ru:"В этом году мы уже прочитали три книги."},
+{t:3,s:"I ___ for two hours, and I'm tired.",h:"wait",a:["have been waiting"],m:["for two hours"],ru:"Я жду уже два часа и устал."},
+{t:3,s:"She ___ English since 2020.",h:"learn",a:["has been learning"],m:["since 2020"],ru:"Она учит английский с 2020 года."},
+{t:3,s:"It ___ all day.",h:"rain",a:["has been raining"],m:["all day"],ru:"Весь день идёт дождь."},
+{t:4,s:"We ___ to Paris last summer.",h:"fly",a:["flew"],m:["last summer"],ru:"Прошлым летом мы летали в Париж."},
+{t:4,s:"I ___ him two days ago.",h:"see",a:["saw"],m:["two days ago"],ru:"Я видел его два дня назад."},
+{t:4,s:"She ___ to the party yesterday.",h:"not / come",a:["didn't come"],m:["yesterday"],ru:"Вчера она не пришла на вечеринку."},
+{t:5,s:"At 8 pm yesterday I ___ a film.",h:"watch",a:["was watching"],m:["At 8 pm yesterday"],ru:"Вчера в 8 вечера я смотрел фильм."},
+{t:5,s:"While I ___, I hurt my leg.",h:"run",a:["was running"],m:["While"],ru:"Пока я бегал, я повредил ногу."},
+{t:5,s:"They ___ football when it started to rain.",h:"play",a:["were playing"],m:["when it started to rain"],ru:"Они играли в футбол, когда начался дождь."},
+{t:6,s:"By the time we arrived, the film ___.",h:"start",a:["had started","had already started"],m:["By the time we arrived"],ru:"К тому времени, как мы пришли, фильм уже начался."},
+{t:6,s:"When I got home, everyone ___ to bed.",h:"already / go",a:["had already gone"],m:["When I got home"],ru:"Когда я пришёл домой, все уже легли спать."},
+{t:6,s:"He ___ before that trip.",h:"never / fly",a:["had never flown"],m:["before that trip"],ru:"До той поездки он никогда не летал на самолёте."},
+{t:7,s:"She ___ for an hour when the bus finally came.",h:"wait",a:["had been waiting"],m:["for an hour when"],ru:"Она ждала уже час, когда автобус наконец пришёл."},
+{t:7,s:"His eyes were red because he ___ all night.",h:"cry",a:["had been crying"],m:["all night"],ru:"Глаза у него были красные: он плакал всю ночь."},
+{t:7,s:"They ___ for two hours when the lights went out.",h:"talk",a:["had been talking"],m:["for two hours when"],ru:"Они разговаривали уже два часа, когда погас свет."},
+{t:8,s:"I think it ___ tomorrow.",h:"rain",a:["will rain"],m:["I think","tomorrow"],ru:"Думаю, завтра будет дождь."},
+{t:8,s:"She ___ 30 next year.",h:"be",a:["will be"],m:["next year"],ru:"В следующем году ей исполнится 30."},
+{t:8,s:"Don't worry, I ___ anyone.",h:"not / tell",a:["won't tell"],m:["Don't worry"],ru:"Не волнуйся, я никому не скажу."},
+{t:9,s:"This time tomorrow I ___ on a beach.",h:"lie",a:["will be lying"],m:["This time tomorrow"],ru:"Завтра в это время я буду лежать на пляже."},
+{t:9,s:"Don't call at 9 — we ___ dinner.",h:"have",a:["will be having"],m:["at 9"],ru:"Не звони в 9 — мы будем ужинать."},
+{t:9,s:"At noon on Saturday she ___ to Moscow.",h:"fly",a:["will be flying"],m:["At noon on Saturday"],ru:"В субботу в полдень она будет лететь в Москву."},
+{t:10,s:"I ___ this report by Friday.",h:"finish",a:["will have finished"],m:["by Friday"],ru:"Я закончу этот отчёт к пятнице."},
+{t:10,s:"By the time you arrive, we ___.",h:"leave",a:["will have left"],m:["By the time you arrive"],ru:"К тому времени, как ты приедешь, мы уже уедем."},
+{t:10,s:"By 2030 they ___ a new airport.",h:"build",a:["will have built"],m:["By 2030"],ru:"К 2030 году они построят новый аэропорт."},
+{t:11,s:"By June I ___ here for ten years.",h:"work",a:["will have been working"],m:["By June","for ten years"],ru:"К июню я буду работать здесь уже десять лет."},
+{t:11,s:"By 6 pm she ___ for eight hours.",h:"study",a:["will have been studying"],m:["By 6 pm","for eight hours"],ru:"К шести вечера она будет заниматься уже восемь часов."},
+{t:11,s:"Next month we ___ together for a year.",h:"live",a:["will have been living"],m:["Next month","for a year"],ru:"В следующем месяце будет год, как мы живём вместе."}
+];
+
+/* ---------- конструкции ---------- */
+var CN=[
+{id:"used_to",f:"used to + V1",ru:"раньше (регулярно), а теперь нет",n:"Прошлые привычки и состояния. Отрицание: didn't use to + V1.",ex:[
+ {s:"I ___ football every weekend, but now I don't.",h:"play",a:["used to play"],ru:"Раньше я играл в футбол каждые выходные, а теперь нет."},
+ {s:"There ___ a cinema here.",h:"be",a:["used to be"],ru:"Раньше здесь был кинотеатр."},
+ {s:"She ___ coffee, but now she loves it.",h:"not / like",a:["didn't use to like"],ru:"Раньше она не любила кофе, а теперь обожает."}]},
+{id:"going_to",f:"be going to + V1",ru:"собираюсь; явно вот-вот случится",n:"План, принятый заранее, или прогноз по очевидным признакам.",ex:[
+ {s:"We ___ a new car next month.",h:"buy",a:["are going to buy"],ru:"В следующем месяце мы собираемся купить новую машину."},
+ {s:"Look at those clouds! It ___.",h:"rain",a:["is going to rain"],ru:"Посмотри на эти тучи! Сейчас пойдёт дождь."},
+ {s:"I ___ her the truth.",h:"not / tell",a:["am not going to tell"],ru:"Я не собираюсь говорить ей правду."}]},
+{id:"be_used_to",f:"be used to + V-ing",ru:"привык (уже привычно)",n:"Не путать с used to + V1. После to — V-ing или существительное.",ex:[
+ {s:"I ___ early.",h:"get up",a:["am used to getting up"],ru:"Я привык рано вставать."},
+ {s:"She ___ in a big city.",h:"live",a:["is used to living"],ru:"Она привыкла жить в большом городе."},
+ {s:"They ___ such cold weather.",h:"not",a:["aren't used to"],ru:"Они не привыкли к такой холодной погоде."}]},
+{id:"get_used_to",f:"get used to + V-ing",ru:"привыкать (процесс)",n:"Показывает, что человек постепенно привыкает.",ex:[
+ {s:"You'll soon ___ on the left.",h:"drive",a:["get used to driving"],ru:"Ты скоро привыкнешь ездить по левой стороне."},
+ {s:"It took me a year to ___ here.",h:"work",a:["get used to working"],ru:"Мне понадобился год, чтобы привыкнуть работать здесь."},
+ {s:"He finally ___ the new schedule.",h:"прош. время",a:["got used to"],ru:"Он наконец привык к новому графику."}]},
+{id:"would_like",f:"would like + to V1",ru:"хотел бы (вежливо)",n:"Вежливее, чем want. Сокращается до 'd like.",ex:[
+ {s:"I ___ to the manager, please.",h:"speak",a:["would like to speak"],ru:"Я хотел бы поговорить с менеджером."},
+ {s:"___ join us?",h:"you",a:["Would you like to"],ru:"Не хочешь присоединиться к нам?"},
+ {s:"She ___ abroad one day.",h:"study",a:["would like to study"],ru:"Она хотела бы когда-нибудь учиться за границей."}]},
+{id:"had_better",f:"had better + V1",ru:"лучше бы (совет-предупреждение)",n:"Звучит настойчиво: иначе будут проблемы. Отрицание: had better not.",ex:[
+ {s:"You ___ a jacket — it's cold.",h:"take",a:["had better take"],ru:"Тебе лучше взять куртку — холодно."},
+ {s:"We ___ now or we'll miss the train.",h:"leave",a:["had better leave"],ru:"Нам лучше выйти сейчас, иначе опоздаем на поезд."},
+ {s:"You ___ late again.",h:"not / be",a:["had better not be"],ru:"Тебе лучше больше не опаздывать."}]},
+{id:"would_rather",f:"would rather + V1 (than V1)",ru:"предпочёл бы",n:"После rather — V1 без to. Сокращается до 'd rather.",ex:[
+ {s:"I ___ at home tonight.",h:"stay",a:["would rather stay"],ru:"Я бы лучше остался сегодня дома."},
+ {s:"She ___ than take the bus.",h:"walk",a:["would rather walk"],ru:"Она лучше пойдёт пешком, чем поедет на автобусе."},
+ {s:"I ___ about it.",h:"not / talk",a:["would rather not talk"],ru:"Я бы предпочёл не говорить об этом."}]},
+{id:"have_to",f:"have to + V1",ru:"приходится, нужно",n:"Обязанность из-за обстоятельств. don't have to = не обязательно.",ex:[
+ {s:"I ___ at 6 every day.",h:"get up",a:["have to get up"],ru:"Мне приходится вставать в 6 каждый день."},
+ {s:"You ___ — it's free.",h:"not / pay",a:["don't have to pay"],ru:"Можешь не платить — это бесплатно."},
+ {s:"She ___ late yesterday.",h:"work",a:["had to work"],ru:"Вчера ей пришлось работать допоздна."}]},
+{id:"look_forward",f:"look forward to + V-ing",ru:"с нетерпением жду",n:"to здесь — предлог, поэтому дальше V-ing.",ex:[
+ {s:"I ___ you.",h:"see",a:["am looking forward to seeing","look forward to seeing"],ru:"С нетерпением жду встречи с тобой."},
+ {s:"We ___ from you.",h:"hear",a:["look forward to hearing","are looking forward to hearing"],ru:"Ждём вашего ответа."},
+ {s:"The kids ___ to the zoo.",h:"go",a:["are looking forward to going","look forward to going"],ru:"Дети с нетерпением ждут похода в зоопарк."}]},
+{id:"would_you_mind",f:"Would you mind + V-ing?",ru:"не могли бы вы…? (вежливая просьба)",n:"Ответ «No, not at all» означает согласие.",ex:[
+ {s:"___ the window?",h:"open",a:["Would you mind opening"],ru:"Не могли бы вы открыть окно?"},
+ {s:"___ a bit louder?",h:"speak",a:["Would you mind speaking"],ru:"Не могли бы вы говорить чуть громче?"},
+ {s:"___ me with this bag?",h:"help",a:["Would you mind helping"],ru:"Не могли бы вы помочь мне с этой сумкой?"}]},
+{id:"its_time",f:"It's time + to V1 / It's time + S + V2",ru:"пора",n:"It's time the kids went… — V2, хотя речь о настоящем.",ex:[
+ {s:"___ home.",h:"go",a:["It's time to go"],ru:"Пора идти домой."},
+ {s:"It's late. ___ to bed.",h:"the kids / go",a:["It's time the kids went","It's time for the kids to go"],ru:"Уже поздно. Детям пора спать."},
+ {s:"___ a new phone.",h:"buy",a:["It's time to buy"],ru:"Пора купить новый телефон."}]},
+{id:"too_to",f:"too + adj + to V1",ru:"слишком …, чтобы",n:"too уже содержит отрицание: слишком тяжёлый — не поднять.",ex:[
+ {s:"This box is ___.",h:"heavy / lift",a:["too heavy to lift"],ru:"Эта коробка слишком тяжёлая, чтобы её поднять."},
+ {s:"He's ___.",h:"young / drive",a:["too young to drive"],ru:"Он слишком молод, чтобы водить машину."},
+ {s:"It's ___ outside.",h:"cold / swim",a:["too cold to swim"],ru:"На улице слишком холодно, чтобы купаться."}]},
+{id:"enough",f:"adj + enough + to V1",ru:"достаточно …, чтобы",n:"enough стоит после прилагательного: old enough, а не enough old.",ex:[
+ {s:"She's ___.",h:"old / vote",a:["old enough to vote"],ru:"Она достаточно взрослая, чтобы голосовать."},
+ {s:"The water isn't ___.",h:"warm / swim in",a:["warm enough to swim in"],ru:"Вода недостаточно тёплая, чтобы в ней купаться."},
+ {s:"Is your English ___ the exam?",h:"good / pass",a:["good enough to pass"],ru:"Твой английский достаточно хорош, чтобы сдать экзамен?"}]},
+{id:"so_that",f:"so + adj/adv + that …",ru:"так …, что",n:"С существительным — such: such a cold day that…",ex:[
+ {s:"It was ___ we stayed at home.",h:"cold",a:["so cold that"],ru:"Было так холодно, что мы остались дома."},
+ {s:"The film was ___ I fell asleep.",h:"boring",a:["so boring that"],ru:"Фильм был такой скучный, что я уснул."},
+ {s:"He spoke ___ nobody heard him.",h:"quietly",a:["so quietly that"],ru:"Он говорил так тихо, что никто его не услышал."}]},
+{id:"have_done",f:"have + something + V3",ru:"сделать что-то не самому (услуга)",n:"Делает кто-то другой: парикмахер, мастер, врач.",ex:[
+ {s:"I ___ yesterday.",h:"my hair / cut",a:["had my hair cut","got my hair cut"],ru:"Вчера я подстригся (в парикмахерской)."},
+ {s:"We need to ___.",h:"the car / repair",a:["have the car repaired","get the car repaired"],ru:"Нам нужно отдать машину в ремонт."},
+ {s:"She ___ every year.",h:"her eyes / test",a:["has her eyes tested","gets her eyes tested"],ru:"Она каждый год проверяет зрение у врача."}]},
+{id:"first_cond",f:"If + Present, will + V1",ru:"если …, то … (реально)",n:"После if — Present, даже если речь о будущем. Не if it will rain!",ex:[
+ {s:"If it rains, we ___ at home.",h:"stay",a:["will stay"],ru:"Если пойдёт дождь, мы останемся дома."},
+ {s:"If you ___, you'll miss the bus.",h:"not / hurry",a:["don't hurry"],ru:"Если не поторопишься, опоздаешь на автобус."},
+ {s:"I'll call you if I ___ time.",h:"have",a:["have"],ru:"Я позвоню тебе, если будет время."}]},
+{id:"second_cond",f:"If + V2, would + V1",ru:"если бы … (нереально сейчас)",n:"Воображаемая ситуация в настоящем. If I were — классика, if I was — разговорно.",ex:[
+ {s:"If I ___ rich, I would travel the world.",h:"be",a:["were","was"],ru:"Если бы я был богат, я бы путешествовал по миру."},
+ {s:"If she had more time, she ___ Spanish.",h:"learn",a:["would learn"],ru:"Если бы у неё было больше времени, она бы учила испанский."},
+ {s:"What would you do if you ___ a million?",h:"win",a:["won"],ru:"Что бы ты сделал, если бы выиграл миллион?"}]},
+{id:"third_cond",f:"If + had V3, would have V3",ru:"если бы тогда … (нереально в прошлом)",n:"Про прошлое, которое уже не изменить.",ex:[
+ {s:"If I ___ earlier, I would have caught the train.",h:"leave",a:["had left"],ru:"Если бы я вышел раньше, я бы успел на поезд."},
+ {s:"If you had asked me, I ___ you.",h:"help",a:["would have helped"],ru:"Если бы ты попросил, я бы тебе помог."},
+ {s:"She ___ the exam if she had studied.",h:"pass",a:["would have passed"],ru:"Она бы сдала экзамен, если бы готовилась."}]},
+{id:"i_wish",f:"I wish + V2 / I wish + had V3",ru:"жаль, что (не) …",n:"V2 — сожаление о настоящем, had V3 — о прошлом.",ex:[
+ {s:"I wish I ___ French.",h:"speak",a:["spoke","could speak"],ru:"Жаль, что я не говорю по-французски."},
+ {s:"I wish I ___ so much yesterday.",h:"not / eat",a:["hadn't eaten"],ru:"Жаль, что я вчера столько съел."},
+ {s:"I wish it ___ summer now.",h:"be",a:["were","was"],ru:"Жаль, что сейчас не лето."}]},
+{id:"it_takes",f:"It takes (sb) + time + to V1",ru:"нужно столько-то времени, чтобы",n:"Вопрос: How long does it take to…?",ex:[
+ {s:"___ me 20 minutes to get to work.",h:"take",a:["It takes"],ru:"Мне нужно 20 минут, чтобы добраться до работы."},
+ {s:"How long ___ to learn English?",h:"it / take",a:["does it take"],ru:"Сколько времени нужно, чтобы выучить английский?"},
+ {s:"It ___ three hours to fix the car.",h:"take, прош. время",a:["took"],ru:"На ремонт машины ушло три часа."}]},
+{id:"be_about_to",f:"be about to + V1",ru:"вот-вот; как раз собирался",n:"Действие случится буквально сейчас.",ex:[
+ {s:"Hurry up! The train ___.",h:"leave",a:["is about to leave"],ru:"Быстрее! Поезд вот-вот уйдёт."},
+ {s:"I ___ you when you called.",h:"call",a:["was about to call"],ru:"Я как раз собирался тебе позвонить, когда ты позвонил."},
+ {s:"We ___ dinner. Join us!",h:"start",a:["are about to start"],ru:"Мы вот-вот сядем ужинать. Присоединяйся!"}]},
+{id:"stop_doing",f:"stop + V-ing / stop + to V1",ru:"перестать / остановиться, чтобы",n:"stop smoking — бросить курить; stop to smoke — остановиться, чтобы покурить.",ex:[
+ {s:"Please ___ — I'm trying to sleep.",h:"talk",a:["stop talking"],ru:"Пожалуйста, перестань болтать — я пытаюсь уснуть."},
+ {s:"He ___ two years ago.",h:"smoke, прош. время",a:["stopped smoking"],ru:"Он бросил курить два года назад."},
+ {s:"We ___ a coffee on the way.",h:"have, прош.: остановились, чтобы",a:["stopped to have"],ru:"По дороге мы остановились выпить кофе."}]}
+];
+
+
+/* ---------- утилиты ---------- */
 var DBL=['run','sit','put','get','cut','hit','let','set','shut','swim','win','begin','forget','quit','stop','plan','drop','skip','clap','shop','bet','split','upset','spit','shed','bid','dig','forbid','chat','wrap','spin','rid','fit','knit','wet','slit','outrun','reset'];
 function ed(v){if(/e$/.test(v))return v+'d';if(/[^aeiou]y$/.test(v))return v.slice(0,-1)+'ied';if(DBL.indexOf(v)>-1)return v+v.slice(-1)+'ed';return v+'ed'}
 function snd(v){var b=v.replace(/e$/,'');if(['use','close','surprise','raise','refuse','cause','exercise','suppose','advise','weigh','advertise','excuse','accuse','amuse','impose'].indexOf(v)>-1)return 'д';if(/[td]$/.test(b))return 'ид';if(/(k|p|f|s|x|c|ch|sh|gh)$/.test(b))return 'т';return 'д'}
@@ -163,8 +340,23 @@ function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
 function rnd(n){return Math.floor(Math.random()*n)}
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=rnd(i+1),t=a[i];a[i]=a[j];a[j]=t}return a}
 function $(s){return document.querySelector(s)}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function plural(n,w){var m=n%10,h=n%100;return (m==1&&h!=11)?w[0]:(m>1&&m<5&&(h<12||h>14))?w[1]:w[2]}
+var VW=['глагол','глагола','глаголов'],DW=['день','дня','дней'];
 
-/* ---------- данные ---------- */
+/* проверка ответа: регистр, пунктуация, сокращения (don't = do not и т. п.) */
+function norm(s){return String(s).toLowerCase().replace(/[’‘`´]/g,"'").replace(/[.!?,;:"«»—–-]/g,' ').replace(/\s+/g,' ').trim()}
+function expand(s){
+s=norm(s).replace(/\b(do|does|did|is|are|was|were|has|have|had|would|should|could|must)nt\b/g,"$1n't").replace(/\bwont\b/g,"won't").replace(/\bcant\b/g,"can't").replace(/\bim\b/g,"i'm").replace(/\bive\b/g,"i've").replace(/\b(you|they)re\b/g,"$1're");
+s=s.replace(/\bwon't\b/g,'will not').replace(/\bshan't\b/g,'shall not').replace(/\bcan't\b/g,'can not').replace(/\bcannot\b/g,'can not').replace(/n't\b/g,' not').replace(/'m\b/g,' am').replace(/'re\b/g,' are').replace(/'ve\b/g,' have').replace(/'ll\b/g,' will');
+var out=[s];
+if(/'s\b/.test(s))out=[s.replace(/'s\b/g,' is'),s.replace(/'s\b/g,' has')];
+if(/'d\b/.test(s))out=out.reduce(function(a,x){return a.concat([x.replace(/'d\b/g,' had'),x.replace(/'d\b/g,' would')])},[]);
+return out.map(function(x){return x.replace(/\s+/g,' ').trim()});
+}
+function sameAns(inp,answers){var A={};answers.forEach(function(a){expand(a).forEach(function(x){A[x]=1})});return expand(inp).some(function(x){return A[x]})}
+
+/* ---------- данные глаголов ---------- */
 var IRR=D.split('\n').map(function(r,n){var p=r.split('|');return {v:p[0],p2:p[1],p3:p[2],ru:p[3],n:n}});
 var iA=IRR.findIndex(function(x){return x.v=='arise'}),iB=IRR.findIndex(function(x){return x.v=='broadcast'});
 IRR.forEach(function(x){x.lv=x.n<iA?1:x.n<iB?2:3});
@@ -172,21 +364,80 @@ var seen={};IRR.forEach(function(x){seen[x.v]=1});
 var REG=RG.split('\n').map(function(r,n){var p=r.split('|');return {v:p[0],p2:ed(p[0]),p3:ed(p[0]),ru:p[1],reg:1,n:n}}).filter(function(x){return !seen[x.v]});
 function byA(a,b){return a.v<b.v?-1:1}
 var POOL_T=IRR.filter(function(x){return x.lv==1&&x.v!='be'}).concat(REG.filter(function(x){return x.n<60}));
+var IRR_N=IRR.slice();
 IRR.sort(byA);REG.sort(byA);
 var ALL=IRR.concat(REG).sort(byA);
 var BY={};ALL.forEach(function(x){BY[x.v]=x});
 function forms(v){if(v=='be')return ['be','am/is/are','was/were','been','being'];var x=BY[v];return [v,sf(v),first(x.p2),first(x.p3),ing(v)]}
 
+/* данные конструкций */
+var EX={},CBY={};
+CN.forEach(function(c){CBY[c.id]=c;c.ex.forEach(function(e,k){e.id='c:'+c.id+':'+k;e.c=c;e.full=e.s.replace('___',e.a[0]);EX[e.id]=e})});
+MS.forEach(function(x,k){x.k=k;x.full=x.s.replace('___',x.a[0])});
+
 /* ---------- состояние ---------- */
 var KEY='enpath.v1';
-var st={tab:'v',vt:'i',learn:0,p:'I',f:'a',v:'do',qm:'f',lvl:1,sc:{},ts:[]};
+var st={tab:'v',vt:'i',learn:0,p:'I',f:'a',v:'do',qm:'f',qsub:{f:'type',t:'choose',c:'card'},lvl:1,srs:{},nt:{},ts:[],day:{d:0,n:0},streak:{last:-9,n:0}};
 try{var sv=JSON.parse(localStorage.getItem(KEY));if(sv&&typeof sv=='object')for(var k in sv)st[k]=sv[k]}catch(e){}
+function today(){var d=new Date();return Math.floor((d.getTime()-d.getTimezoneOffset()*6e4)/864e5)}
 if(!BY[st.v])st.v='do';
-if(!st.sc||typeof st.sc!='object')st.sc={};
+['srs','nt','qsub','day','streak'].forEach(function(k){if(!st[k]||typeof st[k]!='object')st[k]={}});
+if(!st.qsub.f)st.qsub.f='type';if(!st.qsub.t)st.qsub.t='choose';if(!st.qsub.c)st.qsub.c='card';
+if(st.qm!='f'&&st.qm!='t'&&st.qm!='c')st.qm='f';
 if(!Array.isArray(st.ts))st.ts=[];
+if(typeof st.streak.n!='number')st.streak={last:-9,n:0};
+if(typeof st.day.n!='number')st.day={d:0,n:0};
+if(st.sc&&typeof st.sc=='object'){for(var v0 in st.sc)if(st.sc[v0]>0&&!st.srs['f:'+v0])st.srs['f:'+v0]={b:Math.min(st.sc[v0],2),d:today()};delete st.sc}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
-function score(v){return st.sc[v]||0}
-function learned(v){return score(v)>=3}
+
+/* ---------- интервальные повторения ---------- */
+var IV=[0,1,3,7,16,35,90],NEWD=10,GOAL=20;
+function box(id){var r=st.srs[id];return r?r.b:0}
+function isLearned(id){return box(id)>=3}
+function learned(v){return isLearned('f:'+v)}
+function nt(d){var o=st.nt[d];if(!o||o.d!=today())o=st.nt[d]={d:today(),n:0,lim:NEWD};return o}
+var ses={rq:{f:[],c:[]},n:{f:0,c:0},free:{f:0,c:0},cf:null,sc:{f:[0,0],t:[0,0],c:[0,0]},goal:0};
+function tick(){
+var t=today();if(st.day.d!=t)st.day={d:t,n:0};
+st.day.n++;
+if(st.day.n==GOAL){if(st.streak.last==t-1)st.streak.n++;else if(st.streak.last!=t)st.streak.n=1;st.streak.last=t;ses.goal=1}
+}
+function streakNow(){return st.streak.last>=today()-1?st.streak.n:0}
+function dayN(){return st.day.d==today()?st.day.n:0}
+/* due → +1 ступень; повтор раньше срока не двигает; ошибка → в начало и ещё раз через 3 карточки */
+function grade(deck,id,ok){
+var t=today(),r=st.srs[id];
+if(!r){r=st.srs[id]={b:0,d:t};nt(deck).n++}
+if(ok){if(r.d<=t){r.b=Math.min(r.b+1,IV.length-1);r.d=t+IV[r.b]}}
+else{r.b=0;r.d=t;ses.rq[deck]=ses.rq[deck].filter(function(q){return q.id!=id});ses.rq[deck].push({id:id,at:ses.n[deck]+3})}
+ses.n[deck]++;tick();save();
+}
+function deckIds(d){
+if(d=='f')return IRR_N.filter(function(x){return x.lv<=st.lvl}).map(function(x){return 'f:'+x.v});
+return CN.filter(function(c){return !ses.cf||c.id==ses.cf}).reduce(function(a,c){return a.concat(c.ex.map(function(e){return e.id}))},[]);
+}
+function nextId(d,ids,last){
+var t=today(),rq=ses.rq[d],i,set={};ids.forEach(function(id){set[id]=1});
+for(i=0;i<rq.length;i++)if(set[rq[i].id]&&rq[i].at<=ses.n[d]&&rq[i].id!=last)return rq.splice(i,1)[0].id;
+var inRq={};rq.forEach(function(q){inRq[q.id]=1});
+var due=ids.filter(function(id){var r=st.srs[id];return r&&r.d<=t&&id!=last&&!inRq[id]});
+if(due.length)return due[rnd(due.length)];
+var o=nt(d);
+if(o.n<o.lim){var nw=ids.filter(function(id){return !st.srs[id]&&id!=last});if(nw.length)return nw[rnd(Math.min(4,nw.length))]}
+for(i=0;i<rq.length;i++)if(set[rq[i].id]&&rq[i].id!=last)return rq.splice(i,1)[0].id;
+for(i=0;i<rq.length;i++)if(set[rq[i].id])return rq.splice(i,1)[0].id;
+return null;
+}
+function pickFree(ids,last){
+var c=ids.filter(function(id){return id!=last});if(!c.length)c=ids;
+var ws=c.map(function(id){return [5,4,3,1,1,1,1][box(id)]}),s=ws.reduce(function(a,b){return a+b},0),r=Math.random()*s;
+for(var i=0;i<c.length;i++){r-=ws[i];if(r<0)return c[i]}return c[0];
+}
+function deckStat(d){
+var ids=deckIds(d),t=today(),s={ids:ids,due:0,lr:0,nw:0,tot:ids.length,tm:0};
+ids.forEach(function(id){var r=st.srs[id];if(!r)s.nw++;else{if(r.d<=t)s.due++;if(r.d==t+1)s.tm++;if(r.b>=3)s.lr++}});
+return s;
+}
 
 /* ---------- озвучка ---------- */
 var TTS='speechSynthesis' in window&&typeof SpeechSynthesisUtterance!='undefined',voice=null;
@@ -200,14 +451,13 @@ function go(t){
 st.tab=t;save();
 [].forEach.call(document.querySelectorAll('section'),function(s){s.classList.toggle('on',s.id=='s-'+t)});
 [].forEach.call(document.querySelectorAll('nav button'),function(b){b.classList.toggle('on',b.getAttribute('data-t')==t)});
-if(t=='v')renderV();else if(t=='t')renderT();else renderQ();
+if(t=='v')renderV();else if(t=='t')renderT();else if(t=='c')renderC();else renderQ();
 window.scrollTo(0,0);
 }
 [].forEach.call(document.querySelectorAll('nav button'),function(b){b.onclick=function(){go(b.getAttribute('data-t'))}});
 
 /* =========== ГЛАГОЛЫ =========== */
 var qv=$('#qv'),outV=$('#out-v');
-function plural(n){var m=n%10,h=n%100;return (m==1&&h!=11)?'глагол':(m>1&&m<5&&(h<12||h>14))?'глагола':'глаголов'}
 function match(x,t){return !t||[x.v,x.p2,x.p3,x.ru].join(' ').toLowerCase().indexOf(t)>-1}
 function vrow(x){
 return '<div class="row" data-v="'+x.v+'"><div class="f mono"><span class="k1">'+x.v+'</span> <i>–</i> <span class="k2">'+x.p2+'</span> <i>–</i> <span class="k3">'+x.p3+'</span>'+(learned(x.v)?'<span class="okm">✓</span>':'')+'</div>'+
@@ -219,7 +469,7 @@ function renderV(){
 var t=qv.value.trim().toLowerCase(),src=st.vt=='i'?IRR:REG;
 var R=src.filter(function(x){return match(x,t)});
 var nl=src.filter(function(x){return learned(x.v)}).length;
-$('#cnt-v').textContent=R.length+' '+plural(R.length)+(nl?' · выучено '+nl+' из '+src.length:'')+(st.learn?' · нажми на строку, чтобы проверить себя':'');
+$('#cnt-v').textContent=R.length+' '+plural(R.length,VW)+(nl?' · выучено '+nl+' из '+src.length:'')+(st.learn?' · нажми на строку, чтобы проверить себя':'');
 $('#vt-i').className=st.vt=='i'?'on':'';$('#vt-r').className=st.vt=='r'?'on':'';
 qv.placeholder=st.vt=='i'?'Поиск: go, went, идти':'Поиск: work, worked, работать';
 $('#lb').className=st.learn?'on':'';
@@ -311,7 +561,14 @@ if(f=='a'&&i==0&&th(p))return 'V-s';
 return 'V1';
 }
 function plain(x){return x[0]+x[1]+x[2]}
-function fh(x,col,tg){return x[0]+'<span style="color:'+col+'">'+x[1]+'</span>'+x[2]+(tg?' <span class="tg">('+tg+')</span>':'')}
+function fh(x,col,tg){return esc(x[0])+'<span style="color:'+col+'">'+esc(x[1])+'</span>'+esc(x[2])+(tg?' <span class="tg">('+tg+')</span>':'')}
+/* все допустимые варианты фразы (burned/burnt, got/gotten) */
+function ansT(f,i,p,vn){
+var b=build(f,i,p,vn),tg=tag(f,i,p,vn),x=BY[vn],alts=[b[1]];
+if(vn!='be'&&tg=='V3')alts=x.p3.split('/');else if(vn!='be'&&tg=='V2')alts=x.p2.split('/');
+return alts.map(function(a){return b[0]+a+b[2]});
+}
+function mkLine(i){return '<div class="mk">маркеры: <b>'+esc(MK[i])+'</b></div>'}
 
 var prEl=$('#pr'),fmEl=$('#fm');
 PR.forEach(function(p){var b=document.createElement('button');b.textContent=p;b.onclick=function(){st.p=p;save();renderT()};prEl.appendChild(b)});
@@ -330,12 +587,12 @@ if(st.f=='all'){
 h+='<div class="tr"><div class="top"><span class="l mono" style="color:'+col+'">'+KD[k][0]+'</span></div>';
 [['a','утв.'],['q','вопр.'],['n','отр.']].forEach(function(z){
 var b=build(z[0],i,st.p,vn);
-h+='<div class="ln" data-say="'+plain(b)+'"><span class="t mono">'+z[1]+'</span><span class="f mono">'+fh(b,col,tag(z[0],i,st.p,vn))+'</span></div>';
+h+='<div class="ln" data-say="'+esc(plain(b))+'"><span class="t mono">'+z[1]+'</span><span class="f mono">'+fh(b,col,tag(z[0],i,st.p,vn))+'</span></div>';
 });
-h+='<div class="g">'+gl('a',i,vn)+'</div></div>';
+h+='<div class="g">'+gl('a',i,vn)+'</div>'+mkLine(i)+'</div>';
 }else{
 var b=build(st.f,i,st.p,vn);
-h+='<div class="tr" data-say="'+plain(b)+'"><div class="top"><span class="f mono">'+fh(b,col,tag(st.f,i,st.p,vn))+'</span><span class="l mono" style="color:'+col+'">'+KD[k][0]+'</span></div><div class="g">'+gl(st.f,i,vn)+'</div></div>';
+h+='<div class="tr" data-say="'+esc(plain(b))+'"><div class="top"><span class="f mono">'+fh(b,col,tag(st.f,i,st.p,vn))+'</span><span class="l mono" style="color:'+col+'">'+KD[k][0]+'</span></div><div class="g">'+gl(st.f,i,vn)+'</div>'+mkLine(i)+'</div>';
 }
 }
 }
@@ -355,81 +612,109 @@ ls.innerHTML=R.length?R.map(function(x){return '<div class="row'+(x.v==st.v?' cu
 }
 $('#vchip').onclick=function(){sheet.classList.add('on');qs.value='';renderPick();ls.scrollTop=0;setTimeout(function(){qs.focus()},60)};
 function closePick(){sheet.classList.remove('on');qs.blur()}
+function pickVerb(v){st.v=v;save();closePick();renderT();window.scrollTo(0,0)}
 $('#xs').onclick=closePick;
 qs.addEventListener('input',renderPick);
-qs.addEventListener('keydown',function(e){if(e.key=='Escape')closePick();if(e.key=='Enter'){var r=ls.querySelector('.row');if(r){st.v=r.getAttribute('data-v');save();closePick();renderT();window.scrollTo(0,0)}}});
-ls.addEventListener('click',function(e){var r=e.target.closest('.row');if(!r)return;st.v=r.getAttribute('data-v');save();closePick();renderT();window.scrollTo(0,0)});
+qs.addEventListener('keydown',function(e){if(e.key=='Escape')closePick();if(e.key=='Enter'){var r=ls.querySelector('.row');if(r)pickVerb(r.getAttribute('data-v'))}});
+ls.addEventListener('click',function(e){var r=e.target.closest('.row');if(r)pickVerb(r.getAttribute('data-v'))});
+
+/* =========== КОНСТРУКЦИИ =========== */
+var qc=$('#qc'),outC=$('#out-c');
+function fml(f){return esc(f).replace(/V-ing/g,'<span class="k4">V-ing</span>').replace(/\bV1\b/g,'<span class="k1">V1</span>').replace(/\bV2\b/g,'<span class="k2">V2</span>').replace(/\bV3\b/g,'<span class="k3">V3</span>')}
+/* предложение: маркеры подсвечены, пропуск — пустой или заполненный */
+function sentH(s,o){
+var t=esc(s);
+(o.mk||[]).forEach(function(m){t=t.replace(esc(m),'<span class="mkh">'+esc(m)+'</span>')});
+var gap=o.fill!=null?'<span class="fill">'+esc(o.fill)+'</span>':'<span class="blank">&nbsp;</span>'+(o.h?' <span class="hn">('+esc(o.h)+')</span>':'');
+return t.replace('___',gap);
+}
+function cProg(c){var n=c.ex.filter(function(e){return isLearned(e.id)}).length,s=c.ex.some(function(e){return st.srs[e.id]});return s?'<span class="prog'+(n==c.ex.length?' done':'')+'">'+(n==c.ex.length?'✓ ':'')+n+'/'+c.ex.length+'</span>':''}
+function renderC(){
+var t=qc.value.trim().toLowerCase();
+var R=CN.filter(function(c){return !t||[c.f,c.ru,c.n].concat(c.ex.map(function(e){return e.full+' '+e.ru})).join(' ').toLowerCase().indexOf(t)>-1});
+var nl=CN.filter(function(c){return c.ex.every(function(e){return isLearned(e.id)})}).length;
+$('#cnt-c').textContent=R.length+' '+plural(R.length,['конструкция','конструкции','конструкций'])+(nl?' · выучено '+nl+' из '+CN.length:'')+' · нажми, чтобы раскрыть';
+if(!R.length){outC.innerHTML='<div class="empty">Ничего не найдено.</div>';return}
+outC.innerHTML=R.map(function(c){
+return '<div class="row" data-c="'+c.id+'"><div class="cf mono">'+fml(c.f)+cProg(c)+'</div><div class="ru">'+esc(c.ru)+'</div>'+
+'<div class="ex"><div class="g">'+esc(c.n)+'</div>'+
+c.ex.map(function(e){return '<div class="exl" data-say="'+esc(e.full)+'"><div class="en">'+sentH(e.s,{fill:e.a[0]})+(TTS?' <span class="tg">🔊</span>':'')+'</div><div class="ru">'+esc(e.ru)+'</div></div>'}).join('')+
+'<div class="acts"><button data-a="trc">Карточки →</button><button data-a="trf">Заполнить пропуски →</button></div></div></div>';
+}).join('');
+}
+qc.addEventListener('input',renderC);
+outC.addEventListener('click',function(e){
+var a=e.target.closest('[data-a]'),sy=e.target.closest('[data-say]'),r=e.target.closest('.row');
+if(a){var c=r.getAttribute('data-c');ses.cf=c;ses.free.c=1;st.qm='c';st.qsub.c=a.getAttribute('data-a')=='trc'?'card':'fill';Q=null;save();go('q');return}
+if(sy){say(sy.getAttribute('data-say'));return}
+if(r)r.classList.toggle('o');
+});
 
 /* =========== ТРЕНАЖЁР =========== */
-var Q=null,ses={f:{ok:0,all:0},t:{ok:0,all:0}};
+var Q=null;
+var MODES=[['f','Формы'],['t','Времена'],['c','Конструкции']];
+var SUBS={f:[['type','Ввод'],['card','Карточки']],t:[['choose','Выбор'],['type','Ввод'],['mark','Маркеры']],c:[['card','Карточки'],['fill','Заполни']]};
 var LV=[[1,'Базовые'],[2,'+ Средние'],[3,'Все']];
 var INP='autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"';
-function poolF(){return IRR.filter(function(x){return x.lv<=st.lvl})}
-function pickW(pool,last){
-var ws=pool.map(function(x){return x.v==last?0:[6,4,3,1,1,1][Math.min(score(x.v),5)]});
-var sum=ws.reduce(function(a,b){return a+b},0),r=Math.random()*sum;
-for(var i=0;i<pool.length;i++){r-=ws[i];if(r<0)return pool[i]}
-return pool[0];
+
+function renderQ(){
+var m=st.qm;
+$('#qm').innerHTML=MODES.map(function(x){return '<button data-m="'+x[0]+'" class="'+(m==x[0]?'on':'')+'">'+x[1]+'</button>'}).join('');
+$('#qsub').innerHTML=SUBS[m].map(function(x){return '<button data-s="'+x[0]+'" class="'+(st.qsub[m]==x[0]?'on':'')+'">'+x[1]+'</button>'}).join('')+
+(m=='f'?'<select id="lvsel" aria-label="Набор глаголов">'+LV.map(function(l){return '<option value="'+l[0]+'"'+(st.lvl==l[0]?' selected':'')+'>'+l[1]+' · '+IRR.filter(function(x){return x.lv<=l[0]}).length+'</option>'}).join('')+'</select>':'');
+$('#qf').innerHTML=m=='c'&&ses.cf?'<div class="chipf"><span>Только: <span class="mono">'+fml(CBY[ses.cf].f)+'</span></span><button data-a="clrf">Все ✕</button></div>':'';
+drawDay();
+if(!Q||Q.m!=m||Q.sub!=st.qsub[m])newQ();
+drawQ();
 }
-function okAns(inp,ans){
-var alts=ans.toLowerCase().split('/');
-var parts=inp.toLowerCase().trim().split(/[\s,\/]+/).filter(Boolean);
-return parts.length>0&&parts.every(function(p){return alts.indexOf(p)>-1});
+function drawDay(){
+var n=dayN(),s=streakNow();
+$('#qday').innerHTML='<div class="day"><span>Сегодня: <b>'+n+'</b> из '+GOAL+(n>=GOAL?' ✓':'')+'</span><span>🔥 '+s+' '+plural(s,DW)+' подряд</span></div><div class="bar thin"><i style="width:'+Math.min(100,n/GOAL*100)+'%"></i></div>';
 }
-function newF(){Q={m:'f',x:pickW(poolF(),Q&&Q.m=='f'?Q.x.v:null),done:0}}
-function newT(){
-var x=POOL_T[rnd(POOL_T.length)],p=PR[rnd(7)],f=['a','q','n'][rnd(3)],i=rnd(12),type=Math.random()<.5?'A':'B';
-var sent=function(j){return plain(build(f,j,p,x.v))},s0=sent(i),all=[0,1,2,3,4,5,6,7,8,9,10,11];
+$('#qm').addEventListener('click',function(e){var b=e.target.closest('[data-m]');if(!b)return;st.qm=b.getAttribute('data-m');save();renderQ()});
+$('#qsub').addEventListener('click',function(e){var b=e.target.closest('[data-s]');if(!b)return;st.qsub[st.qm]=b.getAttribute('data-s');save();renderQ()});
+$('#qsub').addEventListener('change',function(e){if(e.target.id=='lvsel'){st.lvl=+e.target.value;save();Q=null;renderQ()}});
+$('#qf').addEventListener('click',function(e){if(e.target.closest('[data-a=clrf]')){ses.cf=null;ses.free.c=0;Q=null;renderQ()}});
+
+function newQ(){
+var m=st.qm,s=st.qsub[m],last=Q&&Q.m==m?Q.id:null;
+if(m=='f'||m=='c'){
+var ids=deckIds(m),id=ses.free[m]?pickFree(ids,last):nextId(m,ids,last);
+Q={m:m,sub:s,id:id,done:0,shown:0};
+if(id&&m=='f')Q.x=BY[id.slice(2)];
+if(id&&m=='c'){Q.e=EX[id];Q.answers=Q.e.a;Q.full=Q.e.full}
+return;
+}
+if(s=='mark'){
+var c=MS.filter(function(x){return !Q||Q.m!='t'||Q.it!==x}),it=c[rnd(c.length)];
+Q={m:m,sub:s,it:it,ti:it.t,answers:it.a,full:it.full,done:0};return;
+}
+var x=POOL_T[rnd(POOL_T.length)],p=PR[rnd(7)],f=['a','q','n'][rnd(3)],i=rnd(12);
+if(s=='type'){Q={m:m,sub:s,x:x,p:p,f:f,i:i,ti:i,answers:ansT(f,i,p,x.v),full:plain(build(f,i,p,x.v)),done:0};return}
+var type=Math.random()<.5?'A':'B',sent=function(j){return plain(build(f,j,p,x.v))},s0=sent(i),all=[0,1,2,3,4,5,6,7,8,9,10,11];
 var same=all.filter(function(j){return sent(j)==s0});
 var near=function(j){return (j>>2)==(i>>2)||(j&3)==(i&3)?1:0};
 var others=shuffle(all.filter(function(j){return same.indexOf(j)<0})).sort(function(a,b){return near(b)-near(a)});
 var cand=shuffle(others.slice(0,6)).concat(others.slice(6));
 var opts=[i],used={};used[s0]=1;
-for(var n=0;n<cand.length&&opts.length<4;n++){var s=sent(cand[n]);if(used[s])continue;used[s]=1;opts.push(cand[n])}
-Q={m:'t',x:x,p:p,f:f,i:i,type:type,opts:shuffle(opts),same:same,done:0};
-}
-function renderQ(){
-$('#qm-f').className=st.qm=='f'?'on':'';$('#qm-t').className=st.qm=='t'?'on':'';
-var lv=$('#lvl');lv.style.display=st.qm=='f'?'flex':'none';
-lv.innerHTML=LV.map(function(l){return '<button data-l="'+l[0]+'" class="'+(st.lvl==l[0]?'on':'')+'">'+l[1]+' <span class="tg">'+IRR.filter(function(x){return x.lv<=l[0]}).length+'</span></button>'}).join('');
-if(!Q||Q.m!=st.qm){if(st.qm=='f')newF();else newT()}
-if(Q.m=='f')drawF();else drawT();
-}
-$('#qm-f').onclick=function(){st.qm='f';save();renderQ()};
-$('#qm-t').onclick=function(){st.qm='t';save();renderQ()};
-$('#lvl').addEventListener('click',function(e){var b=e.target.closest('[data-l]');if(!b)return;st.lvl=+b.getAttribute('data-l');save();Q=null;renderQ()});
-
-function statF(){
-var pool=poolF(),nl=pool.filter(function(y){return learned(y.v)}).length;
-return '<div class="stat"><span>Сессия: '+ses.f.ok+' верно из '+ses.f.all+'</span><span>Выучено: '+nl+' из '+pool.length+'</span></div><div class="bar"><i style="width:'+(pool.length?nl/pool.length*100:0)+'%"></i></div>';
-}
-function drawF(){
-var x=Q.x;
-$('#out-q').innerHTML='<div class="card">'+
-'<div class="qh"><div><div class="lbl">Неправильный глагол</div><div class="big mono k1">'+x.v+'</div><div class="ru">'+x.ru+'</div></div>'+(TTS?'<button data-a="sayv" class="ic">🔊</button>':'')+'</div>'+
-'<label class="fld"><span class="lbl">V2 · Past Simple</span><input id="a2" enterkeyhint="next" '+INP+'></label><div class="fix" id="f2"></div>'+
-'<label class="fld"><span class="lbl">V3 · Past Participle</span><input id="a3" enterkeyhint="done" '+INP+'></label><div class="fix" id="f3"></div>'+
-'<div id="res"></div>'+
-'<div class="btns"><button id="skip">Не знаю</button><button id="chk" class="pri">Проверить</button></div>'+
-'</div><div id="qst">'+statF()+'</div>'+
-'<div class="g" style="margin-top:14px">Глагол считается выученным после 3 верных ответов подряд. Ошибка обнуляет счёт — такие глаголы будут попадаться чаще. Если форм две (burned/burnt), подойдёт любая.</div>';
-}
-function checkF(give){
-if(Q.done)return;
-var x=Q.x,a2=$('#a2'),a3=$('#a3');
-if(!give&&!a2.value.trim()&&!a3.value.trim()){a2.focus();return}
-var o2=!give&&okAns(a2.value,x.p2),o3=!give&&okAns(a3.value,x.p3),ok=o2&&o3;
-[[a2,o2,'#f2',x.p2],[a3,o3,'#f3',x.p3]].forEach(function(z){z[0].classList.add(z[1]?'good':'bad');z[0].readOnly=true;z[0].blur();$(z[2]).textContent=z[1]?'':'→ '+z[3]});
-var was=learned(x.v);
-st.sc[x.v]=ok?Math.min(score(x.v)+1,5):0;
-ses.f.all++;if(ok)ses.f.ok++;save();
-Q.done=1;
-$('#res').innerHTML='<div class="exp" style="margin-top:14px"><span class="'+(ok?'okt':'badt')+'">'+(ok?(!was&&learned(x.v)?'Верно! Глагол выучен ✓':'Верно!'):'Запомни:')+'</span><div class="f mono"><span class="k1">'+x.v+'</span> – <span class="k2">'+x.p2+'</span> – <span class="k3">'+x.p3+'</span></div></div>';
-$('#chk').textContent='Дальше →';$('#skip').style.visibility='hidden';
-$('#qst').innerHTML=statF();
-sayForms(x);
+for(var n=0;n<cand.length&&opts.length<4;n++){var sn=sent(cand[n]);if(used[sn])continue;used[sn]=1;opts.push(cand[n])}
+Q={m:m,sub:s,x:x,p:p,f:f,i:i,ti:i,type:type,opts:shuffle(opts),same:same,full:s0,done:0};
 }
 
+function btnsTyped(){return '<div id="res"></div><div class="btns"><button id="skip">Не знаю</button><button id="chk" class="pri">Проверить</button></div>'}
+function btnsCard(hint){
+if(!Q.shown)return '<div class="btns">'+(hint&&!Q.hint?'<button data-a="hint">Подсказка</button>':'')+'<button data-a="show" class="pri">Показать ответ</button></div>';
+if(!Q.done)return '<div class="btns"><button data-g="0" class="neg">Не вспомнил</button><button data-g="1" class="pri">Вспомнил</button></div>';
+return '<div class="btns"><button id="next" class="pri">Дальше →</button></div>';
+}
+function goalLine(){if(!ses.goal)return '';ses.goal=0;return '<div class="goal">🎯 Цель на сегодня выполнена! Серия: '+streakNow()+' '+plural(streakNow(),DW)+'.</div>'}
+function statSRS(d){
+var s=deckStat(d),o=nt(d),sc=ses.sc[d];
+return '<div class="stat"><span>Повторить: '+s.due+' · новых сегодня: '+Math.min(o.n,o.lim)+'/'+o.lim+'</span><span>Выучено: '+s.lr+' из '+s.tot+'</span></div><div class="bar"><i style="width:'+(s.tot?s.lr/s.tot*100:0)+'%"></i></div>'+
+'<div class="stat"><span>Сессия: '+sc[0]+' верно из '+sc[1]+'</span></div>'+
+(ses.free[d]&&!(d=='c'&&ses.cf)?'<div class="chipf"><span>Свободная тренировка: карточки идут вне расписания</span><button data-a="unfree">Выйти</button></div>':'')+
+'<div class="g" style="margin-top:12px">Карточка считается выученной, когда ты вспомнил её 3 раза с перерывами: через 1 день, через 3 дня. Дальше повторения всё реже: 7, 16, 35 дней. Ошибка возвращает её в начало.</div>';
+}
 function tsGrid(){
 var h='<div class="tsg"><div class="h"></div>';
 KD.forEach(function(k){h+='<div class="h mono" style="color:'+k[1]+'">'+k[0]+'</div>'});
@@ -440,56 +725,151 @@ h+='<div class="c'+(pc==null?'':pc<50?' lo':pc>=80?' hi':'')+'">'+(pc==null?'—
 }
 return h+'</div><div class="g" style="margin-top:6px">Точность по каждому времени за всё время. Красным — то, что стоит повторить.</div>';
 }
-function statT(){return '<div class="stat"><span>Сессия: '+ses.t.ok+' верно из '+ses.t.all+'</span></div>'+tsGrid()}
-function drawT(){
-var x=Q.x,f=Q.f,p=Q.p,i=Q.i,h='<div class="card">';
-var sent=function(j){return plain(build(f,j,p,x.v))};
+function statT(){var sc=ses.sc.t;return '<div class="stat"><span>Сессия: '+sc[0]+' верно из '+sc[1]+'</span></div>'+tsGrid()}
+function statQ(){return Q.m=='t'?statT():statSRS(Q.m)}
+
+function drawQ(){
+var m=Q.m,s=Q.sub,h='<div class="card">';
+if((m=='f'||m=='c')&&!Q.id){drawDone(m);return}
+if(m=='f'&&s=='type'){
+var x=Q.x;
+h+='<div class="qh"><div><div class="lbl">Напиши V2 и V3</div><div class="big mono k1">'+x.v+'</div><div class="ru">'+x.ru+'</div></div>'+(TTS?'<button data-a="sayv" class="ic">🔊</button>':'')+'</div>'+
+'<label class="fld"><span class="lbl">V2 · Past Simple</span><input id="a2" enterkeyhint="next" '+INP+'></label><div class="fix" id="f2"></div>'+
+'<label class="fld"><span class="lbl">V3 · Past Participle</span><input id="a3" enterkeyhint="done" '+INP+'></label><div class="fix" id="f3"></div>'+btnsTyped();
+}else if(m=='f'){
+var x=Q.x;
+h+='<div class="qh"><div><div class="lbl">Вспомни V2 и V3, потом проверь себя</div><div class="big mono k1">'+x.v+'</div><div class="ru">'+x.ru+'</div></div>'+(TTS?'<button data-a="sayv" class="ic">🔊</button>':'')+'</div>'+
+(Q.shown?'<div class="exp"><div class="f mono"><span class="k1">'+x.v+'</span> – <span class="k2">'+x.p2+'</span> – <span class="k3">'+x.p3+'</span></div></div>':'')+(Q.res||'')+btnsCard(false);
+}else if(m=='c'&&s=='card'){
+var e=Q.e;
+h+='<div class="qh"><div class="lbl">Скажи по-английски</div>'+(TTS&&Q.shown?'<button data-a="sayc" class="ic">🔊</button>':'')+'</div><div class="sent ruq">'+esc(e.ru)+'</div>'+
+(Q.hint||Q.shown?'<div class="formula mono">'+fml(e.c.f)+'</div>':'')+
+(Q.shown?'<div class="exp"><div class="f">'+sentH(e.s,{fill:e.a[0]})+'</div><div class="g">'+esc(e.c.ru)+'. '+esc(e.c.n)+'</div></div>':'')+(Q.res||'')+btnsCard(true);
+}else if(m=='c'){
+var e=Q.e;
+h+='<div class="lbl">Заполни пропуск</div><div class="sent">'+sentH(e.s,{h:e.h})+'</div><div class="ru">'+esc(e.ru)+'</div>'+
+'<div id="hint">'+(Q.hint?'<div class="formula mono">'+fml(e.c.f)+'</div>':'')+'</div>'+
+'<div class="fld"><input id="ans" enterkeyhint="done" placeholder="Что вставить?" '+INP+'></div>'+btnsTyped().replace('<button id="skip">Не знаю</button>','<button id="skip">Не знаю</button>'+(Q.hint?'':'<button data-a="hint">Подсказка</button>'));
+}else if(s=='mark'){
+var it=Q.it;
+h+='<div class="lbl">Поставь глагол в нужное время</div><div class="sent">'+sentH(it.s,{h:it.h})+'</div><div class="ru">'+esc(it.ru)+'</div>'+
+'<div id="hint"></div><div class="fld"><input id="ans" enterkeyhint="done" placeholder="Форма глагола" '+INP+'></div>'+btnsTyped().replace('<button id="skip">Не знаю</button>','<button id="skip">Не знаю</button><button data-a="hint">Подсказка</button>');
+}else if(s=='type'){
+var x=Q.x,i=Q.i;
+h+='<div class="lbl">Напиши фразу по-английски</div><div class="sent" style="color:'+KD[i&3][1]+'">'+tname(i)+'</div><div class="ru">'+FMN[Q.f]+' · <b>'+Q.p+'</b> · '+x.v+' — '+x.ru+'</div><div class="g">Смысл: '+gl(Q.f,i,x.v)+'</div>'+
+'<div class="fld"><input id="ans" enterkeyhint="done" placeholder="Например: She has written" '+INP+'></div>'+btnsTyped();
+}else{
+var x=Q.x,f=Q.f,p=Q.p,i=Q.i,sent=function(j){return plain(build(f,j,p,x.v))};
 if(Q.type=='A'){
-h+='<div class="lbl">Какое это время?</div><div class="sent mono">'+sent(i)+'</div><div class="ru">'+x.v+' — '+x.ru+'</div>';
+h+='<div class="lbl">Какое это время?</div><div class="sent mono">'+esc(sent(i))+'</div><div class="ru">'+x.v+' — '+x.ru+'</div>';
 h+='<div class="opts">'+Q.opts.map(function(j){return '<button data-j="'+j+'">'+tname(j)+'</button>'}).join('')+'</div>';
 }else{
 h+='<div class="lbl">Выбери правильный вариант</div><div class="sent" style="color:'+KD[i&3][1]+'">'+tname(i)+'</div><div class="ru">'+FMN[f]+' · '+p+' · '+x.v+' — '+x.ru+'</div><div class="g">Смысл: '+gl(f,i,x.v)+'</div>';
-h+='<div class="opts">'+Q.opts.map(function(j){return '<button data-j="'+j+'" class="mono">'+sent(j)+'</button>'}).join('')+'</div>';
+h+='<div class="opts">'+Q.opts.map(function(j){return '<button data-j="'+j+'" class="mono">'+esc(sent(j))+'</button>'}).join('')+'</div>';
 }
-h+='<div id="res"></div></div><div id="qst">'+statT()+'</div>';
+h+='<div id="res"></div>';
+}
+h+='</div><div id="qst">'+statQ()+'</div>';
 $('#out-q').innerHTML=h;
 }
+function drawDone(d){
+var s=deckStat(d),free=ses.free[d];
+$('#out-q').innerHTML='<div class="card"><div class="big">На сегодня всё 🎉</div><div class="g" style="margin-top:10px">'+
+(s.nw?'Повторения сделаны, лимит новых карточек на сегодня исчерпан.':'Повторения сделаны, новых карточек в этом наборе не осталось.')+' Завтра к повторению: '+s.tm+'.</div>'+
+'<div class="btns">'+(s.nw?'<button data-a="more">+10 новых</button>':'')+'<button data-a="free" class="pri">Свободная тренировка</button></div></div><div id="qst">'+statSRS(d)+'</div>';
+}
+
+function after(ok){ses.sc[Q.m][1]++;if(ok)ses.sc[Q.m][0]++;Q.done=1;drawDay()}
+function tsAdd(i,ok){var s=st.ts[i]||[0,0];s[1]++;if(ok)s[0]++;st.ts[i]=s;for(var n=0;n<12;n++)if(!st.ts[n])st.ts[n]=[0,0];save()}
+function markDone(){$('#chk').textContent='Дальше →';var sk=$('#skip');if(sk)sk.style.visibility='hidden';var hb=$('#out-q [data-a=hint]');if(hb)hb.style.display='none';$('#qst').innerHTML=statQ()}
+
+function checkF(give){
+var x=Q.x,a2=$('#a2'),a3=$('#a3');
+if(!give&&!a2.value.trim()&&!a3.value.trim()){a2.focus();return}
+var spl=function(s){return s.toLowerCase().split('/')};
+var okA=function(inp,ans){var al=spl(ans),ps=norm(inp).split(/[\s\/]+/).filter(Boolean);return ps.length>0&&ps.every(function(p){return al.indexOf(p)>-1})};
+var o2=!give&&okA(a2.value.replace(/,/g,' '),x.p2),o3=!give&&okA(a3.value.replace(/,/g,' '),x.p3),ok=o2&&o3,was=learned(x.v);
+[[a2,o2,'#f2',x.p2],[a3,o3,'#f3',x.p3]].forEach(function(z){z[0].classList.add(z[1]?'good':'bad');z[0].readOnly=true;z[0].blur();$(z[2]).textContent=z[1]?'':'→ '+z[3]});
+grade('f',Q.id,ok);after(ok);
+$('#res').innerHTML='<div class="exp"><span class="'+(ok?'okt':'badt')+'">'+(ok?(!was&&learned(x.v)?'Верно! Глагол выучен ✓':'Верно!'):'Запомни:')+'</span><div class="f mono"><span class="k1">'+x.v+'</span> – <span class="k2">'+x.p2+'</span> – <span class="k3">'+x.p3+'</span></div>'+goalLine()+'</div>';
+markDone();sayForms(x);
+}
+function checkQ(give){
+if(Q.done)return;
+if(Q.m=='f'){checkF(give);return}
+var inp=$('#ans'),v=inp.value;
+if(!give&&!v.trim()){inp.focus();return}
+var ok=!give&&sameAns(v,Q.answers);
+inp.classList.add(ok?'good':'bad');inp.readOnly=true;inp.blur();
+if(Q.m=='c')grade('c',Q.id,ok);else{tsAdd(Q.ti,ok);tick();save()}
+after(ok);
+var head='<span class="'+(ok?'okt':'badt')+'">'+(ok?'Верно!':(give?'Ответ:':'Правильно:'))+'</span>',body='';
+if(Q.m=='c'){var e=Q.e;body='<div class="f">'+sentH(e.s,{fill:e.a[0]})+'</div><div class="formula mono">'+fml(e.c.f)+'</div><div class="g">'+esc(e.c.ru)+'. '+esc(e.c.n)+'</div>'}
+else if(Q.sub=='mark'){var it=Q.it,mk=it.m.length?it.m:[it.mh];body='<div class="f">'+sentH(it.s,{fill:it.a[0],mk:it.m})+'</div><div class="g">Маркер «'+esc(mk.join(' … '))+'» → <b style="color:'+KD[it.t&3][1]+'">'+tname(it.t)+'</b>: '+G.a[it.t]+'.</div>'}
+else{var b=build(Q.f,Q.i,Q.p,Q.x.v);body='<div class="f mono">'+fh(b,KD[Q.i&3][1],tag(Q.f,Q.i,Q.p,Q.x.v))+'</div><div class="g">'+tname(Q.i)+' — '+gl(Q.f,Q.i,Q.x.v)+'</div>'}
+if(!ok&&!give)body+='<div class="g">Твой ответ: <span class="mono" style="color:var(--bad)">'+esc(v)+'</span></div>';
+$('#res').innerHTML='<div class="exp">'+head+body+goalLine()+'</div>';
+markDone();say(Q.full);
+}
+function gradeCard(ok){
+if(Q.done||!Q.shown)return;
+var was=isLearned(Q.id);grade(Q.m,Q.id,ok);after(ok);
+Q.res='<div class="exp" style="border:0;padding-top:0;margin-top:10px"><span class="'+(ok?'okt':'badt')+'">'+(ok?(!was&&isLearned(Q.id)?'Отлично! Карточка выучена ✓':'Отлично!'):'Вернётся через пару карточек.')+'</span>'+goalLine()+'</div>';
+drawQ();
+}
+function showCard(){if(Q.shown)return;Q.shown=1;drawQ();if(Q.m=='f')sayForms(Q.x);else say(Q.full)}
 function answerT(j){
-if(Q.done)return;Q.done=1;
+if(Q.done)return;
 var ok=j==Q.i,x=Q.x,b=build(Q.f,Q.i,Q.p,x.v);
 [].forEach.call(document.querySelectorAll('#out-q [data-j]'),function(el){var k=+el.getAttribute('data-j');if(k==Q.i)el.classList.add('good');else if(k==j)el.classList.add('bad');el.disabled=true});
-var s=st.ts[Q.i]||[0,0];s[1]++;if(ok)s[0]++;st.ts[Q.i]=s;
-for(var n=0;n<12;n++)if(!st.ts[n])st.ts[n]=[0,0];
-ses.t.all++;if(ok)ses.t.ok++;save();
+tsAdd(Q.i,ok);tick();save();after(ok);
 var alsoSame=Q.same.filter(function(k){return k!=Q.i});
 $('#res').innerHTML='<div class="exp"><span class="'+(ok?'okt':'badt')+'">'+(ok?'Верно!':'Не совсем.')+'</span>'+
 '<div class="f mono">'+fh(b,KD[Q.i&3][1],tag(Q.f,Q.i,Q.p,x.v))+'</div>'+
 '<div class="g">'+tname(Q.i)+' — '+gl(Q.f,Q.i,x.v)+'</div>'+
 (alsoSame.length?'<div class="g">С этим глаголом точно так же выглядит '+alsoSame.map(tname).join(', ')+' — различай по контексту.</div>':'')+
-'</div><div class="btns"><button id="next" class="pri">Дальше →</button></div>';
+goalLine()+'</div><div class="btns"><button id="next" class="pri">Дальше →</button></div>';
 $('#qst').innerHTML=statT();
 say(plain(b));
 }
-function nextQ(){if(Q.m=='f'){newF();drawF();var a=$('#a2');if(a)a.focus()}else{newT();drawT()}window.scrollTo(0,0)}
+function nextQ(){newQ();drawQ();window.scrollTo(0,0);var a=$('#a2')||$('#ans');if(a)a.focus()}
 
 $('#out-q').addEventListener('click',function(e){
 var b=e.target.closest('button');if(!b)return;
-if(b.id=='chk'){if(Q.done)nextQ();else checkF(false)}
-else if(b.id=='skip')checkF(true);
+var a=b.getAttribute('data-a');
+if(b.id=='chk'){if(Q.done)nextQ();else checkQ(false)}
+else if(b.id=='skip')checkQ(true);
 else if(b.id=='next')nextQ();
-else if(b.getAttribute('data-a')=='sayv'){if(Q.done)sayForms(Q.x);else say(Q.x.v)}
 else if(b.hasAttribute('data-j'))answerT(+b.getAttribute('data-j'));
+else if(b.hasAttribute('data-g'))gradeCard(b.getAttribute('data-g')=='1');
+else if(a=='show')showCard();
+else if(a=='sayv'){if(Q.done||Q.shown)sayForms(Q.x);else say(Q.x.v)}
+else if(a=='sayc')say(Q.full);
+else if(a=='hint'){
+Q.hint=1;
+if(Q.m=='c'&&Q.sub=='card'){drawQ();return}
+var hEl=$('#hint');if(hEl)hEl.innerHTML=Q.m=='c'?'<div class="formula mono">'+fml(Q.e.c.f)+'</div>':'<div class="formula" style="color:'+KD[Q.ti&3][1]+'">'+tname(Q.ti)+'</div>';
+b.style.display='none';var inp=$('#ans');if(inp)inp.focus();
+}
+else if(a=='more'){nt(Q.m).lim+=10;save();Q=null;renderQ()}
+else if(a=='free'){ses.free[Q.m]=1;Q=null;renderQ()}
+else if(a=='unfree'){ses.free[Q.m]=0;Q=null;renderQ()}
 });
 $('#out-q').addEventListener('keydown',function(e){
-if(e.key!='Enter'||!Q||Q.m!='f')return;
-if(e.target.id=='a2'&&!Q.done){e.preventDefault();e.stopPropagation();$('#a3').focus()}
-else if(e.target.id=='a3'&&!Q.done){e.preventDefault();e.stopPropagation();checkF(false)}
+if(e.key!='Enter'||!Q||Q.done)return;
+var id=e.target.id;
+if(id=='a2'){e.preventDefault();e.stopPropagation();$('#a3').focus()}
+else if(id=='a3'||id=='ans'){e.preventDefault();e.stopPropagation();checkQ(false)}
 });
 document.addEventListener('keydown',function(e){
 if(st.tab!='q'||!Q||sheet.classList.contains('on'))return;
 if(e.target.tagName=='INPUT'&&!e.target.readOnly)return;
+if(e.target.tagName=='SELECT')return;
+var card=(Q.m=='f'||Q.m=='c')&&Q.sub=='card'&&Q.id;
 if(Q.done&&e.key=='Enter'){e.preventDefault();nextQ()}
-else if(!Q.done&&Q.m=='t'&&/^[1-4]$/.test(e.key))answerT(Q.opts[+e.key-1]);
+else if(card&&!Q.shown&&(e.key=='Enter'||e.key==' ')){e.preventDefault();showCard()}
+else if(card&&Q.shown&&!Q.done&&(e.key=='1'||e.key=='2'))gradeCard(e.key=='2');
+else if(!Q.done&&Q.m=='t'&&Q.sub=='choose'&&/^[1-4]$/.test(e.key))answerT(Q.opts[+e.key-1]);
 });
 
 go(st.tab);

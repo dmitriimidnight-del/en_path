@@ -1,5 +1,5 @@
 // Офлайн-кэш EN Path. При изменении файлов увеличь версию.
-const CACHE = 'enpath-v1';
+const CACHE = 'enpath-v2';
 const FILES = [
   './',
   './index.html',
